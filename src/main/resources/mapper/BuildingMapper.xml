@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.BuildingMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.Building">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="area_id" jdbcType="BIGINT" property="areaId" />
+    <result column="total_floor" jdbcType="INTEGER" property="totalFloor" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="number_range" jdbcType="VARCHAR" property="numberRange" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+  </resultMap>
+</mapper>
