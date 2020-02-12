@@ -11,7 +11,6 @@ import com.soecode.wxtools.bean.result.WxOAuth2AccessTokenResult;
 import com.soecode.wxtools.exception.WxErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,6 +118,64 @@ public class ThymeleafController {
     @RequestMapping(value = "/recorddetail",method= RequestMethod.GET)
     public String recorddetail() {
         return "recorddetail";
+    }
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/familyIndex",method= RequestMethod.GET)
+    public String familyIndex() {
+        return "familyIndex";
+    }
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/verifyFamily1",method= RequestMethod.GET)
+    public String verifyFamily1() {
+        return "verifyFamily1";
+    }
+
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/verifyFamily2",method= RequestMethod.GET)
+    public String verifyFamily2() {
+        return "verifyFamily2";
+    }
+
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/joinFamily1",method= RequestMethod.GET)
+    public String joinFamily1() {
+        return "joinFamily1";
+    }
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/joinFamily2",method= RequestMethod.GET)
+    public String joinFamily2() {
+        return "joinFamily2";
+    }
+
+
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/familyInfor",method= RequestMethod.GET)
+    public String familyInfor() {
+        return "familyInfor";
+    }
+
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/addPerson",method= RequestMethod.GET)
+    public String addPerson() {
+        return "addPerson";
+    }
+
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/houseInfor",method= RequestMethod.GET)
+    public String houseInfor() {
+        return "houseInfor";
+    }
+
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/authIndex",method= RequestMethod.GET)
+    public String authIndex() {
+        return "authIndex";
+    }
+
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping(value = "/auth2",method= RequestMethod.GET)
+    public String auth2() {
+        return "auth2";
     }
 //        @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
 //        @RequestMapping({"static/MP_verify_I4XWI1ZSKeFojwT6.txt"})

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>绑定手机</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <style type="text/css">
+        @import url("css/comon.css");
+        .blue-btn{
+            background-color: #5cadff;
+            color:#fff;
+        }
+    </style>
+
+</head>
+
+<body ontouchstart>
+
+
+<div class="weui-cell" align="center">
+    <div class="weui-cell__bd">
+        <font color="blue" size="4">① 家庭地址</font><font size="4"> ------ </font><font size="4">② 户主信息</font>
+    </div>
+</div>
+
+
+<div class="weui-cells weui-cells_form">
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">目的地</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="start" type="text" value="">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">小区名称</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入" type="text" id="communityaddr" value="">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">楼号</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入" type="text" id="houseaddr" value="">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">门牌号</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入" type="text" id="paltaddr" value="">
+        </div>
+    </div>
+    <br>
+    <br>
+    <div>
+        <a class="weui-btn weui-btn_primary blue-btn" href="javascript:" onclick="next()">下一步</a>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
+<script type="text/javascript" src="js/city-picker.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/city-data.js" charset="utf-8"></script>
+<script src="js/myUtil.js"></script>
+<script src="js/jquery-weui.js"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+<script>
+
+    $("#start").cityPicker({
+        title: "选择出发地",
+        onChange: function (picker, values, displayValues) {
+            console.log(values, displayValues);
+        }
+    });
+   function next() {
+       window.location.href=verifyFamily2Url;
+   }
+</script>
+</body>
+</html>

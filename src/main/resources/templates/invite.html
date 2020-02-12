@@ -197,7 +197,7 @@
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
-            url: "/pybl/company/findByPhone",
+            url: "/community/company/findByPhone",
             data: {phone: getCookie("phone")},
             success: function (result) {
                 var companys = [];
