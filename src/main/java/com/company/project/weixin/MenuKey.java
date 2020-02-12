@@ -22,6 +22,6 @@ public class MenuKey {
 
 //    public static final String URL = "http://tewjpb.natappfree.cc/community/";
     //朋悦比邻
-    public static final String URL = "http://2y6dvv.natappfree.cc/community/";
+    public static final String URL = "http://5cnfh6.natappfree.cc/community/";
 
 }

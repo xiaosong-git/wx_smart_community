@@ -4,13 +4,13 @@ var url;
 var loginUrl;
 var appId="wx1ddcdc86c83bc9a1";
 if (IS_DEVELOP){//生产环境
-    uri="2y6dvv.natappfree.cc";
+    uri="5cnfh6.natappfree.cc";
     url= "http://"+uri+"/";
     //重定向地址
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 } else{
     appId="wx73d294462904125c";
-    uri="2y6dvv.natappfree.cc";
+    uri="5cnfh6.natappfree.cc";
     url= "http://"+uri+"/";
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 }
