@@ -1,4 +1,5 @@
 package com.company.project.service;
+import com.company.project.core.Result;
 import com.company.project.model.User;
 import com.company.project.core.Service;
 
@@ -8,4 +9,5 @@ import com.company.project.core.Service;
  */
 public interface UserService extends Service<User> {
 
+    Result verify(Long userId, String idNO, String name, String idHandleImgUrl, String localImgUrl);
 }

@@ -42,12 +42,12 @@ public class    VisitHandler implements WxMessageHandler {
         StringBuilder stringBuilder = new StringBuilder();
 
         switch (wxMessage.getEventKey()) {
-                case MenuKey.VISIT:
-                    stringBuilder.append("访客申请");
-                        break;
-                case   MenuKey.INVITE:
-                    stringBuilder.append("邀约申请");
-                        break;
+//                case MenuKey.VISIT:
+//                    stringBuilder.append("访客申请");
+//                        break;
+//                case   MenuKey.INVITE:
+//                    stringBuilder.append("邀约申请");
+//                        break;
                 default:
                         stringBuilder.append("暂时无此分类噢！");
                         break;

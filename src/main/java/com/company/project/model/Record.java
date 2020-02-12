@@ -27,6 +27,24 @@ public class Record {
     private String isPass;
 
     /**
+     * 更新时间
+     */
+    @Column(name = "update_time")
+
+    private String updateTime;
+
+    /**
+     * 生成时间
+     */
+    @Column(name = "create_time")
+    private String createTime;
+
+    private String ext1;
+
+    private String ext2;
+
+    private String ext3;
+    /**
      * @return id
      */
     public Long getId() {
@@ -92,5 +110,45 @@ public class Record {
      */
     public void setIsPass(String isPass) {
         this.isPass = isPass;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getExt1() {
+        return ext1;
+    }
+
+    public void setExt1(String ext1) {
+        this.ext1 = ext1;
+    }
+
+    public String getExt2() {
+        return ext2;
+    }
+
+    public void setExt2(String ext2) {
+        this.ext2 = ext2;
+    }
+
+    public String getExt3() {
+        return ext3;
+    }
+
+    public void setExt3(String ext3) {
+        this.ext3 = ext3;
     }
 }
