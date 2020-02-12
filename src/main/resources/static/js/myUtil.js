@@ -15,7 +15,7 @@ if (IS_DEVELOP){//生产环境
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fpybl%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 }
 //朋悦比邻
-var suffix="pybl/";
+var suffix="community/";
 var visitUrl=url+suffix+"visit";
 var authUrl=url+suffix+"auth";
 var invitUrl=url+suffix+"invit";
