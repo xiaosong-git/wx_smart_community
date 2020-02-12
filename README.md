@@ -4,4 +4,18 @@
 微信公众号
 ## 一、本地测试环境搭建
 1、登入微信测试平台，注册自己的测试公众号
-https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
+https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login   
+2、按照图片修改本地环境  
+## 注意：提交第一个http://xxx.napp.cc/community/wx  有时微信测试服务器会提示修改失败,此时可能是微信显示错误，如果后续能够提交修改，那么也是修改成功！
+
+![image](https://github.com/xiaosong-git/wx_smart_community/blob/master/images/localuri1.png)
+![image](https://github.com/xiaosong-git/wx_smart_community/blob/master/images/localuri5.png)
+![image](https://github.com/xiaosong-git/wx_smart_community/blob/master/images/localuri2.png)
+![image](https://github.com/xiaosong-git/wx_smart_community/blob/master/images/localuri3.png)
+![image](https://github.com/xiaosong-git/wx_smart_community/blob/master/images/localuri4.png)
+
+3、修改公众号菜单
+运行menu中的 main方法
+
+4、测试工具 
+https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
