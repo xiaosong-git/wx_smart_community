@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -55,24 +56,14 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     @Override
     public Result scanning(Long operId, String idStr,String type) throws Exception {
         String s = new String(Base64.decode(idStr),"UTF-8");
-        Record record =new Record();
-        record.setId(Long.valueOf(s));
-        record.setType(type);
-        //判
-        String systemTime = DateUtil.getSystemTime();
-        record.setPassTime(systemTime);
-        record.setUpdateTime(systemTime);
-        record.setIsPass("0");
-        int update = update(record);
-        if (update>0){
+        //todo 判断是否为该小区用户
             //查找用户信息
-
-            Map<String,Object> userMap = userMapper.getUserByRecordId(record.getId());
+            Map<String,Object> userMap = userMapper.getUserByRecordId(Long.valueOf(s));
             Map<String,Object> map=new HashMap<>();
             if (userMap != null) {
                 if (userMap.get("imgUrl")!=null){
-                    String imageServerApiUrl = paramsService.findValueByName("imageServerApiUrl");
-                    userMap.put("imgUrl",imageServerApiUrl + userMap.get("img"));
+                    String imageServerUrl = paramsService.findValueByName("imageServerUrl");
+                    userMap.put("imgUrl",imageServerUrl + File.separator+userMap.get("imgUrl"));
                 }
                 List<Record> records=new LinkedList<>();
                 if (userMap.get("userId")!=null) {
@@ -84,8 +75,27 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
             }
 
             return ResultGenerator.genSuccessResult(map);
+
+    }
+
+    @Override
+    public Result inOut(Long opreId, String idStr, String type) throws Exception {
+        String s = new String(Base64.decode(idStr),"UTF-8");
+
+        Record record =new Record();
+        record.setId(Long.valueOf(s));
+        record.setType(type);
+        //判
+        String systemTime = DateUtil.getSystemTime();
+        record.setPassTime(systemTime);
+        record.setUpdateTime(systemTime);
+        record.setIsPass("0");
+        int update = update(record);
+        if (update>0){
+
+            return ResultGenerator.genSuccessResult();
         }
-        return ResultGenerator.genFailResult("操作失败");
+        return ResultGenerator.genFailResult("操作失败！");
     }
 
     public boolean selectRecord(Long userId) {

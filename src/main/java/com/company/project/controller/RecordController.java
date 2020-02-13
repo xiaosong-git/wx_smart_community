@@ -51,6 +51,21 @@ public class RecordController {
         }
         return ResultGenerator.genFailResult("系统异常","");
     }
+    /**
+     * 传入用户id生成通行记录二维码
+     * @param
+     * @return 通行记录的id
+     */
+    @RequestMapping("/inOut")
+    @ResponseBody
+    public Result inOut( @RequestParam Long opreId,@RequestParam String idStr,@RequestParam String type){
+        try {
+            return recordService.inOut(opreId,idStr,type);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常","");
+    }
 
 
 }

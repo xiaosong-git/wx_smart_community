@@ -35,12 +35,21 @@
     </div>
 </a>
 
-    <div style="margin-top: 15px;margin-left: 15px">
-        <div><button class="blue-btn"></button><font> 通行许可</font></div>
-        <div style="margin-top: 15px;margin-left: 15px">
+
+        <div >
+            <button class="blue-btn"></button><font> 通行许可</font>
+        </div>
+    <div class="weui-flex" style="margin-top: 15px;margin-left: 15px">
+        <div class="weui-flex__item" style="margin-top: 15px;margin-left: 15px">
             <strong><font id="type" size="5" color=""></font></strong>
+
+        </div>
+        <div class="weui-flex__item">
+            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary" onclick="inOut(this,'in')">进入</a>
+            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_warn" onclick="inOut(this,'out')">离开</a>
         </div>
     </div>
+
     <div style="margin-top: 15px;margin-left: 15px" >
         <div><button class="blue-btn"></button><font> 通行记录</font></div>
         <div style="margin-top: 15px;margin-left: 15px">
@@ -91,12 +100,15 @@
     function quit(){
         wx.closeWindow();
     }
+    var idStr;
     function jssdkScan() {
+        $(".record").remove();
         wx.scanQRCode({
             needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
             scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
             success: function (res) {
                 var result = res.resultStr;
+                idStr=result;
                 $.ajax({
                     type: 'POST',
                     contentType: "application/x-www-form-urlencoded",
@@ -109,11 +121,12 @@
                         console.log(result);
                         var list = result.data
                         if(result.code == 200){
-                            document.getElementById('name').innerText=list.user.name;
-                            document.getElementById('building').innerText=list.user.hourseNum;
-                            document.getElementById('phone').innerText=list.user.phone;
+                            $('#img').attr('src', list.user.imgUrl);
+                           $('#name').html(list.user.name);
+                            $('#building').html(list.user.hourseNum);
+                            $('#phone').html(list.user.phone);
                             document.getElementById('type').style.color ="#006400"
-                            document.getElementById('type').innerText="可通行";
+                            $('#type').html("可通行");
 
                             var records = list.records;
                             for(var i in records){
@@ -123,10 +136,10 @@
                                 }else{
                                     turnover ="离开"
                                 }
-                                $("#record").append("<div>"+records[i].createTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</div><br>")
+                                $("#record").append("<div class='record'>"+records[i].createTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
                             }
                         }else{
-                            document.getElementById('type').innerText="不可通行";
+                            $('#type').html("不可通行");
                             document.getElementById('type').style.color ="#8b0000"
                             $.toptip(result.data.message);
                         }
@@ -136,6 +149,29 @@
             }
         });
     }
+    function inOut(obj,inOut){
+        $(obj).addClass("weui-btn_loading");
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/record/inOut",
+            data: { opreId: 1,
+                // idStr:result,
+                idStr:idStr,
+                type:inOut
+            },
+            success: function (result) {
+                console.log(result);
+                $(obj).removeClass("weui-btn_loading");
+                var list = result.data
+                if(result.code == 200){
+                   $.toptip("放行成功！","success");
+                }else{
+                    $.toptip("放行失败，系统错误！");
+                }
+            }
+        })
+    };
 
 </script>
 </body>
