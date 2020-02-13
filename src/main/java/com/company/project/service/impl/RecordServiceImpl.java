@@ -67,14 +67,21 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         if (update>0){
             //查找用户信息
 
-            User user = userMapper.getUserByRecordId(record.getId());
-            List<Record> records=hRecordMapper.selectByUserId(user.getId());
-            String imageServerApiUrl = paramsService.findValueByName("imageServerApiUrl");
-
-            user.setImgUrl(imageServerApiUrl+user.getImgUrl());
+            Map<String,Object> userMap = userMapper.getUserByRecordId(record.getId());
             Map<String,Object> map=new HashMap<>();
-            map.put("user",user);
-            map.put("records",records);
+            if (userMap != null) {
+                if (userMap.get("imgUrl")!=null){
+                    String imageServerApiUrl = paramsService.findValueByName("imageServerApiUrl");
+                    userMap.put("imgUrl",imageServerApiUrl + userMap.get("img"));
+                }
+                List<Record> records=new LinkedList<>();
+                if (userMap.get("userId")!=null) {
+                    records = hRecordMapper.selectByUserId(userMap.get("userId").toString());
+                }
+
+                map.put("user",userMap);
+                map.put("records",records);
+            }
 
             return ResultGenerator.genSuccessResult(map);
         }

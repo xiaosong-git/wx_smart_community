@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface UserMapper extends Mapper<User> {
 
-    User getUserByRecordId(Long id) ;
+    Map<String,Object> getUserByRecordId(Long id) ;
 
     List<Map<String,Object>> userHourseInfo(Long userId);
 
