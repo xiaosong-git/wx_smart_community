@@ -33,27 +33,38 @@
 <script src="js/qrcode.js"></script>
 <script>
     $(function () {
+        if(!isLogin()){
+            FastClick.attach(document.body);
+            if(getCookie("isAuth")!="T"){
+                window.location.href=authUrl;
+            }else{
+                createQRcode();
+            }
+
+        }
+    })
+
+    function createQRcode() {
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/record/createRecord",
-            data: {userId: "1"},
+            data: { userId: "1" },
             success: function (result) {
-               if(result.code == 200){
-                   var qrcode =jQuery("#qrcodeTable").qrcode({
+                if(result.code == 200){
+                    var qrcode =jQuery("#qrcodeTable").qrcode({
 
-                       render: "canvas",                <!--二维码生成方式 -->
-                       text: result.data.id, <!-- 二维码内容  -->
-                       width: "300",               //二维码的宽度
-                       height: "300",
-                   }).hide();
-                   var canvas = qrcode.find('canvas').get(0);
-                   $('#imgOne').attr('src', canvas.toDataURL("image/png"));
-               }
+                        render: "canvas",                <!--二维码生成方式 -->
+                        text: result.data.id,            <!-- 二维码内容  -->
+                        width: "300",               //二维码的宽度
+                        height: "300",
+                    }).hide();
+                    var canvas = qrcode.find('canvas').get(0);
+                    $('#imgOne').attr('src', canvas.toDataURL("image/png"));
+                }
             }
         })
-    })
-
+    }
 </script>
 </body>
 

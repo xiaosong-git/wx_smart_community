@@ -49,7 +49,9 @@ public class ThymeleafController {
             wxUser.setLang("zh_CN");
             WxUserList.WxUser wxUser1 = iService.oauth2ToGetUserInfo(wxOAuth2AccessTokenResult.getAccess_token(), wxUser);
             User user = userService.getUser(wxUser1.getOpenid());
+
             model.addAttribute("user",user);
+
             return "login";
         }
 //
@@ -153,6 +155,11 @@ public class ThymeleafController {
     @RequestMapping(value = "/authIndex",method= RequestMethod.GET)
     public String authIndex() {
         return "authIndex";
+    }
+
+    @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
+    public String personInfor() {
+        return "personInfor";
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
