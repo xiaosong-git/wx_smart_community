@@ -28,40 +28,22 @@
 <div class="page-hd" align="center">
     <br>
     <h3 class="page-hd-title">
-        您在本小区有3套租房
+       您在本小区有<font id="houseNum">0</font>套租房
     </h3>
     <p class="page-hd-desc"></p>
 </div>
-<div class="weui-cells weui-cells_form">
+<div id="houses"></div>
+<!--<div class="weui-cells weui-cells_form">
 
-    <div class="weui-cell weui-btn weui-btn_plain-default">
+    <div class="weui-cell weui-btn weui-btn_plain-default" onclick="toFamily('3号楼1607','36')">
         <div class="weui-cell__hd"><font color="blue"></font></div>
         <div class="weui-cell__bd" align="center">
             <p>3号楼1607</p>
         </div>
         <div class="weui-cell__ft"></div>
     </div>
-</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-btn weui-btn_plain-default">
+</div>-->
 
-        <div class="weui-cell__hd"><img src=""></div>
-        <div class="weui-cell__bd" align="center">
-            <p>4号楼3502</p>
-        </div>
-        <div class="weui-cell__ft"></div>
-    </div>
-</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-btn weui-btn_plain-default">
-
-        <div class="weui-cell__hd"><img src=""></div>
-        <div class="weui-cell__bd" align="center">
-            <p>11号楼1104</p>
-        </div>
-        <div class="weui-cell__ft"></div>
-    </div>
-</div>
 <br>
 <br>
 <button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 验证更多住房</button>
@@ -71,9 +53,48 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
+    $(function () {
+        if(!isLogin()){
+            FastClick.attach(document.body);
+            getHouses();
+        }
+    })
 
+    function getHouses() {
+
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/user/userHourseInfo  ",
+            data: { userId: "1" },
+            success: function (result) {
+                var list = result.data;
+                document.getElementById('houseNum').innerText=list.length;
+                console.log(list)
+                for(var i in list){
+                    var addr = list[i].buildingName+list[i].num;
+                    console.log(list[i].hourseId)
+                    $("#houses").append("<div class=\"weui-cells weui-cells_form\">\n" +
+                        "\n" +
+                        "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"toFamily('"+list[i].hourseId+"','"+addr+"')\">\n" +
+                        "        <div class=\"weui-cell__hd\"><font color=\"blue\"></font></div>\n" +
+                        "        <div class=\"weui-cell__bd\" align=\"center\">\n" +
+                        "            <p>"+addr+"</p>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"weui-cell__ft\"></div>\n" +
+                        "    </div>\n" +
+                        "</div>")
+                }
+            }
+        })
+    }
+
+    function toFamily(houseId,address) {
+        window.localStorage.setItem("findHouseId", houseId);
+        window.localStorage.setItem("findHouseName", address);
+        window.location.href=familyInforUrl;
+    }
 </script>
 </body>
-
 
 </html>
