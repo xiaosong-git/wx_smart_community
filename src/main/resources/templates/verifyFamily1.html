@@ -34,7 +34,7 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">家庭住址</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" id="addr" type="text" value="">
+            <input class="weui-input" placeholder="请选择地区" id="addr" type="text" value="">
         </div>
     </div>
     <div class="weui-cell">
@@ -43,6 +43,7 @@
         </div>
         <div class="weui-cell__bd">
             <select class="weui-select" id="communityaddr">
+            <option value="">请选择</option>
             </select>
         </div>
     </div>
@@ -52,6 +53,7 @@
         </div>
         <div class="weui-cell__bd">
             <select class="weui-select" id="houseaddr">
+             <option value="">请选择</option>
             </select>
         </div>
     </div>
@@ -87,11 +89,12 @@
     $("#addr").cityPicker({
         title: "选择出发地",
         onChange: function (picker, values, displayValues) {
-            console.log(values, displayValues);
+            //console.log(values, displayValues);
+        	loadCommunityaddr();
         }
     });
     
-    $("#communityaddr").click(function(){
+    function loadCommunityaddr(){
     	var addr = $("#addr").attr("data-code");
     	$.ajax({
             url: "area/areaList",
@@ -102,19 +105,45 @@
 				areaCode:addr
             },
             success: function(data) {
-            	console.log(data);
+            	$("#communityaddr option").remove();
                 var _data = data.data; //由于后台传过来的json有个data，在此重命名
-                var html = "";
+                var html = '<option value="">请选择</option>';
                 for (var e in _data) {
-                    html += '<option value=' + _data[e].id + '>' + _data[e].area_name + '</option>'
+                    html += '<option value="' + _data[e].id + '">' + _data[e].areaName + '</option>'
                 }
-                $("#datasetProperty").append(html); //渲染
+                $("#communityaddr").append(html); //渲染
             }
         });
     	//alert(addr);
+    } 
+    
+    $("#communityaddr").bind("change",function(){
+    	var areaId = $("#communityaddr option:selected").val();
+    	$.ajax({
+            url: "building/buildingList",
+            type: "post",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+				areaId: areaId
+            },
+            success: function(data) {
+            	$("#houseaddr option").remove();
+                var _data = data.data; //由于后台传过来的json有个data，在此重命名
+                var html = '<option value="">请选择</option>';
+                for (var e in _data) {
+                    html += '<option value="' + _data[e].id + '">' + _data[e].name + '</option>'
+                }
+                $("#houseaddr").append(html); //渲染
+            }
+        });
     });
    function next() {
-       window.location.href=verifyFamily2Url;
+	   var addr =  $("#addr").attr("data-code");
+	   var communityaddr = $("#communityaddr option:selected").val();
+	   var houseaddr = $("#houseaddr option:selected").val();
+	   var paltaddr = $("#paltaddr").val();
+       window.location.href="verifyFamily2?&houseaddr="+houseaddr+"&paltaddr="+paltaddr;
    }
 </script>
 </body>

@@ -1,4 +1,5 @@
 package com.company.project.service;
+import com.company.project.core.Result;
 import com.company.project.model.Family;
 import com.company.project.core.Service;
 
@@ -8,4 +9,6 @@ import com.company.project.core.Service;
  */
 public interface FamilyService extends Service<Family> {
 
+
+    Result findFamilyUser(Long hourseId);
 }

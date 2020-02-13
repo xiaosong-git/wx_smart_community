@@ -53,4 +53,22 @@ public class HourseController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+    
+    @PostMapping("/identityHouse")
+    public Result identityHouse( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,
+    		@RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
+        List<Hourse> list = hourseService.findHouse(name, phone, idCard);
+        boolean flag = false;
+        if(list!=null) {
+        	for(Hourse h:list) {
+        		if(h.getBuildingId()==houseaddr&&h.getNum().equals(paltaddr)) {
+        			flag=true;
+        		}
+        	}
+        }
+        if(flag==true) {
+        	return ResultGenerator.genSuccessResult();
+        }
+        return ResultGenerator.genFailResult("认证失败");
+    }
 }

@@ -14,4 +14,6 @@ public interface UserService extends Service<User> {
     Result uploadPhoto(String userId, String mediaId, String type);
 
     User getUser(String openid);
+
+    Result userHourseInfo(Long userId);
 }

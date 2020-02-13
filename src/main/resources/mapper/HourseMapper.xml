@@ -17,4 +17,13 @@
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
   </resultMap>
+  <select id="findHouse" resultMap="BaseResultMap" parameterType="string">
+  	SELECT hu.* from h_hourse hu
+	LEFT JOIN h_user u on hu.user_id = u.id
+	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and u.id_no=#{idCard} and is_rent='F'
+	union
+	SELECT hu.* from h_hourse hu
+	LEFT JOIN h_user u on hu.rent_id = u.id
+	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and u.id_no=#{idCard} and is_rent='T'
+  </select>
 </mapper>

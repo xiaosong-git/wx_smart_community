@@ -169,9 +169,14 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             user.setCreateTime(DateUtil.getSystemTime());
             user.setWxOpenId(openId);
             int save = this.save(user);
-
         }
         return user;
+    }
+
+    @Override
+    public Result userHourseInfo(Long userId) {
+        List<Map<String,Object>> list = hUserMapper.userHourseInfo(userId);
+        return ResultGenerator.genSuccessResult(list);
     }
 
     public  String auth(String idNO,String realName,String idHandleImgUrl) throws Exception {

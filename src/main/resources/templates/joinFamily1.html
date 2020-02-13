@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>绑定手机</title>
+    <title>认证家庭</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -24,7 +24,7 @@
 
 <div class="weui-cell" align="center">
     <div class="weui-cell__bd">
-        <font color="blue" size="4">① 家庭地址</font><font size="4"> ------ </font><font size="4">② 个人信息</font>
+        <font color="blue" size="4">① 家庭地址</font><font size="4"> ------ </font><font size="4">② 户主信息</font>
     </div>
 </div>
 
@@ -34,7 +34,7 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">家庭住址</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" id="start" type="text" value="">
+            <input class="weui-input" placeholder="请选择地区" id="addr" type="text" value="">
         </div>
     </div>
     <div class="weui-cell">
@@ -42,7 +42,9 @@
             <label class="weui-label">小区名称</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="communityaddr" value="">
+            <select class="weui-select" id="communityaddr">
+            <option value="">请选择</option>
+            </select>
         </div>
     </div>
     <div class="weui-cell">
@@ -50,7 +52,17 @@
             <label class="weui-label">楼号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="houseaddr" value="">
+            <select class="weui-select" id="houseaddr">
+             <option value="">请选择</option>
+            </select>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">门牌号</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入" type="text" id="paltaddr" value="">
         </div>
     </div>
     <br>
@@ -64,16 +76,74 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script type="text/javascript" src="js/city-data.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/city-picker.js" charset="utf-8"></script>
+
 <script src="js/myUtil.js"></script>
+<script src="js/jquery-weui.js"></script>
 <script>
-    $("#start").cityPicker({
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+<script>
+
+    $("#addr").cityPicker({
         title: "选择出发地",
         onChange: function (picker, values, displayValues) {
-            console.log(values, displayValues);
+            //console.log(values, displayValues);
+        	loadCommunityaddr();
         }
     });
+    
+    function loadCommunityaddr(){
+    	var addr = $("#addr").attr("data-code");
+    	$.ajax({
+            url: "area/areaList",
+            type: "post",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+				areaCode:addr
+            },
+            success: function(data) {
+            	$("#communityaddr option").remove();
+                var _data = data.data; //由于后台传过来的json有个data，在此重命名
+                var html = '<option value="">请选择</option>';
+                for (var e in _data) {
+                    html += '<option value="' + _data[e].id + '">' + _data[e].areaName + '</option>'
+                }
+                $("#communityaddr").append(html); //渲染
+            }
+        });
+    	//alert(addr);
+    } 
+    
+    $("#communityaddr").bind("change",function(){
+    	var areaId = $("#communityaddr option:selected").val();
+    	$.ajax({
+            url: "building/buildingList",
+            type: "post",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+				areaId: areaId
+            },
+            success: function(data) {
+            	$("#houseaddr option").remove();
+                var _data = data.data; //由于后台传过来的json有个data，在此重命名
+                var html = '<option value="">请选择</option>';
+                for (var e in _data) {
+                    html += '<option value="' + _data[e].id + '">' + _data[e].name + '</option>'
+                }
+                $("#houseaddr").append(html); //渲染
+            }
+        });
+    });
    function next() {
-       window.location.href= joinFamily2Url
+	   var addr =  $("#addr").attr("data-code");
+	   var communityaddr = $("#communityaddr option:selected").val();
+	   var houseaddr = $("#houseaddr option:selected").val();
+	   var paltaddr = $("#paltaddr").val();
+       window.location.href="joinFamily2?&houseaddr="+houseaddr+"&paltaddr="+paltaddr;
    }
 </script>
 </body>

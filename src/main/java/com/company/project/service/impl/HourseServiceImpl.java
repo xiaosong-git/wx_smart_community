@@ -7,6 +7,8 @@ import com.company.project.core.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 
@@ -18,5 +20,13 @@ import javax.annotation.Resource;
 public class HourseServiceImpl extends AbstractService<Hourse> implements HourseService {
     @Resource
     private HourseMapper hHourseMapper;
+
+	@Override
+	public List<Hourse> findHouse(String name, String phone, String idCard) {
+		// TODO Auto-generated method stub
+		return hHourseMapper.findHouse(name, phone, idCard);
+	}
+    
+    
 
 }
