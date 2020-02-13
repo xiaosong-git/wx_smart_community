@@ -3,13 +3,17 @@ import com.company.project.core.Result;
 import com.company.project.model.Record;
 import com.company.project.core.Service;
 
+import java.io.UnsupportedEncodingException;
+
 
 /**
  * Created by CodeGenerator on 2020/02/11.
  */
 public interface RecordService extends Service<Record> {
 
-    Result createRecord(Long userId);
+    Result createRecord(Long userId) throws UnsupportedEncodingException;
 
-    Result scanning(Record record);
+    Result scanning(Long opreId, String idStr,String type) throws Exception;
+
+    Result inOut(Long opreId, String idStr, String type) throws Exception;
 }

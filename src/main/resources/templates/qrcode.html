@@ -35,8 +35,10 @@
     $(function () {
         if(!isLogin()){
             FastClick.attach(document.body);
-            if(getCookie("isAuth")!="T"){
+            if(getCookie("isAuth")!=="T"){
                 window.location.href=authUrl;
+            }else if(getCookie("family"!=="T")){
+                window.location.href=familyInforUrl;
             }else{
                 createQRcode();
             }
@@ -49,21 +51,45 @@
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/record/createRecord",
-            data: { userId: "1" },
+            data: { userId: getCookie("userId") },
             success: function (result) {
+                console.log(result);
                 if(result.code == 200){
+                    var id= toUtf8(result.data);
                     var qrcode =jQuery("#qrcodeTable").qrcode({
 
                         render: "canvas",                <!--二维码生成方式 -->
-                        text: result.data.id,            <!-- 二维码内容  -->
+                        text: id,            <!-- 二维码内容  -->
                         width: "300",               //二维码的宽度
                         height: "300",
                     }).hide();
+                    console.log(id);
                     var canvas = qrcode.find('canvas').get(0);
                     $('#imgOne').attr('src', canvas.toDataURL("image/png"));
+                }else{
+                    $.toptip(result.data.message);
                 }
             }
         })
+    }
+    function toUtf8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for(i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            }
+        }
+        return out;
     }
 </script>
 </body>

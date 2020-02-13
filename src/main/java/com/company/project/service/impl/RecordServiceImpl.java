@@ -3,14 +3,22 @@ package com.company.project.service.impl;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.dao.RecordMapper;
+import com.company.project.dao.UserMapper;
 import com.company.project.model.Record;
+import com.company.project.model.User;
+import com.company.project.service.ParamsService;
 import com.company.project.service.RecordService;
 import com.company.project.core.AbstractService;
+import com.company.project.util.Base64;
 import com.company.project.util.DateUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +31,14 @@ import java.util.Map;
 public class RecordServiceImpl extends AbstractService<Record> implements RecordService {
     @Resource
     private RecordMapper hRecordMapper;
+    @Resource
+    private UserMapper userMapper;
+
+    @Resource
+    private ParamsService paramsService;
 
     @Override
-    public Result createRecord(Long userId) {
+    public Result createRecord(Long userId) throws UnsupportedEncodingException {
         if (!selectRecord(userId)) {
             return ResultGenerator.genFailResult("今日次数用尽");
         }
@@ -36,24 +49,57 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
             record.setCreateTime(DateUtil.getSystemTime());
             this.save(record);
         }
-        return ResultGenerator.genSuccessResult(record);
+        String encode = Base64.encode(record.getId().toString().getBytes("UTF-8"));
+        return ResultGenerator.genSuccessResult(encode);
     }
 
     @Override
-    public Result scanning(Record record) {
-        //判断
+    public Result scanning(Long operId, String idStr,String type) throws Exception {
+        String s = new String(Base64.decode(idStr),"UTF-8");
+        //todo 判断是否为该小区用户
+            //查找用户信息
+            Map<String,Object> userMap = userMapper.getUserByRecordId(Long.valueOf(s));
+            Map<String,Object> map=new HashMap<>();
+            if (userMap != null) {
+                if (userMap.get("imgUrl")!=null){
+                    String imageServerUrl = paramsService.findValueByName("imageServerUrl");
+                    userMap.put("imgUrl",imageServerUrl + File.separator+userMap.get("imgUrl"));
+                }
+                List<Record> records=new LinkedList<>();
+                if (userMap.get("userId")!=null) {
+                    records = hRecordMapper.selectByUserId(userMap.get("userId").toString());
+                }
+
+                map.put("user",userMap);
+                map.put("records",records);
+            }
+
+            return ResultGenerator.genSuccessResult(map);
+
+    }
+
+    @Override
+    public Result inOut(Long opreId, String idStr, String type) throws Exception {
+        String s = new String(Base64.decode(idStr),"UTF-8");
+
+        Record record =new Record();
+        record.setId(Long.valueOf(s));
+        record.setType(type);
+        //判
         String systemTime = DateUtil.getSystemTime();
         record.setPassTime(systemTime);
         record.setUpdateTime(systemTime);
         record.setIsPass("0");
         int update = update(record);
         if (update>0){
-            return ResultGenerator.genSuccessResult("操作成功");
+
+            return ResultGenerator.genSuccessResult();
         }
-        return ResultGenerator.genFailResult("操作失败");
+        return ResultGenerator.genFailResult("操作失败！");
     }
 
     public boolean selectRecord(Long userId) {
+        //目前还未考虑多小区的问题
         int times = hRecordMapper.selectTimes(userId);
         if (times>0){
             return true;

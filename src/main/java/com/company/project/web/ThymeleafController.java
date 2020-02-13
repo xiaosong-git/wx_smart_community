@@ -54,47 +54,7 @@ public class ThymeleafController {
 
             return "login";
         }
-//
-//    @AuthCheckAnnotation(checkLogin = false, checkVerify = false)
-//    @RequestMapping(value = "/visit", method = RequestMethod.GET)
-//    public String visit(@RequestParam(name = "code", required = false) String code,
-//                        @RequestParam(name = "state", defaultValue = "0") String state,
-//                        Model model) throws WxErrorException {
-//        List<String> jsApiList = new ArrayList<>();
-//
-//        //需要用到哪些JS SDK API 就设置哪些
-//        jsApiList.add("chooseImage");//拍照或从手机相册中选图接口
-//        jsApiList.add("onMenuShareQZone");//获取“分享到QQ空间”按钮点击状态及自定义分享内容接口
-//        jsApiList.add("previewImage");//预览图片接口
-//        jsApiList.add("uploadImage");//上传图片接口
-//        jsApiList.add("downloadImage");//下载图片接口
-//        try {
-//            //把config返回到前端进行js调用即可。
-//            WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "visit", jsApiList);
-//            config.setAppid(WxConfig.getInstance().getAppId());
-////                 System.out.println(config.getAppid());
-////                 System.out.println(config.getSignature());
-////                 System.out.println(config.getTimestamp());
-////                 System.out.println(config.getUrl());
-////                 System.out.println(config.getJsApiList());
-//            System.out.println(config.getNoncestr());
-////                 System.out.println(config.toJson());
-//            model.addAttribute("config", config);
-//            logger.info("进入设置权限");
-//        } catch (WxErrorException e) {
-//            e.printStackTrace();
-//        }
-//        return "visit";
-//    }
-    @RequestMapping(value = "/visit", method = RequestMethod.GET)
-    public String visit() {
-        return "visit";
-        }
 
-    @RequestMapping(value = "/invite",method= RequestMethod.GET)
-    public String invite() {
-        return "invite";
-    }
 
     @RequestMapping(value = "/bindphone",method= RequestMethod.GET)
     public String bindphone() {
@@ -158,14 +118,31 @@ public class ThymeleafController {
     }
 
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
-    public String personInfor() {
+    public String personInfor(Model model) {
+        List<String> jsApiList = new ArrayList<>();
+        //需要用到哪些JS SDK API 就设置哪些
+        jsApiList.add("scanQRCode");//扫一扫
+        logger.info("已进入scan界面");
+        try {
+            //把config返回到前端进行js调用即可。
+            WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "personInfor", jsApiList);
+            config.setAppid(WxConfig.getInstance().getAppId());
+            System.out.println(config.getNoncestr());
+            model.addAttribute("config", config);
+            logger.info("进入扫一扫");
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
         return "personInfor";
+    }
+    @RequestMapping(value = "/qrcode",method= RequestMethod.GET)
+    public String qrcode() {
+        return "qrcode";
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public String auth(Model model) {
         List<String> jsApiList = new ArrayList<>();
-
         //需要用到哪些JS SDK API 就设置哪些
         jsApiList.add("chooseImage");//拍照或从手机相册中选图接口
         jsApiList.add("onMenuShareQZone");//获取“分享到QQ空间”按钮点击状态及自定义分享内容接口
@@ -185,6 +162,24 @@ public class ThymeleafController {
         }
 
         return "auth";
+    }
+    @RequestMapping(value = "/scan", method = RequestMethod.GET)
+    public String scan(Model model) {
+        List<String> jsApiList = new ArrayList<>();
+        //需要用到哪些JS SDK API 就设置哪些
+        jsApiList.add("scanQRCode");//扫一扫
+        logger.info("已进入scan界面");
+        try {
+            //把config返回到前端进行js调用即可。
+            WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "scan", jsApiList);
+            config.setAppid(WxConfig.getInstance().getAppId());
+            System.out.println(config.getNoncestr());
+            model.addAttribute("config", config);
+            logger.info("进入扫一扫");
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+        return "scan";
     }
 
 }

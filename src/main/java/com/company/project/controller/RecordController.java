@@ -5,6 +5,7 @@ import com.company.project.core.ResultGenerator;
 import com.company.project.model.Record;
 import com.company.project.service.RecordService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,14 +38,29 @@ public class RecordController {
     }
     /**
      * 传入用户id生成通行记录二维码
-     * @param record 记录
+     * @param
      * @return 通行记录的id
      */
     @RequestMapping("/scanning")
     @ResponseBody
-    public Result scanning(Record record){
+    public Result scanning( @RequestParam Long opreId,@RequestParam String idStr,@RequestParam String type){
         try {
-            return recordService.scanning(record);
+            return recordService.scanning(opreId,idStr,type);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常","");
+    }
+    /**
+     * 传入用户id生成通行记录二维码
+     * @param
+     * @return 通行记录的id
+     */
+    @RequestMapping("/inOut")
+    @ResponseBody
+    public Result inOut( @RequestParam Long opreId,@RequestParam String idStr,@RequestParam String type){
+        try {
+            return recordService.inOut(opreId,idStr,type);
         }catch (Exception e){
             e.printStackTrace();
         }

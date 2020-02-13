@@ -14,48 +14,164 @@
         .blue-btn{
             background-color: #5cadff;
             color:#fff;
-            width: 6px;
-            height: 20px;
+            /*width: 6px;*/
+            /*height: 20px;*/
         }
     </style>
 
 </head>
 
 <body ontouchstart>
-<div style="margin-top: 15px;margin-left: 15px">
+<div  style="margin-top: 15px;margin-left: 15px">
 <div><button class="blue-btn"></button><font> 通行人员信息</font></div>
 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
     <div class="weui-media-box__hd">
-        <img class="weui-media-box__thumb" src="images/user.png">
+        <img class="weui-media-box__thumb" id="img" src="images/user.png">
     </div>
     <div class="weui-media-box__bd">
-        <div><font style="margin-left: 30px">姓名</font><font style="margin-left: 15px">王海</font></div>
-        <div><font style="margin-left: 30px">住址</font><font style="margin-left: 15px">3号楼1607</font></div>
-        <div><font>户主电话</font><font style="margin-left: 15px">18344983429</font></div>
+        <div><font  style="margin-left: 30px">姓名</font><font id="name" style="margin-left: 15px"> </font></div>
+        <div><font style="margin-left: 30px">住址</font><font id="building" style="margin-left: 15px"> </font></div>
+        <div><font>户主电话</font><font id="phone" style="margin-left: 15px"> </font></div>
     </div>
 </a>
-</div>
-<div style="margin-top: 15px;margin-left: 15px">
-    <div><button class="blue-btn"></button><font> 通行许可</font></div>
-    <div style="margin-top: 15px;margin-left: 15px">
-        <strong><font size="5" color="#006400">可通行</font></strong>
+
+
+        <div >
+            <button class="blue-btn"></button><font> 通行许可</font>
+        </div>
+    <div class="weui-flex" style="margin-top: 15px;margin-left: 15px">
+        <div class="weui-flex__item" style="margin-top: 15px;margin-left: 15px">
+            <strong><font id="type" size="5" color=""></font></strong>
+
+        </div>
+        <div class="weui-flex__item">
+            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary" onclick="inOut(this,'in')">进入</a>
+            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_warn" onclick="inOut(this,'out')">离开</a>
+        </div>
+    </div>
+
+    <div style="margin-top: 15px;margin-left: 15px" >
+        <div><button class="blue-btn"></button><font> 通行记录</font></div>
+        <div style="margin-top: 15px;margin-left: 15px">
+            <div id="record"></div>
+        </div>
+    </div>
+    <div class="weui-cells weui-cells_form">
+        <button class="weui-btn blue-btn" onclick="jssdkScan()">重新扫码</button>
     </div>
 </div>
-<div style="margin-top: 15px;margin-left: 15px">
-    <div><button class="blue-btn"></button><font> 通行记录</font></div>
-    <div style="margin-top: 15px;margin-left: 15px">
-        <div>2020-02-09   15:37   王力宏 进入</div>
-        <div>2020-02-09   09:22   王力宏 离开</div>
-        <div>2020-02-05   15:37   王力宏 离开</div>
-        <div>2020-02-05   15:37   王力宏 进入</div>
-    </div>
-</div>
+
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
+    wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '[[${config.appid}]]', // 必填，公众号的唯一标识
+        timestamp:'[[${config.timestamp}]]' , // 必填，生成签名的时间戳
+        nonceStr: '[[${config.noncestr}]]', // 必填，生成签名的随机串
+        signature: '[[${config.signature}]]',// 必填，签名
+        jsApiList: ['[[${config.jsApiList[0]}]]'] // 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
+    });
+    wx.ready(function () {
+        wx.checkJsApi({
+            jsApiList: ['[[${config.jsApiList[0]}]]'],
+            success: function (res) {
+                console.log(res)
+            }
+        });
+    });
+    wx.error(function(res){
+        console.log(res);
+    });
+    $(function(){
+        // jssdkScan();
+        //解决表单控件不能回弹 只有微信ios有这个问题
+        $("input,select,textarea").blur(function(){
+            setTimeout(() => {
+                const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+            window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+        }, 100);
+        })
 
+    });
+    function quit(){
+        wx.closeWindow();
+    }
+    var idStr;
+    function jssdkScan() {
+        $(".record").remove();
+        wx.scanQRCode({
+            needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+            success: function (res) {
+                var result = res.resultStr;
+                idStr=result;
+                $.ajax({
+                    type: 'POST',
+                    contentType: "application/x-www-form-urlencoded",
+                    url: "/community/record/scanning",
+                    data: { opreId: 1,
+                        // idStr:result,
+                        idStr:"Ng==",
+                        type:"in"},
+                    success: function (result) {
+                        console.log(result);
+                        var list = result.data
+                        if(result.code == 200){
+                            $('#img').attr('src', list.user.imgUrl);
+                           $('#name').html(list.user.name);
+                            $('#building').html(list.user.hourseNum);
+                            $('#phone').html(list.user.phone);
+                            document.getElementById('type').style.color ="#006400"
+                            $('#type').html("可通行");
+
+                            var records = list.records;
+                            for(var i in records){
+                                var turnover ="";
+                                if(records[i].type=="in"){
+                                    turnover ="进入"
+                                }else{
+                                    turnover ="离开"
+                                }
+                                $("#record").append("<div class='record'>"+records[i].createTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
+                            }
+                        }else{
+                            $('#type').html("不可通行");
+                            document.getElementById('type').style.color ="#8b0000"
+                            $.toptip(result.data.message);
+                        }
+                    }
+                })
+                // 当needResult 为 1 时，扫码返回的结果
+            }
+        });
+    }
+    function inOut(obj,inOut){
+        $(obj).addClass("weui-btn_loading");
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/record/inOut",
+            data: { opreId: 1,
+                // idStr:result,
+                idStr:idStr,
+                type:inOut
+            },
+            success: function (result) {
+                console.log(result);
+                $(obj).removeClass("weui-btn_loading");
+                var list = result.data
+                if(result.code == 200){
+                   $.toptip("放行成功！","success");
+                }else{
+                    $.toptip("放行失败，系统错误！");
+                }
+            }
+        })
+    };
 
 </script>
 </body>
