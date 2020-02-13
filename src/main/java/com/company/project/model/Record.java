@@ -39,6 +39,7 @@ public class Record {
     @Column(name = "create_time")
     private String createTime;
 
+    private String type;
     private String ext1;
 
     private String ext2;
@@ -150,5 +151,13 @@ public class Record {
 
     public void setExt3(String ext3) {
         this.ext3 = ext3;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

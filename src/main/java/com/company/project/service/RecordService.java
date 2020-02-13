@@ -11,4 +11,5 @@ public interface RecordService extends Service<Record> {
 
     Result createRecord(Long userId);
 
+    Result scanning(Record record);
 }

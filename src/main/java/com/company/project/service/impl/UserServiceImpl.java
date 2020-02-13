@@ -8,9 +8,13 @@ import com.company.project.dao.UserAuthMapper;
 import com.company.project.dao.UserMapper;
 import com.company.project.model.User;
 import com.company.project.model.UserAuth;
+import com.company.project.service.ParamsService;
 import com.company.project.service.UserService;
 import com.company.project.core.AbstractService;
 import com.company.project.util.*;
+import com.soecode.wxtools.api.IService;
+import com.soecode.wxtools.api.WxService;
+import com.soecode.wxtools.exception.WxErrorException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -24,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -40,7 +45,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Resource
     private UserAuthMapper userAuthMapper;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
+    @Resource
+    private ParamsService paramService;
+    private IService iService = new WxService();
     @Override
     public Result verify(Long userId, String idNO, String name, String idHandleImgUrl,String localImgUrl) {
         try {
@@ -102,6 +109,50 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚
             return ResultGenerator.genFailResult("异常，请稍后再试","fail");
         }
+    }
+
+    @Override
+    public Result uploadPhoto(String userId, String mediaId, String type) {
+        String time = DateUtil.getSystemTimeFourteen();
+        //临时图片地址
+        String url="D:\\test\\community\\tempotos";
+//        String url="/project/weixin/community/tempotos";
+        File file=new File(url);
+        File newFile = null;
+        try {
+            newFile = iService.downloadTempMedia(mediaId, file);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+        String fileName = newFile.getName();
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String newFileName = url+File.separator+userId+System.currentTimeMillis() + "."+suffix;
+        File newNameFile=new File(newFileName);
+        boolean b = newFile.renameTo(newNameFile);
+
+        String name = newNameFile.getAbsolutePath();
+        OkHttpUtil okHttpUtil=new OkHttpUtil();
+        Map<String,Object> map=new HashMap();
+        map.put("userId",userId);
+        map.put("type",type);
+        map.put("file",newNameFile);
+        String imageServerApiUrl = paramService.findValueByName("imageServerApiUrl");
+        String s = okHttpUtil.postFile(imageServerApiUrl, map, "multipart/form-data");//上传图片
+        JSONObject jsonObject=JSONObject.parseObject(s);
+        Map resultMap = JSON.parseObject(jsonObject.toString());
+        if (resultMap.isEmpty()){
+            return ResultGenerator.genFailResult("检测服务异常");
+        }
+        System.out.println(jsonObject.toString());
+        Map verify=JSON.parseObject(resultMap.get("verify").toString());
+        //人脸验证失败，返回值
+        if ("fail".equals(verify.get("sign"))){
+            return ResultGenerator.genFailResult(verify.get("desc").toString());
+        }
+        Map data=JSON.parseObject(resultMap.get("data").toString());
+        data.put("img",name);
+        //返回图片在服务器的地址
+        return ResultGenerator.genSuccessResult(data);
     }
 
     public  String auth(String idNO,String realName,String idHandleImgUrl) throws Exception {

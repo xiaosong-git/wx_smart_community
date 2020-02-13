@@ -10,4 +10,6 @@ import com.company.project.core.Service;
 public interface UserService extends Service<User> {
 
     Result verify(Long userId, String idNO, String name, String idHandleImgUrl, String localImgUrl);
+
+    Result uploadPhoto(String userId, String mediaId, String type);
 }

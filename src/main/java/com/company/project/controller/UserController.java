@@ -71,6 +71,28 @@ public class UserController {
         }
         return ResultGenerator.genFailResult("系统异常","");
     }
+    /**
+     * 实人认证图片上传
+     * @param userId 用户id
+     * @param mediaId 微信临时图片
+     * @param type 状态
+     * @return
+     */
+    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
+    @RequestMapping("/uploadVerify")
+    @ResponseBody
+    public Result uploadPhoto(@RequestParam String userId, @RequestParam() String  mediaId,@RequestParam() String  type)   {
 
+        try {
+            System.out.println(userId);
+            System.out.println(mediaId);
+            System.out.println(type);
+            return userService.uploadPhoto(userId, mediaId, type);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ResultGenerator.genFailResult("系统异常","");
+    }
 
 }

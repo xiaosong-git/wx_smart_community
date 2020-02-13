@@ -39,6 +39,20 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         return ResultGenerator.genSuccessResult(record);
     }
 
+    @Override
+    public Result scanning(Record record) {
+        //判断
+        String systemTime = DateUtil.getSystemTime();
+        record.setPassTime(systemTime);
+        record.setUpdateTime(systemTime);
+        record.setIsPass("0");
+        int update = update(record);
+        if (update>0){
+            return ResultGenerator.genSuccessResult("操作成功");
+        }
+        return ResultGenerator.genFailResult("操作失败");
+    }
+
     public boolean selectRecord(Long userId) {
         int times = hRecordMapper.selectTimes(userId);
         if (times>0){

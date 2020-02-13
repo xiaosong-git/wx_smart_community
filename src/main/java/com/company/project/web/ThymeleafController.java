@@ -175,7 +175,7 @@ public class ThymeleafController {
     @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
     @RequestMapping(value = "/auth2",method= RequestMethod.GET)
     public String auth2() {
-        return "auth2";
+        return "auth";
     }
 //        @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
 //        @RequestMapping({"static/MP_verify_I4XWI1ZSKeFojwT6.txt"})
@@ -200,13 +200,7 @@ public class ThymeleafController {
             //把config返回到前端进行js调用即可。
             WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "auth", jsApiList);
             config.setAppid(WxConfig.getInstance().getAppId());
-//                 System.out.println(config.getAppid());
-//                 System.out.println(config.getSignature());
-//                 System.out.println(config.getTimestamp());
-//                 System.out.println(config.getUrl());
-//                 System.out.println(config.getJsApiList());
             System.out.println(config.getNoncestr());
-//                 System.out.println(config.toJson());
             model.addAttribute("config", config);
             logger.info("进入设置权限");
         } catch (WxErrorException e) {
