@@ -18,5 +18,73 @@
     <result column="ext1" jdbcType="VARCHAR" property="ext1" />
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+<!--    <result column="building" jdbcType="VARCHAR" property="com.company.project.model.Building" />-->
+<!--    <result column="family" jdbcType="VARCHAR" property="com.company.project.model.Family" />-->
+<!--    <result column="hourse" jdbcType="VARCHAR" property="com.company.project.model.Hourse" />-->
+    <collection property="area" ofType="com.company.project.model.Area">
+      <result column="org_id" jdbcType="BIGINT" property="orgId" />
+      <result column="pass_limit" jdbcType="INTEGER" property="passLimit" />
+      <result column="area_name" jdbcType="INTEGER" property="areaName" />
+      <result column="frequency" jdbcType="VARCHAR" property="frequency" />
+      <result column="province" jdbcType="VARCHAR" property="province" />
+      <result column="city" jdbcType="VARCHAR" property="city" />
+      <result column="area" jdbcType="VARCHAR" property="area" />
+      <result column="opre" jdbcType="VARCHAR" property="opre" />
+      <result column="is_valid" jdbcType="INTEGER" property="isValid" />
+      <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+      <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+      <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+      <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+      <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+    <collection property="building" ofType="com.company.project.model.Building">
+      <result column="area_id" jdbcType="BIGINT" property="areaId" />
+      <result column="total_floor" jdbcType="INTEGER" property="totalFloor" />
+      <result column="building_name" jdbcType="VARCHAR" property="name" />
+      <result column="number_range" jdbcType="VARCHAR" property="numberRange" />
+      <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+      <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+      <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+      <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+      <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+    <collection property="family" ofType="com.company.project.model.Family">
+      <result column="house_id" jdbcType="BIGINT" property="houseId" />
+      <result column="user_id" jdbcType="BIGINT" property="userId" />
+      <result column="status" jdbcType="VARCHAR" property="status" />
+      <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+      <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+      <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+      <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+      <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+    <collection property="hourse" ofType="com.company.project.model.Hourse">
+      <result column="building_id" jdbcType="BIGINT" property="buildingId" />
+      <result column="num" jdbcType="VARCHAR" property="num" />
+      <result column="user_id" jdbcType="VARCHAR" property="userId" />
+      <result column="is_rent" jdbcType="VARCHAR" property="isRent" />
+      <result column="rent_id" jdbcType="VARCHAR" property="rentId" />
+      <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+      <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+      <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+      <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+      <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+
   </resultMap>
+
+  <select id="getUserFromOpenId" parameterType="String" resultMap="BaseResultMap" >
+    select *,b.name building_name from h_user u
+    left join  h_hourse h on u.id=h.user_id
+    left join h_building  b on h.building_id =b.id
+    left join h_area a  on a.id =b.area_id
+    where wx_open_id =#{openId} limit 1
+  </select>
+
+<!--  <select id="getUserFromOpenId" parameterType="String" resultType="map" >-->
+<!--  select u.id,u.name,u.is_auth,u.ismanager,img_url,building_id,num,a.name areaName,a.is_valid from h_user u-->
+<!--  left join  h_hourse h on u.id=h.user_id-->
+<!--  left join h_building  b on h.building_id =b.id-->
+<!--  left join h_area a  on a.id =b.area_id-->
+<!--   </select>-->
 </mapper>

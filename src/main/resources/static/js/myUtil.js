@@ -9,8 +9,8 @@ if (IS_DEVELOP){//生产环境
     //重定向地址
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 } else{
-    appId="wx2a1951f46acc4371";
-    uri="6muikj.natappfree.cc";
+    appId="wxa9d8364bb148a05e";
+    uri="wjfnmk.natappfree.cc";
     url= "http://"+uri+"/";
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 }
