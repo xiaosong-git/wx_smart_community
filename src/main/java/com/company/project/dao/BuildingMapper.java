@@ -8,5 +8,5 @@ import com.company.project.core.Mapper;
 import com.company.project.model.Building;
 
 public interface BuildingMapper extends Mapper<Building> {
-	List<Building> findBuilding(@Param("areaCode") String areaCode);
+	List<Building> findBuilding(@Param("areaId") String areaId);
 }

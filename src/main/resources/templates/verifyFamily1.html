@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>绑定手机</title>
+    <title>认证家庭</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -34,7 +34,7 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">家庭住址</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" id="start" type="text" value="">
+            <input class="weui-input" id="addr" type="text" value="">
         </div>
     </div>
     <div class="weui-cell">
@@ -42,7 +42,8 @@
             <label class="weui-label">小区名称</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="communityaddr" value="">
+            <select class="weui-select" id="communityaddr">
+            </select>
         </div>
     </div>
     <div class="weui-cell">
@@ -50,7 +51,8 @@
             <label class="weui-label">楼号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="houseaddr" value="">
+            <select class="weui-select" id="houseaddr">
+            </select>
         </div>
     </div>
     <div class="weui-cell">
@@ -82,11 +84,34 @@
 </script>
 <script>
 
-    $("#start").cityPicker({
+    $("#addr").cityPicker({
         title: "选择出发地",
         onChange: function (picker, values, displayValues) {
             console.log(values, displayValues);
         }
+    });
+    
+    $("#communityaddr").click(function(){
+    	var addr = $("#addr").attr("data-code");
+    	$.ajax({
+            url: "area/areaList",
+            type: "post",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+				areaCode:addr
+            },
+            success: function(data) {
+            	console.log(data);
+                var _data = data.data; //由于后台传过来的json有个data，在此重命名
+                var html = "";
+                for (var e in _data) {
+                    html += '<option value=' + _data[e].id + '>' + _data[e].area_name + '</option>'
+                }
+                $("#datasetProperty").append(html); //渲染
+            }
+        });
+    	//alert(addr);
     });
    function next() {
        window.location.href=verifyFamily2Url;

@@ -53,4 +53,10 @@ public class AreaController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+    
+    @PostMapping("/areaList")
+    public Result areaList(@RequestParam() String areaCode) {
+        List<Area> list = areaService.areaList(areaCode);
+        return ResultGenerator.genSuccessResult(list);
+    }
 }

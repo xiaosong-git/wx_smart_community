@@ -7,6 +7,8 @@ import com.company.project.core.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 
@@ -18,5 +20,13 @@ import javax.annotation.Resource;
 public class AreaServiceImpl extends AbstractService<Area> implements AreaService {
     @Resource
     private AreaMapper hAreaMapper;
+
+	@Override
+	public List<Area> areaList(String areaCode) {
+		// TODO Auto-generated method stub
+		return hAreaMapper.areaList(areaCode);
+	}
+    
+    
 
 }

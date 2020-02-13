@@ -16,6 +16,7 @@
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
   </resultMap>
-  <select id="qqq">
+  <select id="findBuilding" resultMap="BaseResultMap" parameterType="string">
+  		SELECT * from h_building WHERE area_id=#{areaId}
   </select>
 </mapper>

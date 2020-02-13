@@ -20,4 +20,7 @@
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
   </resultMap>
+  <select id="areaList" resultMap="BaseResultMap" parameterType="string">
+  	select * from h_area where area_code=#{areaCode}
+  </select>
 </mapper>

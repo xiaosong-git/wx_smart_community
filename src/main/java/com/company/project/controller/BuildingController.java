@@ -53,4 +53,10 @@ public class BuildingController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+    
+    @PostMapping("/buildingList")
+    public Result buildingList(@RequestParam() String areaId) {
+        List<Building> list = buildingService.findBuilding(areaId);
+        return ResultGenerator.genSuccessResult(list);
+    }
 }
