@@ -29,25 +29,22 @@
         <img class="weui-media-box__thumb" id="img" src="images/user.png">
     </div>
     <div class="weui-media-box__bd">
-        <div><font  style="margin-left: 30px">姓名</font><font id="name" style="margin-left: 15px">王海</font></div>
-        <div><font style="margin-left: 30px">住址</font><font id="building" style="margin-left: 15px">3号楼1607</font></div>
-        <div><font>户主电话</font><font id="phone" style="margin-left: 15px">18344983429</font></div>
+        <div><font  style="margin-left: 30px">姓名</font><font id="name" style="margin-left: 15px"> </font></div>
+        <div><font style="margin-left: 30px">住址</font><font id="building" style="margin-left: 15px"> </font></div>
+        <div><font>户主电话</font><font id="phone" style="margin-left: 15px"> </font></div>
     </div>
 </a>
 
     <div style="margin-top: 15px;margin-left: 15px">
         <div><button class="blue-btn"></button><font> 通行许可</font></div>
         <div style="margin-top: 15px;margin-left: 15px">
-            <strong><font id="type" size="5" color="#006400">可通行</font></strong>
+            <strong><font id="type" size="5" color=""></font></strong>
         </div>
     </div>
-    <div style="margin-top: 15px;margin-left: 15px" id="record">
+    <div style="margin-top: 15px;margin-left: 15px" >
         <div><button class="blue-btn"></button><font> 通行记录</font></div>
         <div style="margin-top: 15px;margin-left: 15px">
-            <div>2020-02-09   15:37   王力宏 进入</div>
-            <div>2020-02-09   09:22   王力宏 离开</div>
-            <div>2020-02-05   15:37   王力宏 离开</div>
-            <div>2020-02-05   15:37   王力宏 进入</div>
+            <div id="record"></div>
         </div>
     </div>
     <div class="weui-cells weui-cells_form">
@@ -110,9 +107,27 @@
                         type:"in"},
                     success: function (result) {
                         console.log(result);
+                        var list = result.data
                         if(result.code == 200){
+                            document.getElementById('name').innerText=list.user.name;
+                            document.getElementById('building').innerText=list.user.hourseNum;
+                            document.getElementById('phone').innerText=list.user.phone;
+                            document.getElementById('type').style.color ="#006400"
+                            document.getElementById('type').innerText="可通行";
 
+                            var records = list.records;
+                            for(var i in records){
+                                var turnover ="";
+                                if(records[i].type=="in"){
+                                    turnover ="进入"
+                                }else{
+                                    turnover ="离开"
+                                }
+                                $("#record").append("<div>"+records[i].createTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</div><br>")
+                            }
                         }else{
+                            document.getElementById('type').innerText="不可通行";
+                            document.getElementById('type').style.color ="#8b0000"
                             $.toptip(result.data.message);
                         }
                     }
