@@ -48,7 +48,6 @@ public class User {
     @Column(name = "is_manager")
     private String isManager;
 
-
     @Column(name = "img_url")
     private String imgUrl;
     /**
@@ -63,6 +62,15 @@ public class User {
      */
     @Column(name = "create_time")
     private String createTime;
+
+    @Transient
+    private Area area;
+    @Transient
+    private Building building;
+    @Transient
+    private Family family;
+    @Transient
+    private Hourse hourse;
 
     private String ext1;
 
@@ -294,5 +302,37 @@ public class User {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
+    public Hourse getHourse() {
+        return hourse;
+    }
+
+    public void setHourse(Hourse hourse) {
+        this.hourse = hourse;
     }
 }

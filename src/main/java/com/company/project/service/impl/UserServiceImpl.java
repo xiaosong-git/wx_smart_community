@@ -169,7 +169,6 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             user.setCreateTime(DateUtil.getSystemTime());
             user.setWxOpenId(openId);
             int save = this.save(user);
-
         }
         return user;
     }

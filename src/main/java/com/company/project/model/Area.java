@@ -24,7 +24,8 @@ public class Area {
      * 频率 暂时用varchar类型
      */
     private String frequency;
-
+    @Column(name = " @Column(name = \"pass_limit\")")
+    private String areaName;
     /**
      * 省
      */
@@ -39,6 +40,8 @@ public class Area {
      * 区
      */
     private String area;
+
+
 
     /**
      * 操作员
@@ -119,6 +122,13 @@ public class Area {
         this.passLimit = passLimit;
     }
 
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
     /**
      * 获取频率 暂时用varchar类型
      *
@@ -304,4 +314,6 @@ public class Area {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
+
+
 }
