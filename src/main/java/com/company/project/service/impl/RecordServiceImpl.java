@@ -6,13 +6,13 @@ import com.company.project.dao.RecordMapper;
 import com.company.project.model.Record;
 import com.company.project.service.RecordService;
 import com.company.project.core.AbstractService;
+import com.company.project.util.Base64;
 import com.company.project.util.DateUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -25,7 +25,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     private RecordMapper hRecordMapper;
 
     @Override
-    public Result createRecord(Long userId) {
+    public Result createRecord(Long userId) throws UnsupportedEncodingException {
         if (!selectRecord(userId)) {
             return ResultGenerator.genFailResult("今日次数用尽");
         }
@@ -36,12 +36,17 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
             record.setCreateTime(DateUtil.getSystemTime());
             this.save(record);
         }
-        return ResultGenerator.genSuccessResult(record);
+        String encode = Base64.encode(record.getId().toString().getBytes("UTF-8"));
+        return ResultGenerator.genSuccessResult(encode);
     }
 
     @Override
-    public Result scanning(Record record) {
-        //判断
+    public Result scanning(Long userId, String idstr,String type) throws UnsupportedEncodingException {
+        String s =Base64.encode(idstr.getBytes("UTF-8"));
+        Record record =new Record();
+        record.setId(Long.valueOf(s));
+        record.setType(type);
+        //判
         String systemTime = DateUtil.getSystemTime();
         record.setPassTime(systemTime);
         record.setUpdateTime(systemTime);
@@ -54,6 +59,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     }
 
     public boolean selectRecord(Long userId) {
+        //目前还未考虑多小区的问题
         int times = hRecordMapper.selectTimes(userId);
         if (times>0){
             return true;

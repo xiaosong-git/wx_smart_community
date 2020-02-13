@@ -174,7 +174,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-    public Result userHourseInfo(Long userId) {
+        public Result userHourseInfo(Long userId) {
         List<Map<String,Object>> list = hUserMapper.userHourseInfo(userId);
         return ResultGenerator.genSuccessResult(list);
     }

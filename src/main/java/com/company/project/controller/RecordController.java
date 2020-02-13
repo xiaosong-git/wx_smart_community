@@ -5,6 +5,7 @@ import com.company.project.core.ResultGenerator;
 import com.company.project.model.Record;
 import com.company.project.service.RecordService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,9 +43,9 @@ public class RecordController {
      */
     @RequestMapping("/scanning")
     @ResponseBody
-    public Result scanning(Record record){
+    public Result scanning( @RequestParam Long opreId,@RequestParam String idstr,@RequestParam String type){
         try {
-            return recordService.scanning(record);
+            return recordService.scanning(opreId,idstr,type);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -18,9 +18,28 @@
     <result column="ext1" jdbcType="VARCHAR" property="ext1" />
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
-<!--    <result column="building" jdbcType="VARCHAR" property="com.company.project.model.Building" />-->
-<!--    <result column="family" jdbcType="VARCHAR" property="com.company.project.model.Family" />-->
-<!--    <result column="hourse" jdbcType="VARCHAR" property="com.company.project.model.Hourse" />-->
+
+  </resultMap>
+  <resultMap id="myResultMap" type="com.company.project.model.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="id_no" jdbcType="VARCHAR" property="idNo" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="is_auth" jdbcType="VARCHAR" property="isAuth" />
+    <result column="auth_date" jdbcType="VARCHAR" property="authDate" />
+    <result column="wx_open_id" jdbcType="VARCHAR" property="wxOpenId" />
+    <result column="is_manager" jdbcType="VARCHAR" property="isManager" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="hext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    <!--    <result column="building" jdbcType="VARCHAR" property="com.company.project.model.Building" />-->
+    <!--    <result column="family" jdbcType="VARCHAR" property="com.company.project.model.Family" />-->
+    <!--    <result column="hourse" jdbcType="VARCHAR" property="com.company.project.model.Hourse" />-->
     <collection property="area" ofType="com.company.project.model.Area">
       <result column="aid" jdbcType="BIGINT" property="id" />
       <result column="org_id" jdbcType="BIGINT" property="orgId" />
@@ -76,8 +95,7 @@
     </collection>
 
   </resultMap>
-
-  <select id="getUserFromOpenId" parameterType="String" resultMap="BaseResultMap" >
+  <select id="getUserFromOpenId" parameterType="String" resultMap="myResultMap" >
     select *,a.id aid,b.id bid,h.id hid,f.id fid,b.name building_name from h_user u
     left join  h_hourse h on u.id=h.user_id
     left join h_building  b on h.building_id =b.id
@@ -91,8 +109,8 @@ left join h_family f on f.house_id =h.id
 left join h_building b on h.building_id=b.id
 where f.user_id=#{userId}
     </select>
-    <select id="findFamilyUser" parameterType="Long" resultMap="BaseResultMap" >
-    select *,u.id uid from h_user u  left join h_family f on u.id=f.user_id
+    <select id="findFamilyUser" parameterType="Long" resultMap="myResultMap" >
+    select *,u.id uid ,if(u.id=h.user_id,'T','F') hext1 from h_user u   left join h_family f on u.id=f.user_id
 left join h_hourse h on h.id=f.house_id
 where h.id=#{hourseId}
     </select>
