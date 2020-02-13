@@ -1,4 +1,5 @@
 package com.company.project.service;
+import com.company.project.core.Result;
 import com.company.project.model.Record;
 import com.company.project.core.Service;
 
@@ -8,4 +9,7 @@ import com.company.project.core.Service;
  */
 public interface RecordService extends Service<Record> {
 
+    Result createRecord(Long userId);
+
+    Result scanning(Record record);
 }

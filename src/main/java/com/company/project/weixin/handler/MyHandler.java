@@ -48,9 +48,9 @@ public class MyHandler implements WxMessageHandler {
             case   MenuKey.SHARE_RECORD:
                 stringBuilder.append("共享记录");
                 break;
-                case   MenuKey.URL+MenuKey.VISIT:
-                stringBuilder.append("访问申请成功后，请注意在公众号查收通行信息");
-                break;
+//                case   MenuKey.URL+MenuKey.VISIT:
+//                stringBuilder.append("访问申请成功后，请注意在公众号查收通行信息");
+//                break;
             default:
                 stringBuilder.append("暂时无此分类噢！");
                 break;

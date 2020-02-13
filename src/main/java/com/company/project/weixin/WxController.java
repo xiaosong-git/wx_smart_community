@@ -67,9 +67,9 @@ import java.util.Map;
             WxXmlMessage wx = XStreamTransformer.fromXml(WxXmlMessage.class, request.getInputStream());
             System.out.println("消息：\n " + wx.toString());
             router.rule().msgType(WxConsts.XML_MSG_TEXT).matcher(new WhoAmIMatcher()).handler(new WhoAmIHandler()).end().
-            rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.VISIT).handler(new VisitHandler()).next().
-            rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.INVITE).handler(new VisitHandler()).end().
-            rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.MEETING).handler(new ShareRoomHandler()).next().
+//            rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.VISIT).handler(new VisitHandler()).next().
+//            rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.INVITE).handler(new VisitHandler()).end().
+//            rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.MEETING).handler(new ShareRoomHandler()).next().
             rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.TEA).handler(new ShareRoomHandler()).end().
             rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.FIRST_RECORD).handler(new MyHandler()).next().
             rule().event(WxConsts.EVT_CLICK).eventKey(MenuKey.SHARE_RECORD).handler(new MyHandler()).end();

@@ -48,17 +48,21 @@ public class User {
     @Column(name = "is_manager")
     private String isManager;
 
+
+    @Column(name = "img_url")
+    private String imgUrl;
+    /**
+     * 更新时间
+     */
+    @Column(name = "update_time")
+
+    private String updateTime;
+
     /**
      * 生成时间
      */
     @Column(name = "create_time")
     private String createTime;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private String updateTime;
 
     private String ext1;
 
@@ -282,5 +286,13 @@ public class User {
      */
     public void setExt3(String ext3) {
         this.ext3 = ext3;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

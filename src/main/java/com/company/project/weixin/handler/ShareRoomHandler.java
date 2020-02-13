@@ -42,9 +42,9 @@ public class ShareRoomHandler implements WxMessageHandler {
     private StringBuilder  execute(WxXmlMessage wxMessage) {
         StringBuilder stringBuilder = new StringBuilder();
         switch (wxMessage.getEventKey()) {
-            case MenuKey.MEETING:
-                stringBuilder.append("会议室申请");
-                break;
+//            case MenuKey.MEETING:
+//                stringBuilder.append("会议室申请");
+//                break;
             case   MenuKey.TEA:
                 stringBuilder.append("茶室申请");
                 break;

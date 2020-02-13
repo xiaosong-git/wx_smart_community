@@ -8,11 +8,11 @@ package com.company.project.weixin;
  **/
 public class MenuKey {
     //邀约
-    public static final String INVITE = "invite";
+    public static final String PASS = "pass";
     //访问
-    public static final String VISIT = "visit";
+    public static final String GUARDCARD = "guardCard";
     //共享会议室
-    public static final String MEETING = "btn_meeting";
+    public static final String FAMILY = "familyIndex";
     //共享茶室
     public static final String TEA = "btn_tea";
     //我的访客记录

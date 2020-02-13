@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>绑定手机</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <style type="text/css">
+        @import url("css/comon.css");
+        .blue-btn{
+            background-color: #5cadff;
+            color:#fff;
+        }
+        .orange-btn{
+            background-color: #ff6600;
+            color:#fff;
+        }
+    </style>
+
+</head>
+
+<body ontouchstart>
+<div class="page-hd">
+    <p><font size="3px">您还没有认证或加入任何家庭，暂时无法使用“我的家庭”功能，请先认证或加入家庭，以开启我的家庭功能使用</font> </p>
+</div>
+<div class="weui-cells weui-cells_form">
+
+    <div class="weui-btn-area">
+        <button class="weui-btn blue-btn" onclick="verify()">认证家庭</button>
+        <button class="weui-btn orange-btn" onclick="join()">加入家庭</button>
+    </div>
+
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
+<script src="js/myUtil.js"></script>
+<script>
+    //todo 判断登入,跳转授权界面
+    $(function (){
+        if (!isLogin()){
+            FastClick.attach(document.body);
+        }
+    });
+
+    function verify() {
+        window.location.href=verifyFamily1Url;
+    }
+    function join() {
+        window.location.href=joinFamily1Url;
+    }
+</script>
+</body>
+
+
+</html>

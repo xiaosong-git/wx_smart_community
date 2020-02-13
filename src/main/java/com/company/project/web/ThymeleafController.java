@@ -1,5 +1,7 @@
 package com.company.project.web;
 import com.company.project.annotation.AuthCheckAnnotation;
+import com.company.project.model.User;
+import com.company.project.service.UserService;
 import com.company.project.weixin.MenuKey;
 import com.company.project.weixin.WxController;
 import com.soecode.wxtools.api.IService;
@@ -33,8 +35,8 @@ import java.util.List;
 public class ThymeleafController {
     Logger logger = LoggerFactory.getLogger(WxController.class);
     private IService iService = new WxService();
-//    @Autowired
-//    private UserService userService;
+    @Autowired
+    private UserService userService;
 
         @RequestMapping(value = "/login",method= RequestMethod.GET)
         public String login(@RequestParam(name="code",required=false) String code,
@@ -47,11 +49,11 @@ public class ThymeleafController {
             wxUser.setLang("zh_CN");
             WxUserList.WxUser wxUser1 = iService.oauth2ToGetUserInfo(wxOAuth2AccessTokenResult.getAccess_token(), wxUser);
             model.addAttribute("openId",wxUser1.getOpenid());
-//            User user = userService.getUser(wxUser1.getOpenid());
-//            model.addAttribute("userId",user.getId());
-//            model.addAttribute("isAuth",user.getIsauth());
-//            model.addAttribute("myName",user.getRealname());
-//            model.addAttribute("phone",user.getPhone());
+            User user = userService.getUser(wxUser1.getOpenid());
+            model.addAttribute("userId",user.getId());
+            model.addAttribute("isAuth",user.getIsAuth());
+            model.addAttribute("myName",user.getName());
+            model.addAttribute("phone",user.getPhone());
             return "login";
         }
 //
@@ -86,48 +88,77 @@ public class ThymeleafController {
 //        }
 //        return "visit";
 //    }
-
-    @AuthCheckAnnotation(checkLogin = false, checkVerify = false)
     @RequestMapping(value = "/visit", method = RequestMethod.GET)
     public String visit() {
         return "visit";
         }
 
-    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
     @RequestMapping(value = "/invite",method= RequestMethod.GET)
     public String invite() {
         return "invite";
     }
 
-    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
     @RequestMapping(value = "/bindphone",method= RequestMethod.GET)
     public String bindphone() {
         return "bindphone";
     }
 
-    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
     @RequestMapping(value = "/firstrecord",method= RequestMethod.GET)
     public String firstrecord() {
         return "firstrecord";
     }
-    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
     @RequestMapping(value = "/secondrecord",method= RequestMethod.GET)
     public String secondrecord() {
         return "secondrecord";
     }
-    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
     @RequestMapping(value = "/recorddetail",method= RequestMethod.GET)
     public String recorddetail() {
         return "recorddetail";
     }
-//        @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
-//        @RequestMapping({"static/MP_verify_I4XWI1ZSKeFojwT6.txt"})
-//        private String returnConfigFile(HttpServletResponse response) {
-//           return "I4XWI1ZSKeFojwT6";
-//        }
+    @RequestMapping(value = "/familyIndex",method= RequestMethod.GET)
+    public String familyIndex() {
+        return "familyIndex";
+    }
+    @RequestMapping(value = "/verifyFamily1",method= RequestMethod.GET)
+    public String verifyFamily1() {
+        return "verifyFamily1";
+    }
+
+    @RequestMapping(value = "/verifyFamily2",method= RequestMethod.GET)
+    public String verifyFamily2() {
+        return "verifyFamily2";
+    }
+
+    @RequestMapping(value = "/joinFamily1",method= RequestMethod.GET)
+    public String joinFamily1() {
+        return "joinFamily1";
+    }
+    @RequestMapping(value = "/joinFamily2",method= RequestMethod.GET)
+    public String joinFamily2() {
+        return "joinFamily2";
+    }
 
 
-    @AuthCheckAnnotation(checkLogin = false, checkVerify = false)
+    @RequestMapping(value = "/familyInfor",method= RequestMethod.GET)
+    public String familyInfor() {
+        return "familyInfor";
+    }
+
+    @RequestMapping(value = "/addPerson",method= RequestMethod.GET)
+    public String addPerson() {
+        return "addPerson";
+    }
+
+    @RequestMapping(value = "/houseInfor",method= RequestMethod.GET)
+    public String houseInfor() {
+        return "houseInfor";
+    }
+
+    @RequestMapping(value = "/authIndex",method= RequestMethod.GET)
+    public String authIndex() {
+        return "authIndex";
+    }
+
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public String auth(Model model) {
         List<String> jsApiList = new ArrayList<>();
@@ -143,13 +174,7 @@ public class ThymeleafController {
             //把config返回到前端进行js调用即可。
             WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "auth", jsApiList);
             config.setAppid(WxConfig.getInstance().getAppId());
-//                 System.out.println(config.getAppid());
-//                 System.out.println(config.getSignature());
-//                 System.out.println(config.getTimestamp());
-//                 System.out.println(config.getUrl());
-//                 System.out.println(config.getJsApiList());
             System.out.println(config.getNoncestr());
-//                 System.out.println(config.toJson());
             model.addAttribute("config", config);
             logger.info("进入设置权限");
         } catch (WxErrorException e) {
