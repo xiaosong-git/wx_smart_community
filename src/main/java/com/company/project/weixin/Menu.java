@@ -27,11 +27,17 @@ public class Menu {
         //菜单列表
         List<WxMenu.WxMenuButton> btnList = new ArrayList<>();
         setBtn(btnList);
-        WxMenu.WxMenuButton btn2 = new WxMenu.WxMenuButton();
-        btn2.setName("实人认证");
-        btn2.setUrl(URL+"auth");
-        btn2.setType(WxConsts.MENU_BUTTON_VIEW);
-        btnList.add(btn2);
+        WxMenu.WxMenuButton btn1 = new WxMenu.WxMenuButton();
+        btn1.setName("通行验证");
+        btn1.setUrl(URL+"personInfor");
+        btn1.setType(WxConsts.MENU_BUTTON_VIEW);
+        btnList.add(btn1);
+//        WxMenu.WxMenuButton btn2 = new WxMenu.WxMenuButton();
+//
+//        btn2.setName("实人认证");
+//        btn2.setUrl(URL+"auth");
+//        btn2.setType(WxConsts.MENU_BUTTON_VIEW);
+//        btnList.add(btn2);
         menu.setButton(btnList);
 //        String url=null;
 //        try {

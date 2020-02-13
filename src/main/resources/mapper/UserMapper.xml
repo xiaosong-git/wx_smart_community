@@ -114,4 +114,11 @@ where f.user_id=#{userId}
 left join h_hourse h on h.id=f.house_id
 where h.id=#{hourseId}
     </select>
+  <select id="getUserByRecordId" parameterType="Long" resultType="map" >
+   select name, from h_record r left join h_user u
+            on r.user_id=u.id
+            where r.id=#{id}
+    </select>
+
+
 </mapper>

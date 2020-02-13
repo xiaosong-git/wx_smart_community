@@ -10,12 +10,14 @@ import java.util.Map;
 
 public interface UserMapper extends Mapper<User> {
 
+    User getUserByRecordId(Long id) ;
+
     List<Map<String,Object>> userHourseInfo(Long userId);
 
     @Select("select * from "+ TableList.USER +" where id=#{userId} limit 1")
     User getUserFromId(Object userId);
-    User getUserFromOpenId(String openId);
 
+    User getUserFromOpenId(String openId);
 
     List<User> findFamilyUser(Long hourseId);
 }

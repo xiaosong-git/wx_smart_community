@@ -3,7 +3,10 @@ package com.company.project.service.impl;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.dao.RecordMapper;
+import com.company.project.dao.UserMapper;
 import com.company.project.model.Record;
+import com.company.project.model.User;
+import com.company.project.service.ParamsService;
 import com.company.project.service.RecordService;
 import com.company.project.core.AbstractService;
 import com.company.project.util.Base64;
@@ -13,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,6 +30,11 @@ import java.io.UnsupportedEncodingException;
 public class RecordServiceImpl extends AbstractService<Record> implements RecordService {
     @Resource
     private RecordMapper hRecordMapper;
+    @Resource
+    private UserMapper userMapper;
+
+    @Resource
+    private ParamsService paramsService;
 
     @Override
     public Result createRecord(Long userId) throws UnsupportedEncodingException {
@@ -41,8 +53,8 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     }
 
     @Override
-    public Result scanning(Long userId, String idstr,String type) throws UnsupportedEncodingException {
-        String s =Base64.encode(idstr.getBytes("UTF-8"));
+    public Result scanning(Long operId, String idStr,String type) throws Exception {
+        String s = new String(Base64.decode(idStr),"UTF-8");
         Record record =new Record();
         record.setId(Long.valueOf(s));
         record.setType(type);
@@ -53,7 +65,18 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         record.setIsPass("0");
         int update = update(record);
         if (update>0){
-            return ResultGenerator.genSuccessResult("操作成功");
+            //查找用户信息
+
+            User user = userMapper.getUserByRecordId(record.getId());
+            List<Record> records=hRecordMapper.selectByUserId(user.getId());
+            String imageServerApiUrl = paramsService.findValueByName("imageServerApiUrl");
+
+            user.setImgUrl(imageServerApiUrl+user.getImgUrl());
+            Map<String,Object> map=new HashMap<>();
+            map.put("user",user);
+            map.put("records",records);
+
+            return ResultGenerator.genSuccessResult(map);
         }
         return ResultGenerator.genFailResult("操作失败");
     }

@@ -38,14 +38,14 @@ public class RecordController {
     }
     /**
      * 传入用户id生成通行记录二维码
-     * @param record 记录
+     * @param
      * @return 通行记录的id
      */
     @RequestMapping("/scanning")
     @ResponseBody
-    public Result scanning( @RequestParam Long opreId,@RequestParam String idstr,@RequestParam String type){
+    public Result scanning( @RequestParam Long opreId,@RequestParam String idStr,@RequestParam String type){
         try {
-            return recordService.scanning(opreId,idstr,type);
+            return recordService.scanning(opreId,idStr,type);
         }catch (Exception e){
             e.printStackTrace();
         }
