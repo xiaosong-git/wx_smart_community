@@ -9,21 +9,18 @@ if (IS_DEVELOP){//生产环境
     //重定向地址
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 } else{
-    appId="wx73d294462904125c";
-    uri="5cnfh6.natappfree.cc";
+    appId="wx2a1951f46acc4371";
+    uri="6muikj.natappfree.cc";
     url= "http://"+uri+"/";
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 }
 //朋悦比邻
 var suffix="community/";
-var visitUrl=url+suffix+"visit";
 var authUrl=url+suffix+"auth";
 var invitUrl=url+suffix+"invit";
 var secondRecordUrl=url+suffix+"secondrecord";
 var recordDetailUrl=url+suffix+"recorddetail";
 var bindphoneUrl=url+suffix+"bindphone";
-
-var authUrl=url+suffix+"auth2";
 var verifyFamily1Url=url+suffix+"verifyFamily1";
 var verifyFamily2Url=url+suffix+"verifyFamily2";
 var joinFamily1Url=url+suffix+"joinFamily1";

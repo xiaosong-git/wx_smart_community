@@ -33,13 +33,13 @@ public class Menu {
         btn2.setType(WxConsts.MENU_BUTTON_VIEW);
         btnList.add(btn2);
         menu.setButton(btnList);
-        String url=null;
-        try {
+//        String url=null;
+//        try {
             //通过公众号访问地址授权
-            url = iService.oauth2buildAuthorizationUrl(URL + "login", "snsapi_userinfo", "233");
-        }catch (WxErrorException w){
-            w.getStackTrace();
-        }
+//            url = iService.oauth2buildAuthorizationUrl(URL + "login", "snsapi_userinfo", "233");
+//        }catch (WxErrorException w){
+//            w.getStackTrace();
+//        }
         //调用API即可
         try {
             //参数1--menu  ，参数2--是否是个性化定制。如果是个性化菜单栏，需要设置MenuRule

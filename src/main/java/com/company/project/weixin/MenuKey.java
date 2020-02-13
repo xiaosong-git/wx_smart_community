@@ -12,7 +12,7 @@ public class MenuKey {
     //访问
     public static final String GUARDCARD = "guardCard";
     //共享会议室
-    public static final String FAMILY = "family";
+    public static final String FAMILY = "familyIndex";
     //共享茶室
     public static final String TEA = "btn_tea";
     //我的访客记录
@@ -21,7 +21,7 @@ public class MenuKey {
     public static final String SHARE_RECORD = "btn_share_record";
 
     //本地测试
-    public static final String URL = "http://hwj6jf.natappfree.cc/community/";
+    public static final String URL = "http://6muikj.natappfree.cc/community/";
     //智慧小区
 //    public static final String URL = "http://f.pyblkj.cn/community/";
 

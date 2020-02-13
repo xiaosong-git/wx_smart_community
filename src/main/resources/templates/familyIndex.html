@@ -40,6 +40,13 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
+    //todo 判断登入,跳转授权界面
+    $(function (){
+        if (!isLogin()){
+            FastClick.attach(document.body);
+        }
+    });
+
     function verify() {
         window.location.href=verifyFamily1Url;
     }

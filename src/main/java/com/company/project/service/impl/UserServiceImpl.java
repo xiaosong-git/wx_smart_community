@@ -155,6 +155,25 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return ResultGenerator.genSuccessResult(data);
     }
 
+    /**
+     * 通过openid获取用户信息
+     * @param openId
+     * @return
+     */
+    @Override
+    public User getUser(String openId){
+
+        User user = hUserMapper.getUserFromOpenId(openId);
+        if (user==null){
+            user=new User();
+            user.setCreateTime(DateUtil.getSystemTime());
+            user.setWxOpenId(openId);
+            int save = this.save(user);
+
+        }
+        return user;
+    }
+
     public  String auth(String idNO,String realName,String idHandleImgUrl) throws Exception {
         String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
         JSONObject itemJSONObj =new JSONObject();
