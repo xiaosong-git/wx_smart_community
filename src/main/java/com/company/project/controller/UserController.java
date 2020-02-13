@@ -51,37 +51,40 @@ public class UserController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+
     /**
      * 实名认证
-     * @param userId 用户Id
-     * @param idNO 身份证
-     * @param realName 真实姓名
+     *
+     * @param userId         用户Id
+     * @param idNO           身份证
+     * @param realName       真实姓名
      * @param idHandleImgUrl 远程图片地址
-     * @param localImgUrl 本地图片
+     * @param localImgUrl    本地图片
      * @return
      */
     @RequestMapping("/verify")
     @ResponseBody
-    public Result verify(@RequestParam long userId,@RequestParam String idNO,
-                         @RequestParam String realName,@RequestParam String idHandleImgUrl,@RequestParam String localImgUrl){
+    public Result verify(@RequestParam long userId, @RequestParam String idNO,
+                         @RequestParam String realName, @RequestParam String idHandleImgUrl, @RequestParam String localImgUrl) {
         try {
             return userService.verify(userId, idNO, realName, idHandleImgUrl, localImgUrl);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return ResultGenerator.genFailResult("系统异常","");
+        return ResultGenerator.genFailResult("系统异常", "");
     }
+
     /**
      * 实人认证图片上传
-     * @param userId 用户id
+     *
+     * @param userId  用户id
      * @param mediaId 微信临时图片
-     * @param type 状态
+     * @param type    状态
      * @return
      */
-    @AuthCheckAnnotation(checkLogin = false,checkVerify = false)
     @RequestMapping("/uploadVerify")
     @ResponseBody
-    public Result uploadPhoto(@RequestParam String userId, @RequestParam() String  mediaId,@RequestParam() String  type)   {
+    public Result uploadPhoto(@RequestParam String userId, @RequestParam() String mediaId, @RequestParam() String type) {
 
         try {
             System.out.println(userId);
@@ -92,7 +95,17 @@ public class UserController {
             e.printStackTrace();
         }
 
-        return ResultGenerator.genFailResult("系统异常","");
+        return ResultGenerator.genFailResult("系统异常", "");
     }
 
+    @RequestMapping("/userHourseInfo")
+    @ResponseBody
+    public Result uploadPhoto(@RequestParam Long userId) {
+        try {
+            return userService.userHourseInfo(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+    }
 }

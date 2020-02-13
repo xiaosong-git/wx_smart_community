@@ -49,9 +49,7 @@ public class ThymeleafController {
             wxUser.setLang("zh_CN");
             WxUserList.WxUser wxUser1 = iService.oauth2ToGetUserInfo(wxOAuth2AccessTokenResult.getAccess_token(), wxUser);
             User user = userService.getUser(wxUser1.getOpenid());
-
             model.addAttribute("user",user);
-
             return "login";
         }
 //
