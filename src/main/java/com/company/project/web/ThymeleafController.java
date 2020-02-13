@@ -54,15 +54,7 @@ public class ThymeleafController {
 
             return "login";
         }
-    @RequestMapping(value = "/visit", method = RequestMethod.GET)
-    public String visit() {
-        return "visit";
-        }
 
-    @RequestMapping(value = "/invite",method= RequestMethod.GET)
-    public String invite() {
-        return "invite";
-    }
 
     @RequestMapping(value = "/bindphone",method= RequestMethod.GET)
     public String bindphone() {
