@@ -126,7 +126,21 @@ public class ThymeleafController {
     }
 
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
-    public String personInfor() {
+    public String personInfor(Model model) {
+        List<String> jsApiList = new ArrayList<>();
+        //需要用到哪些JS SDK API 就设置哪些
+        jsApiList.add("scanQRCode");//扫一扫
+        logger.info("已进入scan界面");
+        try {
+            //把config返回到前端进行js调用即可。
+            WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "scan", jsApiList);
+            config.setAppid(WxConfig.getInstance().getAppId());
+            System.out.println(config.getNoncestr());
+            model.addAttribute("config", config);
+            logger.info("进入扫一扫");
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
         return "personInfor";
     }
     @RequestMapping(value = "/qrcode",method= RequestMethod.GET)
@@ -157,23 +171,6 @@ public class ThymeleafController {
 
         return "auth";
     }
-    @RequestMapping(value = "/scan", method = RequestMethod.GET)
-    public String scan(Model model) {
-        List<String> jsApiList = new ArrayList<>();
-        //需要用到哪些JS SDK API 就设置哪些
-        jsApiList.add("scanQRCode");//扫一扫
-        logger.info("已进入scan界面");
-        try {
-            //把config返回到前端进行js调用即可。
-            WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "scan", jsApiList);
-            config.setAppid(WxConfig.getInstance().getAppId());
-            System.out.println(config.getNoncestr());
-            model.addAttribute("config", config);
-            logger.info("进入扫一扫");
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-        }
-        return "scan";
-    }
+
 
 }
