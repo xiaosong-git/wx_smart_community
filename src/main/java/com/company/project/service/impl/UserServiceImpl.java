@@ -173,6 +173,12 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return user;
     }
 
+    @Override
+    public Result userHourseInfo(Long userId) {
+        List<Map<String,Object>> list = hUserMapper.userHourseInfo(userId);
+        return ResultGenerator.genSuccessResult(list);
+    }
+
     public  String auth(String idNO,String realName,String idHandleImgUrl) throws Exception {
         String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
         JSONObject itemJSONObj =new JSONObject();

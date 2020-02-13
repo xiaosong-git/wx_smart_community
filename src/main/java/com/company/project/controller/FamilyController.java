@@ -53,4 +53,15 @@ public class FamilyController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+    @PostMapping("/findFamilyUser")
+    public Result findFamilyUser(@RequestParam Long hourseId ) {
+        try {
+            return  familyService.findFamilyUser(hourseId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+
+    }
+
 }
