@@ -50,11 +50,13 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
+    var houseId;
     $(function () {
         var addr = window.localStorage.getItem("findHouseName");
+        houseId = window.localStorage.getItem("findHouseId");
         document.getElementById('addr').innerText=addr;
         getHouses();
-        console.log(getCookie("userId"))
+        console.log(getCookie(addr))
     })
     function getHouses() {
 
@@ -73,7 +75,7 @@
                         $("#householder").attr("idNo",list[i].idNo)
 
                         //是户主身份显示新增成员按钮
-                        if(getCookie("userId")==list[i].id){
+                        if("1"==list[i].id){
                             document.getElementById('btn').style.display='block';
                         }
                     }else{
@@ -93,6 +95,7 @@
         })
     }
     function editHouseholder() {
+
         var userName = escape(document.getElementById('householder').innerText);
         var userId = $("#householder").attr("userId")
         var idNo = $("#householder").attr("idNo")
@@ -112,7 +115,8 @@
         window.location.href=addPersonUrl+params;
     }
     function verify() {
-        window.location.href=addPersonUrl;
+        console.log(houseId)
+        window.location.href=addPersonUrl+"?houseId="+houseId;
     }
 </script>
 </body>

@@ -56,11 +56,12 @@
     $(function () {
         if(!isLogin()){
             FastClick.attach(document.body);
-            if(getCookie("family") != "T" && getCookie("hourse") != "T"){
-                window.location.href=familyIndexUrl;
+            if(getCookie("family") !="T" && getCookie("house") !="T"){
+                window.location.href=familyIndexUrl
             }else{
                 getArea();
             }
+
         }
     })
 
