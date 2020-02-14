@@ -37,8 +37,8 @@
             FastClick.attach(document.body);
             if(getCookie("isAuth")!=="T"){
                 window.location.href=authUrl;
-            }else if(getCookie("family"!=="T")){
-                window.location.href=familyInforUrl;
+            }else if(getCookie("family"!=="T") && getCookie("hourse"!=="T")){
+                window.location.href=familyIndexUrl;
             }else{
                 createQRcode();
             }
