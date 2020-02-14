@@ -1,5 +1,4 @@
 package com.company.project.web;
-import com.company.project.annotation.AuthCheckAnnotation;
 import com.company.project.model.User;
 import com.company.project.service.UserService;
 import com.company.project.weixin.MenuKey;

@@ -2,6 +2,7 @@ package com.company.project.util;
 
 import net.coobird.thumbnailator.Thumbnails;
 import sun.misc.BASE64Encoder;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;

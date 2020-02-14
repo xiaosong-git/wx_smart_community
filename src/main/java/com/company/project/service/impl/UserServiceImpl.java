@@ -2,6 +2,7 @@ package com.company.project.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.company.project.core.AbstractService;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.dao.HourseMapper;
@@ -12,7 +13,6 @@ import com.company.project.model.User;
 import com.company.project.model.UserAuth;
 import com.company.project.service.ParamsService;
 import com.company.project.service.UserService;
-import com.company.project.core.AbstractService;
 import com.company.project.util.*;
 import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxService;
@@ -225,7 +225,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         itemJSONObj.put("serialno", string);//流水号
         itemJSONObj.put("mac", createSign(string));//随机状态码   --验证签名  商户号+订单号+时间+产品编码+秘钥
         String key="2B207D1341706A7R4160724854065152";
-        String userName =DESUtil.encode(key,realName);
+        String userName = DESUtil.encode(key,realName);
         String certNo = DESUtil.encode(key,idNO);
         itemJSONObj.put("userName", userName);
 //        itemJSONObj.put("certNo", "350424199009031238");
@@ -272,16 +272,6 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 	public List<User> findList(String name, String phone) {
 		// TODO Auto-generated method stub
 		return hUserMapper.findList(name, phone);
-	}
-
-	@Override
-	public List<User> finUserList(String name, String idCard) {
-		// TODO Auto-generated method stub
-		 String workKey = "iB4drRzSrC";//生产的des密码
-         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
-		 idCard = DESUtil.encode(workKey,idCard);
-		 hUserMapper.findUserList(name, idCard);
-		return null;
 	}
     
     

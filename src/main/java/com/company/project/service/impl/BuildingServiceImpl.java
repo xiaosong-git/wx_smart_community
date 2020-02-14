@@ -1,15 +1,14 @@
 package com.company.project.service.impl;
 
+import com.company.project.core.AbstractService;
 import com.company.project.dao.BuildingMapper;
 import com.company.project.model.Building;
 import com.company.project.service.BuildingService;
-import com.company.project.core.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**

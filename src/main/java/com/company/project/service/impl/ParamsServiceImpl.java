@@ -1,9 +1,9 @@
 package com.company.project.service.impl;
 
+import com.company.project.core.AbstractService;
 import com.company.project.dao.ParamsMapper;
 import com.company.project.model.Params;
 import com.company.project.service.ParamsService;
-import com.company.project.core.AbstractService;
 import com.company.project.util.RedisUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -71,7 +71,7 @@ public class AreaController {
      * 查看用户在某一个小区下的所有楼层信息
      * */
     @PostMapping("/findByAreaId")
-    public Result findByAreaId(@RequestParam() Long userId,@RequestParam() Long areaId) {
+    public Result findByAreaId(@RequestParam() Long userId, @RequestParam() Long areaId) {
         List<Area> list = areaService.findByAreaId(userId, areaId);
         return ResultGenerator.genSuccessResult(list);
     }

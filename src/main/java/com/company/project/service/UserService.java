@@ -1,9 +1,10 @@
 package com.company.project.service;
-import java.util.List;
 
 import com.company.project.core.Result;
-import com.company.project.model.User;
 import com.company.project.core.Service;
+import com.company.project.model.User;
+
+import java.util.List;
 
 
 /**
@@ -20,6 +21,4 @@ public interface UserService extends Service<User> {
     Result userHourseInfo(Long userId);
     
     List<User> findList(String name, String phone);
-    
-    List<User> finUserList(String name,String idCard);
 }

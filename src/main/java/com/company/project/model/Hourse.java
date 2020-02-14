@@ -57,9 +57,6 @@ public class Hourse {
     private String ext2;
 
     private String ext3;
-    
-    @Transient
-    private Family family;
 
     /**
      * @return id
@@ -249,14 +246,6 @@ public class Hourse {
 
 	public void setIsAuth(String isAuth) {
 		this.isAuth = isAuth;
-	}
-
-	public Family getFamily() {
-		return family;
-	}
-
-	public void setFamily(Family family) {
-		this.family = family;
 	}
     
     

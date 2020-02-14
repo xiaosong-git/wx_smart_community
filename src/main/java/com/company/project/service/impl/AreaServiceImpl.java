@@ -1,15 +1,14 @@
 package com.company.project.service.impl;
 
+import com.company.project.core.AbstractService;
 import com.company.project.dao.AreaMapper;
 import com.company.project.model.Area;
 import com.company.project.service.AreaService;
-import com.company.project.core.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**

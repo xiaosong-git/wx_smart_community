@@ -1,5 +1,4 @@
 package com.company.project.controller;
-import com.company.project.annotation.AuthCheckAnnotation;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.model.User;

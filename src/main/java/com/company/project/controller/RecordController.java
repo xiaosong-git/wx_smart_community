@@ -2,7 +2,6 @@ package com.company.project.controller;
 
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
-import com.company.project.model.Record;
 import com.company.project.service.RecordService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +42,7 @@ public class RecordController {
      */
     @RequestMapping("/scanning")
     @ResponseBody
-    public Result scanning( @RequestParam Long opreId,@RequestParam String idStr,@RequestParam String type){
+    public Result scanning(@RequestParam Long opreId, @RequestParam String idStr, @RequestParam String type){
         try {
             return recordService.scanning(opreId,idStr,type);
         }catch (Exception e){
@@ -58,7 +57,7 @@ public class RecordController {
      */
     @RequestMapping("/inOut")
     @ResponseBody
-    public Result inOut( @RequestParam Long opreId,@RequestParam String idStr,@RequestParam String type){
+    public Result inOut(@RequestParam Long opreId, @RequestParam String idStr, @RequestParam String type){
         try {
             return recordService.inOut(opreId,idStr,type);
         }catch (Exception e){

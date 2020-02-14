@@ -1,6 +1,5 @@
 package com.company.project.weixin.handler;
 
-import com.company.project.weixin.MenuKey;
 import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxMessageHandler;
 import com.soecode.wxtools.bean.WxXmlMessage;

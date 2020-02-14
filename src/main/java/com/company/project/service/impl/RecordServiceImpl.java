@@ -1,5 +1,6 @@
 package com.company.project.service.impl;
 
+import com.company.project.core.AbstractService;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.dao.AreaMapper;
@@ -10,7 +11,6 @@ import com.company.project.model.Record;
 import com.company.project.model.User;
 import com.company.project.service.ParamsService;
 import com.company.project.service.RecordService;
-import com.company.project.core.AbstractService;
 import com.company.project.util.Base64;
 import com.company.project.util.DateUtil;
 import org.springframework.stereotype.Service;
@@ -60,7 +60,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     }
 
     @Override
-    public Result scanning(Long operId, String idStr,String type) throws Exception {
+    public Result scanning(Long operId, String idStr, String type) throws Exception {
         String recordId = new String(Base64.decode(idStr),"UTF-8");
         //todo 判断是否为该小区用户
          //

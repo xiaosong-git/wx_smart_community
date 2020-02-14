@@ -14,7 +14,10 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class YunPainSmsUtil {
@@ -282,7 +285,7 @@ public class YunPainSmsUtil {
      public static void main(String[] args) throws Exception{
 
 //         String sid =Base64.encode((String.valueOf(150)).getBytes("UTF-8"));
-         String sendMsg =	YunPainSmsUtil.sendSmsCode(Constant.URL+50,"18150797748",YunPainSmsUtil.MSG_TYPE_VISITORBY_QRCODE,null,null,
+         String sendMsg =	YunPainSmsUtil.sendSmsCode(Constant.URL+50,"18150797748", YunPainSmsUtil.MSG_TYPE_VISITORBY_QRCODE,null,null,
                  "审核已通过","fafa","2019-09-20 10:19",null);
 //         sendSmsCode("c", "18150797748", 6, DateUtil.getCurDate(), "4", "hoho", "fafa",DateUtil.getCurTime(), "guigui");
 //         sendSmsCode("c", "18150797748", 2, "1", "4", null, null,DateUtil.getCurTime(), null);

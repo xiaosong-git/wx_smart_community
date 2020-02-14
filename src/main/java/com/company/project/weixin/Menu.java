@@ -8,10 +8,9 @@ import com.soecode.wxtools.bean.result.WxUserTagResult;
 import com.soecode.wxtools.exception.WxErrorException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.company.project.weixin.MenuKey.*;
+import static com.company.project.weixin.MenuKey.URL;
 
 /**
  * @program: weixin

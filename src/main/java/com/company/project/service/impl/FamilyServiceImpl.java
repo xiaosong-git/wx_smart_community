@@ -1,5 +1,6 @@
 package com.company.project.service.impl;
 
+import com.company.project.core.AbstractService;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.dao.FamilyMapper;
@@ -7,7 +8,6 @@ import com.company.project.dao.UserMapper;
 import com.company.project.model.Family;
 import com.company.project.model.User;
 import com.company.project.service.FamilyService;
-import com.company.project.core.AbstractService;
 import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,7 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
     private UserMapper userMapper;
     @Resource
     private UserService userService;
+
     @Override
     public Result findFamilyUser(Long hourseId) {
         List<User> familyUser = userMapper.findFamilyUser(hourseId);
@@ -74,12 +75,4 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
 
         return ResultGenerator.genFailResult("操作失败");
     }
-
-	@Override
-	public List<Family> findByUser(String name, String idCard) {
-		// TODO Auto-generated method stub
-		return hFamilyMapper.findByUser(name, idCard);
-	}
-
-
 }

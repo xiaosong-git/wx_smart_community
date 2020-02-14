@@ -3,7 +3,6 @@ package com.company.project.weixin;
 import com.company.project.annotation.AuthCheckAnnotation;
 import com.company.project.weixin.handler.MyHandler;
 import com.company.project.weixin.handler.ShareRoomHandler;
-import com.company.project.weixin.handler.VisitHandler;
 import com.company.project.weixin.handler.WhoAmIHandler;
 import com.company.project.weixin.matcher.WhoAmIMatcher;
 import com.company.project.weixin.model.WxTemplateData;

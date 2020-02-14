@@ -1,8 +1,5 @@
 package com.company.project.util;
 
-import com.alibaba.fastjson.JSONObject;
-import com.company.project.core.ResultGenerator;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;

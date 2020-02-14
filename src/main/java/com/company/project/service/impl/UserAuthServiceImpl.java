@@ -1,9 +1,9 @@
 package com.company.project.service.impl;
 
+import com.company.project.core.AbstractService;
 import com.company.project.dao.UserAuthMapper;
 import com.company.project.model.UserAuth;
 import com.company.project.service.UserAuthService;
-import com.company.project.core.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
