@@ -21,4 +21,6 @@ public interface UserService extends Service<User> {
     Result userHourseInfo(Long userId);
     
     List<User> findList(String name, String phone);
+
+    List<User> finUserList(String name, String idCard);
 }

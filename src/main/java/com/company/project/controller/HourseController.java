@@ -2,8 +2,10 @@ package com.company.project.controller;
 
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.model.Family;
 import com.company.project.model.Hourse;
 import com.company.project.model.User;
+import com.company.project.service.FamilyService;
 import com.company.project.service.HourseService;
 import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
@@ -29,7 +31,8 @@ public class HourseController {
     private HourseService hourseService;
     @Resource
     private UserService userservice;
-
+    @Resource
+    private FamilyService familyservice;
     @PostMapping("/add")
     public Result add(Hourse hourse) {
         hourseService.save(hourse);
@@ -66,7 +69,7 @@ public class HourseController {
     public Result identityHouse( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
     		@RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
     	Map<String, String> map = new HashMap<String, String>();
-        List<Hourse> list = hourseService.findHouse(name, phone, idCard);
+        List<Hourse> list = hourseService.findHouse(name, phone);
         List<User> userList = userservice.findList(name, phone);
         boolean flag = false;
         String isAuth = "F";
@@ -95,6 +98,39 @@ public class HourseController {
     		 map.put("userId", list.get(0).getId().toString());
         	return ResultGenerator.genSuccessResult(map);
         }
+        return ResultGenerator.genFailResult("认证失败");
+    }
+    @PostMapping("/authJoinFamily")
+    public Result authJoinFamily( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
+                                  @RequestParam() String name, @RequestParam() String idCard) {
+        List<Hourse> list = hourseService.authFamily(name, idCard);
+        List<User> userList = userservice.finUserList(name, idCard);
+        List<Family> familyList = familyservice.findByUser(name, idCard);
+        Map<String, String> map = new HashMap<String, String>();
+        boolean flag = false;
+        String isJoin = "F";
+        if(list!=null) {
+            for(Hourse h:list) {
+                if(h.getBuildingId()==houseaddr&&h.getNum().equals(paltaddr)) {
+                    Family family = new Family();
+                    family.setIsJoin("T");
+                    family.setId(h.getFamily().getId());
+                    familyservice.update(family);
+                    isJoin = "T";
+                    flag = true;
+                }
+            }
+        }
+        if(flag == true) {
+            User user = new User();
+            user.setWxOpenId(openId);
+            user.setId(userList.get(0).getId());
+            userservice.update(user);
+            map.put("isJoin", isJoin);
+            map.put("userId", list.get(0).getId().toString());
+            return ResultGenerator.genSuccessResult(map);
+        }
+
         return ResultGenerator.genFailResult("认证失败");
     }
 }

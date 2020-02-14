@@ -148,8 +148,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public Result uploadPhoto(String userId, String mediaId, String type) {
         String time = DateUtil.getSystemTimeFourteen();
         //临时图片地址
-        String url="D:\\test\\community\\tempotos";
-//        String url="/project/weixin/community/tempotos";
+//        String url="D:\\test\\community\\tempotos";
+        String url="/project/weixin/community/tempotos";
         File file=new File(url);
         File newFile = null;
         try {
@@ -273,6 +273,15 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 		// TODO Auto-generated method stub
 		return hUserMapper.findList(name, phone);
 	}
+    @Override
+    public List<User> finUserList(String name, String idCard) {
+        // TODO Auto-generated method stub
+        String workKey = "iB4drRzSrC";//生产的des密码
+        // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+        idCard = DESUtil.encode(workKey,idCard);
+        hUserMapper.findUserList(name, idCard);
+        return null;
+    }
     
     
 }

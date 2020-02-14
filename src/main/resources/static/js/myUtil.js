@@ -22,6 +22,7 @@ var invitUrl=url+suffix+"invit";
 var secondRecordUrl=url+suffix+"secondrecord";
 
 var authUrl=url+suffix+"auth";
+var qrcodeUrl=url+suffix+"qrcode";
 var verifyFamily1Url=url+suffix+"verifyFamily1";
 var verifyFamily2Url=url+suffix+"verifyFamily2";
 var joinFamily1Url=url+suffix+"joinFamily1";

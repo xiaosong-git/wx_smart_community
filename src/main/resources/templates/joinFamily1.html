@@ -139,6 +139,8 @@
         });
     });
    function next() {
+       var addr =  $("#addr").attr("data-code");
+       var communityaddr = $("#communityaddr option:selected").val();
 	   var houseaddr = $("#houseaddr option:selected").val();
 	   var paltaddr = $("#paltaddr").val();
        window.location.href="joinFamily2?&houseaddr="+houseaddr+"&paltaddr="+paltaddr;

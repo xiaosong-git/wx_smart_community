@@ -99,4 +99,9 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
         hFamilyMapper.deleteHourseUser(hourseId,userId);
         return ResultGenerator.genSuccessResult();
     }
+    @Override
+    public List<Family> findByUser(String name, String idCard) {
+        // TODO Auto-generated method stub
+        return hFamilyMapper.findByUser(name, idCard);
+    }
 }
