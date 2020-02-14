@@ -64,7 +64,7 @@
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/family/findFamilyUser",
-            data: { hourseId: "1" },
+            data: { hourseId: houseId },
             success: function (result) {
                 console.log(result)
                 var list = result.data

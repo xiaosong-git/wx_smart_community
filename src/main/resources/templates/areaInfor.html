@@ -43,7 +43,6 @@
         <div class="weui-cell__ft"></div>
     </div>
 </div>-->
-
 <br>
 <br>
 <button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 新增更多家庭信息</button>
@@ -61,17 +60,15 @@
             }else{
                 getArea();
             }
-
         }
     })
-
     function getArea() {
 
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/area/getAreaById",
-            data: { userId: "1" },
+            data: { userId: getCookie("userId") },
             success: function (result) {
                 console.log(result)
                 var list = result.data;

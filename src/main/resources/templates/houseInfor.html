@@ -62,14 +62,13 @@
     })
 
     function getHouses(areaId) {
-
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/area/findByAreaId",
             data: {
-                userId: "1",
-                areaId: "1"
+                userId: getCookie("userId"),
+                areaId: areaId
             },
             success: function (result) {
                 console.log(result)
