@@ -133,7 +133,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         //发送给微信贴上标签
         List<String> openIds=new LinkedList<>();
         openIds.add(wxOpenId);
-        iService.batchMovingUserToNewTag(openIds,100);
+        iService.batchMovingUserToNewTag(openIds,100);//100 物业管理标签号
         //修改绑定用户
         user.setWxOpenId("");
         manage.setWxOpenId(wxOpenId);
