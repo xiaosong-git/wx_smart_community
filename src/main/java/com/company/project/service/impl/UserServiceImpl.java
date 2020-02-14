@@ -55,11 +55,11 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     private IService iService = new WxService();
 
     @Override
-    public Result verify(Long userId, String idNO, String name, String idHandleImgUrl,String localImgUrl) {
+    public Result verify(long userId, String idNO, String name, String idHandleImgUrl,String localImgUrl) {
         try {
-            if (isVerify(userId)) {
-                return ResultGenerator.genFailResult( "已经实名认证过","fail");
-            }
+//            if (isVerify(userId)) {
+//                return ResultGenerator.genFailResult( "已经实名认证过","fail");
+//            }
             String realName = URLDecoder.decode(name, "UTF-8");
             if(idNO == null){
                 return ResultGenerator.genFailResult( "身份证不能为空!","fail");
@@ -98,7 +98,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             User verifyUser = bindManage(userId, idNoMW);
 //            User verifyUser = new User();
             verifyUser.setAuthDate( authDate);
-            verifyUser.setId(userId);
+//            verifyUser.setId(userId);
             verifyUser.setImgUrl( idHandleImgUrl);
             verifyUser.setName(realName);
             verifyUser.setIsAuth("T");//F:未实名 T：实名 N:正在审核中 E：审核失败
@@ -108,6 +108,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
                 //redis修改
                 Map<String, Object> resultMap = new HashMap<String, Object>();
                 resultMap.put("isAuth", "T");
+                resultMap.put("userId",verifyUser.getId());
                 return ResultGenerator.genSuccessResult(resultMap);
             }
             return ResultGenerator.genFailResult( "实名认证失败","fail");
@@ -126,7 +127,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         String wxOpenId = user.getWxOpenId();
         //是否管理员
         User manage=hUserMapper.findByIdNo(idNoMW);
-        if (user==null){
+        if (manage==null){
             return user;
         }
 

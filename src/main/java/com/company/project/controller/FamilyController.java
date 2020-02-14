@@ -21,42 +21,21 @@ import java.util.List;
 public class FamilyController {
     @Resource
     private FamilyService familyService;
-
-    @PostMapping("/add")
-    public Result add(Family family) {
-        familyService.save(family);
-        return ResultGenerator.genSuccessResult();
-    }
-
-    @PostMapping("/delete")
-    public Result delete(@RequestParam Integer id) {
-        familyService.deleteById(id);
-        return ResultGenerator.genSuccessResult();
-    }
-
-    @PostMapping("/update")
-    public Result update(Family family) {
-        familyService.update(family);
-        return ResultGenerator.genSuccessResult();
-    }
-
-    @PostMapping("/detail")
-    public Result detail(@RequestParam Integer id) {
-        Family family = familyService.findById(id);
-        return ResultGenerator.genSuccessResult(family);
-    }
-
-    @PostMapping("/list")
-    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
-        List<Family> list = familyService.findAll();
-        PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
-    }
     @PostMapping("/findFamilyUser")
     public Result findFamilyUser(@RequestParam Long hourseId ) {
         try {
             return  familyService.findFamilyUser(hourseId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+
+    }
+
+    @PostMapping("/addFamilyNameIdNo")
+    public Result addFamilyNameIdNo(@RequestParam Long hourseId,@RequestParam String userName,@RequestParam String idNo,Long userId ) {
+        try {
+            return  familyService.addFamilyNameIdNo(hourseId,userName,idNo,userId);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,4 +11,7 @@ public interface FamilyService extends Service<Family> {
 
 
     Result findFamilyUser(Long hourseId);
+
+
+    Result addFamilyNameIdNo(Long hourseId, String userName, String idNo, Long userId);
 }

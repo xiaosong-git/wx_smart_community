@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>身份认证</title>
     <meta content="width=device-width,initial-scale=1,user-scalable=0" name="viewport">
     <link href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css" rel="stylesheet">
@@ -16,7 +16,7 @@
 </head>
 <body ontouchstart>
 <div class="weui-cells weui-cells_form">
-
+    <div class="weui-cells__title">认证身份信息与小区信息后才能使用二维码哦！</div>
     <div class="weui-cell">
         <div class="weui-uploader" style="margin-right: auto; margin-left:auto;">
             <div class="weui-uploader__bd" >
@@ -133,8 +133,7 @@
                             //请求地址
                             url : "user/uploadVerify",
                             //数据，json字符串
-                            data : {userId:
-                                    1,
+                            data : {userId:getCookie("userId"),
                                 // token:getCookie(("token")),
                                 mediaId:serverId,
                                 type:3
@@ -150,8 +149,8 @@
                                     // $("#uploaderFiles").val
                                     $("#photoDiv").val(result.data.img);
                                     $("#uploaderFiles").val(result.data.imageFileName);
-                                    alert($("#photoDiv").val());
-                                    alert($("#uploaderFiles").val());
+                                    // alert($("#photoDiv").val());
+                                    // alert($("#uploaderFiles").val());
                                     $("#photoDiv").hide();
 
                                     $("#uploaderFiles").append('<li onclick="removeimg(this)" class="weui-uploader__file" style="background-image:url('+localIds+')"><input value=""  type="hidden"  name="file" /></li>');
@@ -185,7 +184,7 @@
                 //请求地址
                 url : "user/verify",
                 //数据，json字符串
-                data : {userId:1,
+                data : {userId:getCookie("userId"),
                     // token:getCookie(("token")),
                     idHandleImgUrl: $("#uploaderFiles").val(),
                     idNO:$("#idNo").val(),
@@ -201,7 +200,15 @@
                     }else {
                         $.hideLoading();
                         $.toptip("认证成功！",'success');
-                        window.history.go(-1);
+
+                        var data = result.data;
+                        setCookie("userId",data.userId);
+                        setCookie("isAuth",data.isAuth);
+                        // alert(data.userId);
+                        // alert(getCookie("userId"));
+                        // alert(getCookie("isAuth"));
+                        // window.history.back();
+                        quit();
                     }
                 },
                 error:function (e) {

@@ -19,9 +19,10 @@
 
 <div style="margin-top: 35%;" align="center">
     <div id="qrcodeTable"></div>
-    <img  style="height: 60vw; width:60vw"  id='imgOne' align="center"/>
+    <img style="height: 60vw; width:60vw" id='imgOne' align="center"/>
 </div>
 
+<!--<button class="weui-btn blue-btn" onclick="change()">认证</button>-->
 
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
@@ -33,30 +34,37 @@
 <script src="js/qrcode.js"></script>
 <script>
     $(function () {
-        if(!isLogin()){
+        if (!isLogin()) {
             FastClick.attach(document.body);
-            if(getCookie("isAuth")!=="T"){
-                window.location.href=authUrl;
-            }else if(getCookie("family"!=="T")){
-                window.location.href=familyInforUrl;
-            }else{
+            if (getCookie("isAuth") !== "T") {
+                window.location.href = authUrl;
+            } else if (getCookie("family" !== "T")) {
+                window.location.href = familyInforUrl;
+            } else {
                 createQRcode();
             }
 
         }
     })
-
+    // window.onpageshow = function (event) {
+    //     if (event.persisted) {
+    //         window.location.reload();
+    //     }
+    // };
+    function  change(){
+        setCookie("isAuth","F");
+    }
     function createQRcode() {
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/record/createRecord",
-            data: { userId: getCookie("userId") },
+            data: {userId: getCookie("userId")},
             success: function (result) {
                 console.log(result);
-                if(result.code == 200){
-                    var id= toUtf8(result.data);
-                    var qrcode =jQuery("#qrcodeTable").qrcode({
+                if (result.code == 200) {
+                    var id = toUtf8(result.data);
+                    var qrcode = jQuery("#qrcodeTable").qrcode({
 
                         render: "canvas",                <!--二维码生成方式 -->
                         text: id,            <!-- 二维码内容  -->
@@ -66,27 +74,28 @@
                     console.log(id);
                     var canvas = qrcode.find('canvas').get(0);
                     $('#imgOne').attr('src', canvas.toDataURL("image/png"));
-                }else{
+                } else {
                     $.toptip(result.data.message);
                 }
             }
         })
     }
+
     function toUtf8(str) {
         var out, i, len, c;
         out = "";
         len = str.length;
-        for(i = 0; i < len; i++) {
+        for (i = 0; i < len; i++) {
             c = str.charCodeAt(i);
             if ((c >= 0x0001) && (c <= 0x007F)) {
                 out += str.charAt(i);
             } else if (c > 0x07FF) {
                 out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
-                out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
-                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
             } else {
-                out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
-                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
             }
         }
         return out;
