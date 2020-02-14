@@ -43,7 +43,7 @@
 <div id="familyPerson"></div>
 <br>
 <br>
-<button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 新增家庭成员</button>
+<button class="weui-btn blue-btn" onclick="verify()" style="display: none" id="btn"><font size="5">⊕</font> 新增家庭成员</button>
 </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
@@ -54,6 +54,7 @@
         var addr = window.localStorage.getItem("findHouseName");
         document.getElementById('addr').innerText=addr;
         getHouses();
+        console.log(getCookie("userId"))
     })
     function getHouses() {
 
@@ -70,6 +71,11 @@
                         document.getElementById('householder').innerText = list[i].name
                         $("#householder").attr("userId",list[i].id)
                         $("#householder").attr("idNo",list[i].idNo)
+
+                        //是户主身份显示新增成员按钮
+                        if(getCookie("userId")==list[i].id){
+                            document.getElementById('btn').style.display='block';
+                        }
                     }else{
                         $("#familyPerson").append("<div class=\"weui-cells weui-cells_form\">\n" +
                             "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"editPerson('"+encodeURI(JSON.stringify(list[i]))+"')\">\n" +

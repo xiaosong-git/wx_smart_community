@@ -27,7 +27,8 @@
 <body ontouchstart>
 <div class="page-hd" align="center">
     <br>
-    <h3 class="page-hd-title" id="areaName">
+    <h3 class="page-hd-title">
+       您共注册<font id="houseNum">0</font>个小区
     </h3>
     <p class="page-hd-desc"></p>
 </div>
@@ -45,7 +46,7 @@
 
 <br>
 <br>
-<button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 验证更多住房</button>
+<button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 验证更多小区</button>
 </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
@@ -53,30 +54,31 @@
 <script src="js/myUtil.js"></script>
 <script>
     $(function () {
-
-        var address = unescape(getQueryString('address');
-        console.log(address)
-       // getHouses();
-
+        if(!isLogin()){
+            FastClick.attach(document.body);
+            getArea();
+        }
+        //getArea();
     })
 
-    function getHouses() {
+    function getArea() {
 
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
-            url: "/community/area/findByAreaId  ",
+            url: "/community/area/getAreaById",
             data: { userId: "1" },
             success: function (result) {
-               /* var list = result.data;
+                console.log(result)
+                var list = result.data;
                 document.getElementById('houseNum').innerText=list.length;
                 console.log(list)
                 for(var i in list){
-                    var addr = list[i].buildingName+list[i].num;
-                    console.log(list[i].hourseId)
+                    var addr = list[i].areaName;
+
                     $("#houses").append("<div class=\"weui-cells weui-cells_form\">\n" +
                         "\n" +
-                        "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"toFamily('"+list[i].hourseId+"','"+addr+"')\">\n" +
+                        "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"toHouse('"+list[i].id+"','"+addr+"')\">\n" +
                         "        <div class=\"weui-cell__hd\"><font color=\"blue\"></font></div>\n" +
                         "        <div class=\"weui-cell__bd\" align=\"center\">\n" +
                         "            <p>"+addr+"</p>\n" +
@@ -84,21 +86,19 @@
                         "        <div class=\"weui-cell__ft\"></div>\n" +
                         "    </div>\n" +
                         "</div>")
-                }*/
+                }
             }
         })
     }
 
-    function toFamily(houseId,address) {
-        window.localStorage.setItem("findHouseId", houseId);
-        window.localStorage.setItem("findHouseName", address);
-        window.location.href=familyInforUrl;
+    function toHouse(areaId,address) {
+
+        var index = "?areaId="+areaId+"&address="+escape(address);
+        window.location.href=houseInforUrl+index;
     }
-    function getQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null) return unescape(r[2]);
-        return null;
+
+    function verify() {
+        
     }
 </script>
 </body>
