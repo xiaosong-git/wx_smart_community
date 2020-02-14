@@ -128,7 +128,10 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
 
     public boolean selectRecord(Long userId) {
         //目前还未考虑多小区的问题
+
+        //查询用户是否有小区
         int times = hRecordMapper.selectTimes(userId);
+
         if (times>0){
             return true;
         }else{

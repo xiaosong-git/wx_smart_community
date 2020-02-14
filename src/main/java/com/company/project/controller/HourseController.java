@@ -64,39 +64,39 @@ public class HourseController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
-    
+
     @PostMapping("/identityHouse")
     public Result identityHouse( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
-    		@RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
-    	Map<String, String> map = new HashMap<String, String>();
+                                 @RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
+        Map<String, String> map = new HashMap<String, String>();
         List<Hourse> list = hourseService.findHouse(name, phone);
         List<User> userList = userservice.findList(name, phone);
         boolean flag = false;
         String isAuth = "F";
         if(list!=null) {
-        	for(Hourse h:list) {
-        		if(h.getBuildingId()==houseaddr&&h.getNum().equals(paltaddr)) {
-        			Hourse hourse = new Hourse();
-        			hourse.setIsAuth("T");
-        			hourse.setId(h.getId());
-        			hourseService.update(hourse);
-        			isAuth = "T";
-        			flag = true;
-        		}
-        	}
+            for(Hourse h:list) {
+                if(h.getBuildingId()==houseaddr&&h.getNum().equals(paltaddr)) {
+                    Hourse hourse = new Hourse();
+                    hourse.setIsAuth("T");
+                    hourse.setId(h.getId());
+                    hourseService.update(hourse);
+                    isAuth = "T";
+                    flag = true;
+                }
+            }
         }
         if(flag==true) {
-        	 String workKey = "iB4drRzSrC";//生产的des密码
-             // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
-    		 idCard = DESUtil.encode(workKey,idCard);
-    		 User user = new User();
-    		 user.setIdNo(idCard);
-    		 user.setWxOpenId(openId);
-    		 user.setId(list.get(0).getId());
-    		 userservice.update(user);
-    		 map.put("isAuth", isAuth);
-    		 map.put("userId", list.get(0).getId().toString());
-        	return ResultGenerator.genSuccessResult(map);
+            String workKey = "iB4drRzSrC";//生产的des密码
+            // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+            idCard = DESUtil.encode(workKey,idCard);
+            User user = new User();
+            user.setIdNo(idCard);
+            user.setWxOpenId(openId);
+            user.setId(list.get(0).getId());
+            userservice.update(user);
+            map.put("isAuth", isAuth);
+            map.put("userId", userList.get(0).getId().toString());
+            return ResultGenerator.genSuccessResult(map);
         }
         return ResultGenerator.genFailResult("认证失败");
     }

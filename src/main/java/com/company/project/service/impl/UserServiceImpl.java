@@ -271,6 +271,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 	@Override
 	public List<User> findList(String name, String phone) {
 		// TODO Auto-generated method stub
+
 		return hUserMapper.findList(name, phone);
 	}
     @Override
@@ -279,8 +280,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         String workKey = "iB4drRzSrC";//生产的des密码
         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
         idCard = DESUtil.encode(workKey,idCard);
-        hUserMapper.findUserList(name, idCard);
-        return null;
+        List<User> list = hUserMapper.findUserList(name, idCard);
+        return list;
     }
     
     

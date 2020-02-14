@@ -55,7 +55,7 @@
     $(function () {
         if(!isLogin()){
             FastClick.attach(document.body);
-            if(getCookie("family") !="T" && getCookie("house") !="T"){
+            if(getCookie("family") !=="T" && getCookie("house") !=="T"){
                 window.location.href=familyIndexUrl
             }else{
                 getArea();

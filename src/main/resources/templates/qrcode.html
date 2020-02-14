@@ -21,6 +21,7 @@
     <div id="qrcodeTable"></div>
     <img style="height: 60vw; width:60vw" id='imgOne' align="center"/>
 </div>
+<!--<button class="weui-btn blue-btn" onclick="clear()">清除缓存</button>-->
 
 <!--<button class="weui-btn blue-btn" onclick="change()">认证</button>-->
 
@@ -38,20 +39,24 @@
             FastClick.attach(document.body);
             if (getCookie("isAuth") !== "T") {
                 window.location.href = authUrl;
-            } else if (getCookie("family" !== "T")) {
+            } else if (getCookie("family") !== "T") {
                 window.location.href = familyInforUrl;
             } else {
                 createQRcode();
             }
-
+            // alert(getCookie("family") !== "T");
+            // alert(getCookie("family"));
         }
     })
+
     // window.onpageshow = function (event) {
     //     if (event.persisted) {
     //         window.location.reload();
     //     }
     // };
     function  change(){
+
+
         setCookie("isAuth","F");
     }
     function createQRcode() {

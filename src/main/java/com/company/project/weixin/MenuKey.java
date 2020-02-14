@@ -12,7 +12,7 @@ public class MenuKey {
     //门禁卡
     public static final String QRCODE = "qrcode";
     //我的家庭
-    public static final String FAMILY = "familyIndex";
+    public static final String FAMILY = "areaInfor";
     //共享茶室
     public static final String TEA = "btn_tea";
     //我的访客记录
