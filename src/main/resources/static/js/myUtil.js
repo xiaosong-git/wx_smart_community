@@ -1,10 +1,10 @@
-var IS_DEVELOP=false;//是否生产环境
+var IS_DEVELOP=true;//是否生产环境
 var uri;
 var url;
 var loginUrl;
-var appId="wx73d294462904125c";
+var appId="wx960de9db7158a03b";
 if (IS_DEVELOP){//生产环境
-    uri="5cnfh6.natappfree.cc";
+    uri="f.pyblkj.cn";
     url= "http://"+uri+"/";
     //重定向地址
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
