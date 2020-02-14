@@ -8,6 +8,7 @@ import com.company.project.model.Family;
 import com.company.project.model.User;
 import com.company.project.service.FamilyService;
 import com.company.project.core.AbstractService;
+import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,8 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
     private FamilyMapper hFamilyMapper;
     @Resource
     private UserMapper userMapper;
-
+    @Resource
+    private UserService userService;
     @Override
     public Result findFamilyUser(Long hourseId) {
         List<User> familyUser = userMapper.findFamilyUser(hourseId);

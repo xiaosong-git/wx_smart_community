@@ -1,11 +1,10 @@
 package com.company.project.service;
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 import com.company.project.core.Result;
-import com.company.project.model.Family;
 import com.company.project.core.Service;
+import com.company.project.model.Family;
+
+import java.util.List;
 
 
 /**
@@ -15,6 +14,8 @@ public interface FamilyService extends Service<Family> {
 
 
     Result findFamilyUser(Long hourseId);
+
+    Result addFamilyNameIdNo(Long hourseId, String userName, String idNo, Long userId);
 
     List<Family> findByUser(String name, String idCard);
 }
