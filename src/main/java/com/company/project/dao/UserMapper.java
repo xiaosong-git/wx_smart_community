@@ -24,4 +24,6 @@ public interface UserMapper extends Mapper<User> {
     List<User> findFamilyUser(Long hourseId);
     
     List<User> findList(@Param("name") String name,@Param("phone") String phone);
+    
+    List<User> findUserList(@Param("name") String name,@Param("idCard") String idCard);
 }

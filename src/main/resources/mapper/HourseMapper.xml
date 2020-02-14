@@ -18,6 +18,34 @@
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
   </resultMap>
+  <resultMap id="myResultMap" type="com.company.project.model.Hourse">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="building_id" jdbcType="BIGINT" property="buildingId" />
+    <result column="num" jdbcType="VARCHAR" property="num" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="is_rent" jdbcType="VARCHAR" property="isRent" />
+    <result column="rent_id" jdbcType="VARCHAR" property="rentId" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="is_auth" jdbcType="VARCHAR" property="isAuth" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+     <collection property="family" ofType="com.company.project.model.Family">
+      <result column="fid" jdbcType="BIGINT" property="id" />
+      <result column="house_id" jdbcType="BIGINT" property="houseId" />
+      <result column="user_id" jdbcType="BIGINT" property="userId" />
+      <result column="status" jdbcType="VARCHAR" property="status" />
+      <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+      <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+      <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+      <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+      <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+  </resultMap>
   <select id="findHouse" resultMap="BaseResultMap" parameterType="string">
   	SELECT hu.* from h_hourse hu
 	LEFT JOIN h_user u on hu.user_id = u.id
@@ -26,5 +54,16 @@
 	SELECT hu.* from h_hourse hu
 	LEFT JOIN h_user u on hu.rent_id = u.id
 	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and hu.is_rent='T'
+  </select>
+  <select id="authFamily" resultMap="myResultMap" parameterType="string">
+  		SELECT * from h_hourse hh
+		left JOIN h_family hf on hh.user_id = hf.house_id
+		LEFT JOIN h_user hu on hu.id = hf.user_id
+		where hu.`name` LIKE CONCAT('%',#{name},'%') and hu.id_no=#{idCard}
+		UNION 
+		SELECT * from h_hourse hh
+		left JOIN h_family hf on hh.rent_id = hf.house_id
+		LEFT JOIN h_user hu on hu.id = hf.user_id
+		where hu.`name` LIKE CONCAT('%',#{name},'%') and hu.id_no=#{idCard}
   </select>
 </mapper>

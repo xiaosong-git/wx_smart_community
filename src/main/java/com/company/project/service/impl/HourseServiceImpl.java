@@ -23,11 +23,18 @@ public class HourseServiceImpl extends AbstractService<Hourse> implements Hourse
     private HourseMapper hHourseMapper;
 
 	@Override
-	public List<Hourse> findHouse(String name, String phone, String idCard) {
+	public List<Hourse> findHouse(String name, String phone) {
 		// TODO Auto-generated method stub
 		return hHourseMapper.findHouse(name, phone);
 	}
 
+	@Override
+	public List<Hourse> authFamily(String name, String idCard) {
+		// TODO Auto-generated method stub
+		return hHourseMapper.authFamily(name, idCard);
+	}
+
+	
     
     
 

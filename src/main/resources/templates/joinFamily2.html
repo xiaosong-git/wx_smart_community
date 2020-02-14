@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>绑定手机</title>
+    <title>加入家庭</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -66,10 +66,11 @@
      function finish(){
     	var houseaddr = getQueryString("houseaddr");
     	var paltaddr = getQueryString("paltaddr");
+    	var openId = getCookie("openId");
     	var name = $("#name").val();
     	var idCard = $("#idCard").val();
     	$.ajax({
-            url: "hourse/identityHouse",
+            url: "hourse/authJoinFamily",
             type: "post",
             dataType: "json",
             contentType: "application/x-www-form-urlencoded",
@@ -77,10 +78,12 @@
             	houseaddr:houseaddr,
             	paltaddr:paltaddr,
             	name:name,
-            	idCard:idCard
+            	idCard:idCard,
+            	openId:openId
             },
             success: function(data) {
             	console.log(data);
+            	setCookie('family', data.data.isJoin, 365);
             	alert(data.message);
             }
         });

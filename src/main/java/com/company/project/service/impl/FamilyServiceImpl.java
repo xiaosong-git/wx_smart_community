@@ -41,4 +41,13 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
         }
         return ResultGenerator.genSuccessResult(familyUser);
     }
+
+	@Override
+	public List<Family> findByUser(String name, String idCard) {
+		// TODO Auto-generated method stub
+		return hFamilyMapper.findByUser(name, idCard);
+	}
+    
+    
 }
+

@@ -42,6 +42,10 @@ public class Family {
     private String ext2;
 
     private String ext3;
+    
+    @Column(name = "is_join")
+    private String isJoin;
+
 
     /**
      * @return id
@@ -188,4 +192,14 @@ public class Family {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
+
+	public String getIsJoin() {
+		return isJoin;
+	}
+
+	public void setIsJoin(String isJoin) {
+		this.isJoin = isJoin;
+	}
+    
+    
 }
