@@ -9,10 +9,17 @@
     <result column="house_id" jdbcType="BIGINT" property="houseId" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="is_join" jdbcType="VARCHAR" property="isJoin" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
     <result column="ext1" jdbcType="VARCHAR" property="ext1" />
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
   </resultMap>
+  
+   <select id="findByUser" parameterType="String" resultMap="BaseResultMap" >
+   		select * from h_family hf
+		LEFT JOIN h_user hu on hf.user_id = hu.id
+		where hu.`name`=#{name} and hu.id_no=#{idCard}
+   </select>
 </mapper>

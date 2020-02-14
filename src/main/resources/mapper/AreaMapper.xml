@@ -101,16 +101,16 @@
   
      <!-- 查看小区下用户得所有家庭对应得楼栋 -->
   <select id="findByAreaId" resultMap="myResultMap" parameterType="Long">
-  	select hu.*,house.* from h_area ha
+  	select hu.*,house.*,hu.name building_name from h_area ha
 	LEFT JOIN h_building hu on ha.id = hu.area_id
 	LEFT JOIN h_hourse house on hu.id = house.building_id
 	where (house.user_id=#{userId} or house.rent_id=#{userId}) and ha.id=#{areaId}
 	UNION
-	select hu.*,house.* from h_area ha
+	select hu.*,house.*,hu.name building_name from h_area ha
 	LEFT JOIN h_building hu on ha.id = hu.area_id
 	LEFT JOIN h_hourse house on hu.id = house.building_id
 	LEFT JOIN h_family hf on house.id = hf.house_id 
-	where hf.user_id=#{userId} and #{areaId}
+	where hf.user_id=#{userId} and #{areaId} and hf.`status`='0'
   </select>
 </mapper>
 

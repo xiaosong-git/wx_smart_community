@@ -7,11 +7,11 @@ package com.company.project.weixin;
  * @create: 2019-09-20 10:41
  **/
 public class MenuKey {
-    //邀约
-    public static final String PASS = "pass";
-    //访问
-    public static final String GUARDCARD = "guardCard";
-    //共享会议室
+    //扫码
+    public static final String PERSONINFOR = "personInfor";
+    //门禁卡
+    public static final String QRCODE = "qrcode";
+    //我的家庭
     public static final String FAMILY = "familyIndex";
     //共享茶室
     public static final String TEA = "btn_tea";
@@ -21,7 +21,7 @@ public class MenuKey {
     public static final String SHARE_RECORD = "btn_share_record";
 
     //本地测试
-    public static final String URL = "http://ztgbya.natappfree.cc/community/";
+    public static final String URL = "http://xevnqq.natappfree.cc/community/";
     //智慧小区
 //    public static final String URL = "http://f.pyblkj.cn/community/";
 

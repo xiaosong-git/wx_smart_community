@@ -36,13 +36,11 @@
                 setCookie('building', 'T', 365);
             }
             if ('[[${user.family}]]'!==""){
-                setCookie('family', 'T', 365);
+                setCookie('family', 'F', 365);
             }
             if ('[[${user.hourse}]]'!==""){
-                setCookie('hourse', 'T', 365);
+                setCookie('hourse', 'F', 365);
             }
-
-
             $.toptip("验证成功", 'success');
             window.history.go(-2);
         })

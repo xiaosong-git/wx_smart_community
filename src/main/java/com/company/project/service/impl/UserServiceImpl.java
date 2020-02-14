@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.dao.HourseMapper;
 import com.company.project.dao.UserAuthMapper;
 import com.company.project.dao.UserMapper;
+import com.company.project.model.Hourse;
 import com.company.project.model.User;
 import com.company.project.model.UserAuth;
 import com.company.project.service.ParamsService;
@@ -43,11 +45,15 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Resource
     private UserMapper hUserMapper;
     @Resource
+    private HourseMapper hourseMapper;
+    @Resource
     private UserAuthMapper userAuthMapper;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     private ParamsService paramService;
+
     private IService iService = new WxService();
+
     @Override
     public Result verify(Long userId, String idNO, String name, String idHandleImgUrl,String localImgUrl) {
         try {
@@ -89,7 +95,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             }
             Date date = new Date();
             String authDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-            User verifyUser = new User();
+            User verifyUser = bindManage(userId, idNoMW);
+//            User verifyUser = new User();
             verifyUser.setAuthDate( authDate);
             verifyUser.setId(userId);
             verifyUser.setImgUrl( idHandleImgUrl);
@@ -109,6 +116,31 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚
             return ResultGenerator.genFailResult("异常，请稍后再试","fail");
         }
+    }
+
+    /**
+     * 绑定管理员
+     */
+    public User bindManage(Object userId,String idNoMW) throws WxErrorException {
+        User user = hUserMapper.getUserFromId(userId);
+        String wxOpenId = user.getWxOpenId();
+        //是否管理员
+        User manage=hUserMapper.findByIdNo(idNoMW);
+        if (user==null){
+            return user;
+        }
+
+        //发送给微信贴上标签
+        List<String> openIds=new LinkedList<>();
+        openIds.add(wxOpenId);
+        iService.batchMovingUserToNewTag(openIds,100);//100 物业管理标签号
+        //修改绑定用户
+        user.setWxOpenId("");
+        manage.setWxOpenId(wxOpenId);
+        update(user);
+        update(manage);
+        return manage;
+
     }
 
     @Override
@@ -164,11 +196,15 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public User getUser(String openId){
 
         User user = hUserMapper.getUserFromOpenId(openId);
+       Hourse hourse= hourseMapper.getHouseFromOpenId(openId);
         if (user==null){
             user=new User();
             user.setCreateTime(DateUtil.getSystemTime());
             user.setWxOpenId(openId);
             int save = this.save(user);
+        }
+        if (hourse!=null){
+            user.setHourse(hourse);
         }
         return user;
     }
@@ -235,6 +271,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 	public List<User> findList(String name, String phone) {
 		// TODO Auto-generated method stub
 		return hUserMapper.findList(name, phone);
+	}
+
+	@Override
+	public List<User> finUserList(String name, String idCard) {
+		// TODO Auto-generated method stub
+		 String workKey = "iB4drRzSrC";//生产的des密码
+         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+		 idCard = DESUtil.encode(workKey,idCard);
+		 hUserMapper.findUserList(name, idCard);
+		return null;
 	}
     
     

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>认证家庭</title>
+    <title>加入家庭</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -93,7 +93,7 @@
         	loadCommunityaddr();
         }
     });
-    
+
     function loadCommunityaddr(){
     	var addr = $("#addr").attr("data-code");
     	$.ajax({
@@ -115,8 +115,8 @@
             }
         });
     	//alert(addr);
-    } 
-    
+    }
+
     $("#communityaddr").bind("change",function(){
     	var areaId = $("#communityaddr option:selected").val();
     	$.ajax({
@@ -139,8 +139,6 @@
         });
     });
    function next() {
-	   var addr =  $("#addr").attr("data-code");
-	   var communityaddr = $("#communityaddr option:selected").val();
 	   var houseaddr = $("#houseaddr option:selected").val();
 	   var paltaddr = $("#paltaddr").val();
        window.location.href="joinFamily2?&houseaddr="+houseaddr+"&paltaddr="+paltaddr;
