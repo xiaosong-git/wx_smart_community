@@ -46,7 +46,7 @@
 
 <br>
 <br>
-<button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 验证更多小区</button>
+<button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 新增更多家庭信息</button>
 </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
@@ -58,7 +58,6 @@
             FastClick.attach(document.body);
             getArea();
         }
-        //getArea();
     })
 
     function getArea() {
@@ -75,7 +74,6 @@
                 console.log(list)
                 for(var i in list){
                     var addr = list[i].areaName;
-
                     $("#houses").append("<div class=\"weui-cells weui-cells_form\">\n" +
                         "\n" +
                         "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"toHouse('"+list[i].id+"','"+addr+"')\">\n" +
@@ -92,13 +90,11 @@
     }
 
     function toHouse(areaId,address) {
-
         var index = "?areaId="+areaId+"&address="+escape(address);
         window.location.href=houseInforUrl+index;
     }
-
     function verify() {
-        
+        window.location.href=verifyFamily1Url;
     }
 </script>
 </body>

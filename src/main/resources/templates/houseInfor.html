@@ -45,7 +45,7 @@
 
 <br>
 <br>
-<button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 验证更多住房</button>
+<!--<button class="weui-btn blue-btn" onclick="verify()"><font size="5">⊕</font> 验证更多住房</button>-->
 </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
@@ -54,29 +54,33 @@
 <script>
     $(function () {
 
-        var address = unescape(getQueryString('address');
-        console.log(address)
-       // getHouses();
+        var address = unescape(getQueryString('address'))
+        var areaId = unescape(getQueryString('areaId'))
+        document.getElementById('areaName').innerText=address+" 小区"
+        getHouses(areaId);
 
     })
 
-    function getHouses() {
+    function getHouses(areaId) {
 
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
-            url: "/community/area/findByAreaId  ",
-            data: { userId: "1" },
+            url: "/community/area/findByAreaId",
+            data: {
+                userId: "1",
+                areaId: areaId
+            },
             success: function (result) {
-               /* var list = result.data;
-                document.getElementById('houseNum').innerText=list.length;
+                console.log(result)
+                var list = result.data;
                 console.log(list)
                 for(var i in list){
-                    var addr = list[i].buildingName+list[i].num;
+                    var addr = list[i].building.name+list[i].hourse.num;
                     console.log(list[i].hourseId)
                     $("#houses").append("<div class=\"weui-cells weui-cells_form\">\n" +
                         "\n" +
-                        "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"toFamily('"+list[i].hourseId+"','"+addr+"')\">\n" +
+                        "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"toFamily('"+list[i].hourse.id+"','"+addr+"')\">\n" +
                         "        <div class=\"weui-cell__hd\"><font color=\"blue\"></font></div>\n" +
                         "        <div class=\"weui-cell__bd\" align=\"center\">\n" +
                         "            <p>"+addr+"</p>\n" +
@@ -84,7 +88,7 @@
                         "        <div class=\"weui-cell__ft\"></div>\n" +
                         "    </div>\n" +
                         "</div>")
-                }*/
+                }
             }
         })
     }
