@@ -103,7 +103,7 @@
 
     function editPerson(list) {
         var jsonData = JSON.parse(decodeURI(list))
-        var userName = jsonData.name;
+        var userName = escape(jsonData.name);
         var userId = jsonData.id;
         var idNo = jsonData.idNo;
         var isAuth = jsonData.isAuth
