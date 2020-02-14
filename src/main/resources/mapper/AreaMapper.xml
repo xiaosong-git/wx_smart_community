@@ -22,7 +22,7 @@
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
   </resultMap>
-  <resultMap id="myResultMap" type="com.company.project.model.User">
+  <resultMap id="myResultMap" type="com.company.project.model.Area">
     <!--
       WARNING - @mbg.generated
     -->
@@ -86,7 +86,7 @@
   </select>
   
     <!-- 查看所有得小区 -->
-  <select id="findAreaById" resultMap="myResultMap" parameterType="java.lang.Long">
+  <select id="findAreaById" resultMap="myResultMap" parameterType="Long">
   	select ha.* from h_area ha
 	LEFT JOIN h_building hu on ha.id = hu.area_id
 	LEFT JOIN h_hourse house on hu.id = house.building_id
@@ -100,7 +100,7 @@
   </select>
   
      <!-- 查看小区下用户得所有家庭对应得楼栋 -->
-  <select id="findByAreaId" resultMap="myResultMap" parameterType="java.lang.Long">
+  <select id="findByAreaId" resultMap="myResultMap" parameterType="Long">
   	select ha.* from h_area ha
 	LEFT JOIN h_building hu on ha.id = hu.area_id
 	LEFT JOIN h_hourse house on hu.id = house.building_id
