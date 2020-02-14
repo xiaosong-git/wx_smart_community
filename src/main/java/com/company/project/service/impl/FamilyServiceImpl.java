@@ -75,4 +75,28 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
 
         return ResultGenerator.genFailResult("操作失败");
     }
+
+    @Override
+    public Result editFamilyUser(String userName, String idNo, Long userId) {
+        //查找用户是否存在idNo加密
+        String workKey = "iB4drRzSrC";//生产的des密码
+        // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+        String idNoMW = DESUtil.encode(workKey,idNo);
+        User user=new User();
+        user.setName(userName);
+        user.setIdNo(idNoMW);
+        user.setId(userId);
+        int update = userService.update(user);
+        if (update>0){
+            return ResultGenerator.genSuccessResult();
+        }
+        return ResultGenerator.genFailResult("操作失败");
+    }
+
+    @Override
+    public Result deleteFamilyUser(Long hourseId, Long userId) {
+
+        hFamilyMapper.deleteHourseUser(hourseId,userId);
+        return ResultGenerator.genSuccessResult();
+    }
 }

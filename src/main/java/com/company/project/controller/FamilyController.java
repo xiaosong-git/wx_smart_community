@@ -38,5 +38,25 @@ public class FamilyController {
         return ResultGenerator.genFailResult("系统异常", "");
 
     }
+    @PostMapping("/editFamilyUser")
+    public Result editFamilyUser(@RequestParam String userName,@RequestParam String idNo,Long userId ) {
+        try {
+            return  familyService.editFamilyUser(userName,idNo,userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+
+    }
+    @PostMapping("/deleteFamilyUser")
+    public Result deleteFamilyUser(@RequestParam Long hourseId,@RequestParam Long userId ) {
+        try {
+            return  familyService.deleteFamilyUser(hourseId,userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+
+    }
 
 }
