@@ -74,6 +74,13 @@ public class Area {
     private String ext2;
 
     private String ext3;
+    
+    @Transient
+    private Building building;
+    @Transient
+    private Family family;
+    @Transient
+    private Hourse hourse;
 
     /**
      * @return id
@@ -326,5 +333,30 @@ public class Area {
 		this.areaCode = areaCode;
 	}
 
+	public Building getBuilding() {
+		return building;
+	}
+
+	public void setBuilding(Building building) {
+		this.building = building;
+	}
+
+	public Family getFamily() {
+		return family;
+	}
+
+	public void setFamily(Family family) {
+		this.family = family;
+	}
+
+	public Hourse getHourse() {
+		return hourse;
+	}
+
+	public void setHourse(Hourse hourse) {
+		this.hourse = hourse;
+	}
+
+	
 
 }

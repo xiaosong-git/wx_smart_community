@@ -124,5 +124,9 @@ where h.id=#{hourseId}
     left join h_user hu on hu.id =f.user_id
     where r.id=#{id} limit 1
     </select>
-
+    
+    <select id="findList" parameterType="String" resultMap="BaseResultMap" >
+    	select * from h_user where `name` LIKE CONCAT('%',#{name},'%') and phone=#{phone}
+    </select>
+    
 </mapper>

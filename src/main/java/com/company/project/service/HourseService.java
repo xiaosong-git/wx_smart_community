@@ -9,5 +9,5 @@ import com.company.project.core.Service;
  * Created by CodeGenerator on 2020/02/11.
  */
 public interface HourseService extends Service<Hourse> {
-	List<Hourse> findHouse(String name,String phone,String idCard);
+	List<Hourse> findHouse(String name,String phone, String idCard);
 }

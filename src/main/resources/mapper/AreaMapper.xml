@@ -22,7 +22,95 @@
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
   </resultMap>
+  <resultMap id="myResultMap" type="com.company.project.model.Area">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="org_id" jdbcType="BIGINT" property="orgId" />
+    <result column="pass_limit" jdbcType="INTEGER" property="passLimit" />
+    <result column="frequency" jdbcType="VARCHAR" property="frequency" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="opre" jdbcType="VARCHAR" property="opre" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="is_valid" jdbcType="INTEGER" property="isValid" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    
+    <collection property="building" ofType="com.company.project.model.Building">
+      <result column="bid" jdbcType="BIGINT" property="id" />
+      <result column="area_id" jdbcType="BIGINT" property="areaId" />
+      <result column="total_floor" jdbcType="INTEGER" property="totalFloor" />
+      <result column="building_name" jdbcType="VARCHAR" property="name" />
+      <result column="number_range" jdbcType="VARCHAR" property="numberRange" />
+      <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+      <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+      <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+      <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+      <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+    <collection property="family" ofType="com.company.project.model.Family">
+      <result column="fid" jdbcType="BIGINT" property="id" />
+      <result column="house_id" jdbcType="BIGINT" property="houseId" />
+      <result column="user_id" jdbcType="BIGINT" property="userId" />
+      <result column="status" jdbcType="VARCHAR" property="status" />
+      <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+      <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+      <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+      <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+      <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+    <collection property="hourse" ofType="com.company.project.model.Hourse">
+      <result column="hid" jdbcType="BIGINT" property="id" />
+      <result column="building_id" jdbcType="BIGINT" property="buildingId" />
+      <result column="num" jdbcType="VARCHAR" property="num" />
+      <result column="user_id" jdbcType="VARCHAR" property="userId" />
+      <result column="is_rent" jdbcType="VARCHAR" property="isRent" />
+      <result column="rent_id" jdbcType="VARCHAR" property="rentId" />
+      <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+      <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+      <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+      <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+      <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+
+  </resultMap>
   <select id="areaList" resultMap="BaseResultMap" parameterType="string">
   	select * from h_area where area_code=#{areaCode}
   </select>
+  
+    <!-- 查看所有得小区 -->
+  <select id="findAreaById" resultMap="myResultMap" parameterType="Long">
+  	select ha.* from h_area ha
+	LEFT JOIN h_building hu on ha.id = hu.area_id
+	LEFT JOIN h_hourse house on hu.id = house.building_id
+	where (house.user_id=#{userId} or house.rent_id=#{userId})
+	UNION
+	select ha.* from h_area ha
+	LEFT JOIN h_building hu on ha.id = hu.area_id
+	LEFT JOIN h_hourse house on hu.id = house.building_id
+	LEFT JOIN h_family hf on house.id = hf.house_id 
+	where hf.user_id=#{userId}
+  </select>
+  
+     <!-- 查看小区下用户得所有家庭对应得楼栋 -->
+  <select id="findByAreaId" resultMap="myResultMap" parameterType="Long">
+  	select ha.* from h_area ha
+	LEFT JOIN h_building hu on ha.id = hu.area_id
+	LEFT JOIN h_hourse house on hu.id = house.building_id
+	where (house.user_id=#{userId} or house.rent_id=#{userId}) and ha.id=#{areaId}
+	UNION
+	select ha.* from h_area ha
+	LEFT JOIN h_building hu on ha.id = hu.area_id
+	LEFT JOIN h_hourse house on hu.id = house.building_id
+	LEFT JOIN h_family hf on house.id = hf.house_id 
+	where hf.user_id=#{userId} and #{areaId}
+  </select>
 </mapper>
+

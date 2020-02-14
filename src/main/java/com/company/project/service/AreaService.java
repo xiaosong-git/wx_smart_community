@@ -13,4 +13,6 @@ import com.company.project.core.Service;
  */
 public interface AreaService extends Service<Area> {
 	List<Area> areaList(String areaCode);
+	List<Area> findAreaById(Long userId);
+	List<Area> findByAreaId(Long userId,Long areaId);
 }

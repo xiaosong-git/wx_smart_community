@@ -1,4 +1,6 @@
 package com.company.project.service;
+import java.util.List;
+
 import com.company.project.core.Result;
 import com.company.project.model.User;
 import com.company.project.core.Service;
@@ -16,4 +18,6 @@ public interface UserService extends Service<User> {
     User getUser(String openid);
 
     Result userHourseInfo(Long userId);
+    
+    List<User> findList(String name, String phone);
 }

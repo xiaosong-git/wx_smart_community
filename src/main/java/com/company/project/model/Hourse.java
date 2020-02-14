@@ -36,6 +36,9 @@ public class Hourse {
      */
     @Column(name = "rent_id")
     private String rentId;
+    
+    @Column(name = "is_auth")
+    private String isAuth;
 
     /**
      * 生成时间
@@ -236,4 +239,14 @@ public class Hourse {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
+
+	public String getIsAuth() {
+		return isAuth;
+	}
+
+	public void setIsAuth(String isAuth) {
+		this.isAuth = isAuth;
+	}
+    
+    
 }

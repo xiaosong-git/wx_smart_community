@@ -26,6 +26,18 @@ public class AreaServiceImpl extends AbstractService<Area> implements AreaServic
 		// TODO Auto-generated method stub
 		return hAreaMapper.areaList(areaCode);
 	}
+
+	@Override
+	public List<Area> findAreaById(Long userId) {
+		// TODO Auto-generated method stub
+		return hAreaMapper.findAreaById(userId);
+	}
+
+	@Override
+	public List<Area> findByAreaId(Long userId, Long areaId) {
+		// TODO Auto-generated method stub
+		return hAreaMapper.findByAreaId(userId, areaId);
+	}
     
     
 
