@@ -22,8 +22,11 @@ public interface UserMapper extends Mapper<User> {
     User getUserFromOpenId(String openId);
 
     List<User> findFamilyUser(Long hourseId);
-    
+
     List<User> findList(@Param("name") String name,@Param("phone") String phone);
-    
     List<User> findUserList(@Param("name") String name,@Param("idCard") String idCard);
+    @Select("select * from "+ TableList.USER +" where id_no=#{idNoMW} and is_manage=0 limit 1")
+    User findByIdNo(String idNoMW);
+
+
 }

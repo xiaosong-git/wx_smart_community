@@ -2,7 +2,7 @@ var IS_DEVELOP=false;//是否生产环境
 var uri;
 var url;
 var loginUrl;
-var appId="wx1ddcdc86c83bc9a1";
+var appId="wx73d294462904125c";
 if (IS_DEVELOP){//生产环境
     uri="5cnfh6.natappfree.cc";
     url= "http://"+uri+"/";
@@ -10,7 +10,7 @@ if (IS_DEVELOP){//生产环境
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 } else{
     appId="wx73d294462904125c";
-    uri="evn6ua.natappfree.cc";
+    uri="ymnt2h.natappfree.cc";
     url= "http://"+uri+"/";
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 }
@@ -30,6 +30,8 @@ var joinFamily1Url=url+suffix+"joinFamily1";
 var joinFamily2Url=url+suffix+"joinFamily2";
 var familyInforUrl=url+suffix+"familyInfor";
 var addPersonUrl=url+suffix+"addPerson";
+var houseInforUrl=url+suffix+"houseInfor";
+
 function setCookie(c_name,value,expiredays)
 {
     var exdate=new Date()

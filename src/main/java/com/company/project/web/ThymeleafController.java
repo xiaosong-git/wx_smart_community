@@ -117,6 +117,11 @@ public class ThymeleafController {
         return "authIndex";
     }
 
+    @RequestMapping(value = "/areaInfor",method= RequestMethod.GET)
+    public String areaInfor() {
+        return "areaInfor";
+    }
+
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
     public String personInfor(Model model) {
         List<String> jsApiList = new ArrayList<>();

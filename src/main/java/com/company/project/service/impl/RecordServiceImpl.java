@@ -2,8 +2,10 @@ package com.company.project.service.impl;
 
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.dao.AreaMapper;
 import com.company.project.dao.RecordMapper;
 import com.company.project.dao.UserMapper;
+import com.company.project.model.Area;
 import com.company.project.model.Record;
 import com.company.project.model.User;
 import com.company.project.service.ParamsService;
@@ -33,9 +35,13 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     private RecordMapper hRecordMapper;
     @Resource
     private UserMapper userMapper;
-
+    @Resource
+    private AreaMapper areaMapper;
     @Resource
     private ParamsService paramsService;
+
+    @Resource
+    private RecordMapper recordMapper;
 
     @Override
     public Result createRecord(Long userId) throws UnsupportedEncodingException {
@@ -55,12 +61,33 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
 
     @Override
     public Result scanning(Long operId, String idStr,String type) throws Exception {
-        String s = new String(Base64.decode(idStr),"UTF-8");
+        String recordId = new String(Base64.decode(idStr),"UTF-8");
         //todo 判断是否为该小区用户
-            //查找用户信息
-            Map<String,Object> userMap = userMapper.getUserByRecordId(Long.valueOf(s));
+         //
+        User operUser = userMapper.selectByPrimaryKey(operId);
+        String ext1 = operUser.getExt1();
+        Long areaId =0L;
+        boolean isArea=false;
+        if (ext1 !=null&&!"".equals(ext1)) {
+            areaId=  Long.valueOf(ext1);
+        }
+        //查找用户信息
+            Map<String,Object> userMap = userMapper.getUserByRecordId(Long.valueOf(recordId));
+
             Map<String,Object> map=new HashMap<>();
             if (userMap != null) {
+                if (userMap.get("userId")!=null){
+                    List<Area> areaById = areaMapper.findAreaById((long)userMap.get("userId"));
+                    for (Area area : areaById) {
+                        if(area.getArea().equals(areaId)){
+                            isArea=true;
+                            break;
+                        }
+                    }
+                }
+                if (!isArea){
+                    return ResultGenerator.genFailResult("不是本小区用户");
+                }
                 if (userMap.get("imgUrl")!=null){
                     String imageServerUrl = paramsService.findValueByName("imageServerUrl");
                     userMap.put("imgUrl",imageServerUrl + File.separator+userMap.get("imgUrl"));
@@ -72,6 +99,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
 
                 map.put("user",userMap);
                 map.put("records",records);
+
             }
 
             return ResultGenerator.genSuccessResult(map);

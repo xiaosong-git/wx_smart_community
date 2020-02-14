@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>绑定手机</title>
+    <title>扫一扫</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -115,8 +115,9 @@
                     url: "/community/record/scanning",
                     data: { opreId: 1,
                         // idStr:result,
-                        idStr:"Ng==",
-                        type:"in"},
+                        idStr:idStr,
+                        type:"in"
+                    },
                     success: function (result) {
                         console.log(result);
                         var list = result.data
