@@ -2,7 +2,10 @@ package com.company.project.controller;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.model.Hourse;
+import com.company.project.model.User;
 import com.company.project.service.HourseService;
+import com.company.project.service.UserService;
+import com.company.project.util.DESUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
 * Created by CodeGenerator on 2020/02/11.
@@ -21,6 +27,8 @@ import java.util.List;
 public class HourseController {
     @Resource
     private HourseService hourseService;
+    @Resource
+    private UserService userservice;
 
     @PostMapping("/add")
     public Result add(Hourse hourse) {
@@ -55,19 +63,37 @@ public class HourseController {
     }
     
     @PostMapping("/identityHouse")
-    public Result identityHouse( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,
+    public Result identityHouse( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
     		@RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
+    	Map<String, String> map = new HashMap<String, String>();
         List<Hourse> list = hourseService.findHouse(name, phone, idCard);
+        List<User> userList = userservice.findList(name, phone);
         boolean flag = false;
+        String isAuth = "F";
         if(list!=null) {
         	for(Hourse h:list) {
         		if(h.getBuildingId()==houseaddr&&h.getNum().equals(paltaddr)) {
-        			flag=true;
+        			Hourse hourse = new Hourse();
+        			hourse.setIsAuth("T");
+        			hourse.setId(h.getId());
+        			hourseService.update(hourse);
+        			isAuth = "T";
+        			flag = true;
         		}
         	}
         }
         if(flag==true) {
-        	return ResultGenerator.genSuccessResult();
+        	 String workKey = "iB4drRzSrC";//生产的des密码
+             // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+    		 idCard = DESUtil.encode(workKey,idCard);
+    		 User user = new User();
+    		 user.setIdNo(idCard);
+    		 user.setWxOpenId(openId);
+    		 user.setId(list.get(0).getId());
+    		 userservice.update(user);
+    		 map.put("isAuth", isAuth);
+    		 map.put("userId", list.get(0).getId().toString());
+        	return ResultGenerator.genSuccessResult(map);
         }
         return ResultGenerator.genFailResult("认证失败");
     }

@@ -72,11 +72,13 @@
         window.history.back();
     }
      function finish(){
+    	var openId = getCookie("openId");
     	var houseaddr = getQueryString("houseaddr");
     	var paltaddr = getQueryString("paltaddr");
     	var name = $("#name").val();
     	var idCard = $("#idCard").val();
     	var phone = $("#phone").val();
+    	var openId = 
     	$.ajax({
             url: "hourse/identityHouse",
             type: "post",
@@ -85,12 +87,15 @@
             data: {
             	houseaddr:houseaddr,
             	paltaddr:paltaddr,
+            	openId:openId,
             	name:name,
             	idCard:idCard,
             	phone:phone
             },
             success: function(data) {
             	console.log(data);
+            	setCookie('userId', data.data.userId, 365);
+            	setCookie('hourse', data.data.isAuth, 365);
             	alert(data.message);
             }
         });

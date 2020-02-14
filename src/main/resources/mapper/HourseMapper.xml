@@ -13,6 +13,7 @@
     <result column="rent_id" jdbcType="VARCHAR" property="rentId" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="is_auth" jdbcType="VARCHAR" property="isAuth" />
     <result column="ext1" jdbcType="VARCHAR" property="ext1" />
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
@@ -20,10 +21,10 @@
   <select id="findHouse" resultMap="BaseResultMap" parameterType="string">
   	SELECT hu.* from h_hourse hu
 	LEFT JOIN h_user u on hu.user_id = u.id
-	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and u.id_no=#{idCard} and is_rent='F'
+	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and hu.is_rent='F'
 	union
 	SELECT hu.* from h_hourse hu
 	LEFT JOIN h_user u on hu.rent_id = u.id
-	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and u.id_no=#{idCard} and is_rent='T'
+	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and hu.is_rent='T'
   </select>
 </mapper>

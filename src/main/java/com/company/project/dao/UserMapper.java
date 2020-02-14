@@ -3,6 +3,8 @@ package com.company.project.dao;
 import com.company.project.compose.TableList;
 import com.company.project.core.Mapper;
 import com.company.project.model.User;
+
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -20,4 +22,6 @@ public interface UserMapper extends Mapper<User> {
     User getUserFromOpenId(String openId);
 
     List<User> findFamilyUser(Long hourseId);
+    
+    List<User> findList(@Param("name") String name,@Param("phone") String phone);
 }

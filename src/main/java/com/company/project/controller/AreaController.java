@@ -59,4 +59,20 @@ public class AreaController {
         List<Area> list = areaService.areaList(areaCode);
         return ResultGenerator.genSuccessResult(list);
     }
+    /*
+     * 查看用户下的所有小区
+     * */
+    @PostMapping("/getAreaById")
+    public Result getAreaById(@RequestParam() Long userId) {
+        List<Area> list = areaService.findAreaById(userId);
+        return ResultGenerator.genSuccessResult(list);
+    }
+    /*
+     * 查看用户在某一个小区下的所有楼层信息
+     * */
+    @PostMapping("/findByAreaId")
+    public Result findByAreaId(@RequestParam() Long userId,@RequestParam() Long areaId) {
+        List<Area> list = areaService.findByAreaId(userId, areaId);
+        return ResultGenerator.genSuccessResult(list);
+    }
 }

@@ -230,4 +230,12 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         }
         return true;
     }
+
+	@Override
+	public List<User> findList(String name, String phone) {
+		// TODO Auto-generated method stub
+		return hUserMapper.findList(name, phone);
+	}
+    
+    
 }
