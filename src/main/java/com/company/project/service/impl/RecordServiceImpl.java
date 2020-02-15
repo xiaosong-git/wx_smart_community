@@ -60,11 +60,11 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     }
 
     @Override
-    public Result scanning(Long operId, String idStr, String type) throws Exception {
+    public Result scanning(String opreWxId, String idStr, String type) throws Exception {
         String recordId = new String(Base64.decode(idStr),"UTF-8");
         //todo 判断是否为该小区用户
          //
-        User operUser = userMapper.selectByPrimaryKey(operId);
+        User operUser = userMapper.selectByopreWxId(opreWxId);
         String ext1 = operUser.getExt1();
         Long areaId =0L;
         boolean isArea=false;

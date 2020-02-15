@@ -76,7 +76,7 @@
                 console.log(list)
                 for(var i in list){
                     var addr = list[i].building.name+list[i].hourse.num;
-                    console.log(list[i].hourseId)
+                    console.log(list[i].hourse.id);
                     $("#houses").append("<div class=\"weui-cells weui-cells_form\">\n" +
                         "\n" +
                         "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"toFamily('"+list[i].hourse.id+"','"+addr+"')\">\n" +
