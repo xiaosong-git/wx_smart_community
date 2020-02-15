@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -47,9 +48,11 @@ public class ThymeleafController {
             wxUser.setOpenid(wxOAuth2AccessTokenResult.getOpenid());
             wxUser.setLang("zh_CN");
             WxUserList.WxUser wxUser1 = iService.oauth2ToGetUserInfo(wxOAuth2AccessTokenResult.getAccess_token(), wxUser);
-            User user = userService.getUser(wxUser1.getOpenid());
+            Map<String,Object> user = userService.getUser(wxUser1.getOpenid());
 
-            model.addAttribute("user",user);
+            model.addAttribute("user",user.get("user"));
+            model.addAttribute("hourse",user.get("hourse"));
+            model.addAttribute("family",user.get("family"));
 
             return "login";
         }
@@ -119,6 +122,10 @@ public class ThymeleafController {
     @RequestMapping(value = "/areaInfor",method= RequestMethod.GET)
     public String areaInfor() {
         return "areaInfor";
+    }
+    @RequestMapping(value = "/clear",method= RequestMethod.GET)
+    public String clear() {
+        return "clear";
     }
 
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)

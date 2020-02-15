@@ -20,21 +20,24 @@
     <br>
     <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script src="js/myUtil.js"></script>
     <script>
         $(function() {
-            setCookie('openId', '[[${user.wxOpenId}]]', 365);
-            setCookie('phone', '[[${user.phone}]]', 365);
-            setCookie('myName', '[[${user.name}]]', 365);
-            setCookie('userId', '[[${user.id}]]', 365);
-            setCookie('isAuth', '[[${user.isAuth}]]', 365);
-            setCookie('family', '[[${family}]]', 365);
-            setCookie('hourse', '[[${hourse}]]', 365);
+            setCookie('openId', '', 365);
+            setCookie('phone', '', 365);
+            setCookie('myName', '', 365);
+            setCookie('userId', '', 365);
+            setCookie('isAuth', '', 365);
+            setCookie('family', '', 365);
+            setCookie('hourse', '', 365);
+            quit();
+            // $.toptip("验证成功", 'success');
 
-            $.toptip("验证成功", 'success');
-            window.history.go(-2);
         })
-
+        function quit(){
+            wx.closeWindow();
+        }
     </script>
 
 </body>

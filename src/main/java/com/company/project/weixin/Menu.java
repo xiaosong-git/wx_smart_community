@@ -8,6 +8,7 @@ import com.soecode.wxtools.bean.result.WxUserTagResult;
 import com.soecode.wxtools.exception.WxErrorException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.company.project.weixin.MenuKey.URL;
@@ -64,11 +65,23 @@ public class Menu {
         btn2.setType(WxConsts.MENU_BUTTON_VIEW);
         //按钮三
         WxMenu.WxMenuButton btn3=new WxMenu.WxMenuButton();
-        btn3.setName("我的家庭");
-        btn3.setUrl(URL+MenuKey.FAMILY);
-        btn3.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn3.setName("我的");
+        List<WxMenu.WxMenuButton> subList3 = new ArrayList<>();
+        WxMenu.WxMenuButton btn3_1 = new WxMenu.WxMenuButton();
+        btn3_1.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn3_1.setName("清除缓存");
+        btn3_1.setUrl(URL+"clear");
+        //子按钮绑定父按钮
+
+        WxMenu.WxMenuButton btn3_2 = new WxMenu.WxMenuButton();
+        btn3_2.setName("我的家庭");
+        btn3_2.setUrl(URL+MenuKey.FAMILY);
+        btn3_2.setType(WxConsts.MENU_BUTTON_VIEW);
+        subList3.addAll(Arrays.asList(btn3_1,btn3_2));
+        btn3.setSub_button(subList3);
         btnList.add(btn2);
         btnList.add(btn3);
+
     }
     public static void initMatchruleMenu() {
         IService iService = new WxService();

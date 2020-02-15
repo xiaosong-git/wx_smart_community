@@ -151,7 +151,7 @@
                                    setCookie("isAuth","T",365);
                                     $("#photoDiv").val(result.data.img);
                                     $("#uploaderFiles").val(result.data.imageFileName);
-                                    // alert($("#photoDiv").val());
+
                                     // alert($("#uploaderFiles").val());
                                     $("#photoDiv").hide();
 
@@ -208,9 +208,11 @@
                         setCookie("isAuth",data.isAuth);
                         // alert(data.userId);
                         // alert(getCookie("userId"));
+                        alert("认证成功！");
                         // alert(getCookie("isAuth"));
-                        // window.history.back();
-                        quit();
+                        window.history.back();
+                        // quit();
+                        // quit();
                     }
                 },
                 error:function (e) {

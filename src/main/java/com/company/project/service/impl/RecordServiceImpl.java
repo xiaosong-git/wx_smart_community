@@ -79,7 +79,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
                 if (userMap.get("userId")!=null){
                     List<Area> areaById = areaMapper.findAreaById((long)userMap.get("userId"));
                     for (Area area : areaById) {
-                        if(area.getArea().equals(areaId)){
+                        if(area.getId().equals(areaId)){
                             isArea=true;
                             break;
                         }

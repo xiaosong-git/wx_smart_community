@@ -5,6 +5,7 @@ import com.company.project.core.Service;
 import com.company.project.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -16,7 +17,7 @@ public interface UserService extends Service<User> {
 
     Result uploadPhoto(String userId, String mediaId, String type);
 
-    User getUser(String openid);
+    Map<String,Object> getUser(String openid);
 
     Result userHourseInfo(Long userId);
     
