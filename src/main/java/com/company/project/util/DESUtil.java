@@ -113,8 +113,8 @@ public class DESUtil {
     }
 
     public static void main(String[] args) {
-        String key = "ASDFGHJK";
-        String str = "abc&2&1&1&1569811676678|W0M0MzQ3NzIzNjA5NDI1OTIwXVvlj7bpnJZdWzEyQTEzQ0ZFMDA0MDc0RTBERDVBMzJFRjkxMDM0QzEzQTc0QUU0NEVBQTk4NUU4Q11b6ZmI57u05Y+RXVsxODE1MDc5Nzc0OF1baGx4el1bMjAxOS0wOS0yMCAxMDo1MF1bMjAxOS0wOS0yMCAxMjo1MF0=";
+        String key = "iB4drRzSrC";
+        String str = "1234567";
         encode(key,str);
         System.out.println(str);
         System.out.println( encode(key,str));

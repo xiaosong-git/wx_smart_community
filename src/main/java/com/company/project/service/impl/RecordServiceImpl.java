@@ -79,7 +79,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
                 if (userMap.get("userId")!=null){
                     List<Area> areaById = areaMapper.findAreaById((long)userMap.get("userId"));
                     for (Area area : areaById) {
-                        if(area.getArea().equals(areaId)){
+                        if(area.getId().equals(areaId)){
                             isArea=true;
                             break;
                         }
@@ -128,6 +128,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
 
     public boolean selectRecord(Long userId) {
         //目前还未考虑多小区的问题
+        //查询用户所有小区的次数
 
         //查询用户是否有小区
         int times = hRecordMapper.selectTimes(userId);

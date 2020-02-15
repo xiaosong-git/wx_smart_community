@@ -29,6 +29,8 @@ public interface UserMapper extends Mapper<User> {
     @Select("select * from "+ TableList.USER +" where id_no=#{idNoMW} and is_manager=0 limit 1")
     User findByIdNo(String idNoMW);
 
+    @Select("select * from "+ TableList.USER +" where id_no=#{idNoMW} and name=#{name} limit 1")
+    User findByIdNoName(String idNoMW,String name);
     @Select("select * from "+ TableList.USER +" where wx_open_id=#{openId} limit 1")
     User getUserOpenId(String openId);
     @Select("select * from "+ TableList.USER +" where name=#{userName} and id_no=#{idNo} limit 1")
