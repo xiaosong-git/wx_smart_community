@@ -97,9 +97,10 @@
             	if(data.message=='SUCCESS'){
             		setCookie('userId', data.data.userId, 365);
                 	setCookie('hourse', data.data.isAuth, 365);
+                	alert('认证成功');
+            	}else{
+            		alert('认证失败');
             	}
-            	
-            	alert(data.message);
             	window.location.href=areaInforUrl;
             }
         });

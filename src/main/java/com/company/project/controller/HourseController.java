@@ -82,6 +82,17 @@ public class HourseController {
                     hourseService.update(hourse);
                     isAuth = "T";
                     flag = true;
+                    Family family = new Family();
+                    family.setHouseId(h.getId());
+                    if(h.getIsRent().equals("F")) {
+                         family.setUserId(Long.parseLong(h.getUserId()));
+                    }else {
+                    	 family.setUserId(Long.parseLong(h.getRentId()));
+                    }
+                   
+                    family.setIsJoin("F");
+                    family.setStatus("0");
+                    familyservice.save(family);
                 }
             }
         }
