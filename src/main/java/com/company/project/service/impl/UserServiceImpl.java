@@ -195,8 +195,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
      */
     @Override
     public User getUser(String openId){
-
+        //用户信息
         User user = hUserMapper.getUserFromOpenId(openId);
+        //房子信息
        Hourse hourse= hourseMapper.getHouseFromOpenId(openId);
         if (user==null){
             user=new User();

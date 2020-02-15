@@ -74,6 +74,7 @@
       <result column="house_id" jdbcType="BIGINT" property="houseId" />
       <result column="user_id" jdbcType="BIGINT" property="userId" />
       <result column="status" jdbcType="VARCHAR" property="status" />
+      <result column="is_join" jdbcType="VARCHAR" property="isJoin" />
       <result column="create_time" jdbcType="VARCHAR" property="createTime" />
       <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
       <result column="ext1" jdbcType="VARCHAR" property="ext1" />
@@ -86,6 +87,7 @@
       <result column="num" jdbcType="VARCHAR" property="num" />
       <result column="user_id" jdbcType="VARCHAR" property="userId" />
       <result column="is_rent" jdbcType="VARCHAR" property="isRent" />
+      <result column="his_auth" jdbcType="VARCHAR" property="isAuth" />
       <result column="rent_id" jdbcType="VARCHAR" property="rentId" />
       <result column="create_time" jdbcType="VARCHAR" property="createTime" />
       <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
@@ -96,7 +98,7 @@
 
   </resultMap>
   <select id="getUserFromOpenId" parameterType="String" resultMap="myResultMap" >
-    select *,a.id aid,b.id bid,h.id hid,f.id fid,b.name building_name from h_user u
+    select *,a.id aid,b.id bid,h.id hid,f.id fid,b.name building_name,h.is_auth his_auth,f.is_join from h_user u
     left join  h_hourse h on u.id=h.user_id
     left join h_building  b on h.building_id =b.id
     left join h_area a  on a.id =b.area_id

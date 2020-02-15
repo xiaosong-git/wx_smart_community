@@ -28,21 +28,18 @@
             setCookie('myName', '[[${user.name}]]', 365);
             setCookie('userId', '[[${user.id}]]', 365);
             setCookie('isAuth', '[[${user.isAuth}]]', 365);
-            if ('[[${user.area}]]'!==""){
+
                 setCookie('areaId', '[[${user.area.id}]]', 365);
                 setCookie('areaName', '[[${user.area.areaName}]]', 365);
-            }
-            if ('[[${user.building}]]'!==""){
-                setCookie('building', 'T', 365);
-            }
-            if ('[[${user.family}]]'!==""){
-                //判断是否加入过家庭
-                setCookie('family', 'T', 365);
-            }
+            //
+            // if ('[[${user.building}]]'!==""){
+            //     setCookie('building', 'T', 365);
+            // }
+            //判断是否加入过家庭
+                setCookie('family', '[[${user.family.isJoin}]]', 365);
+
             //是否认证过户主
-            if ('[[${user.hourse}]]'!==""){
-                setCookie('hourse', 'T', 365);
-            }
+                setCookie('hourse','[[${user.hourse.isAuth}]]', 365);
             $.toptip("验证成功", 'success');
             window.location.href =qrcodeUrl;
         })
