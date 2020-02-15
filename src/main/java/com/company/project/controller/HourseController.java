@@ -105,7 +105,6 @@ public class HourseController {
                                   @RequestParam() String name, @RequestParam() String idCard) {
         List<Hourse> list = hourseService.authFamily(name, idCard);
         List<User> userList = userservice.finUserList(name, idCard);
-        List<Family> familyList = familyservice.findByUser(name, idCard);
         Map<String, String> map = new HashMap<String, String>();
         boolean flag = false;
         String isJoin = "F";
@@ -127,7 +126,7 @@ public class HourseController {
             user.setId(userList.get(0).getId());
             userservice.update(user);
             map.put("isJoin", isJoin);
-            map.put("userId", list.get(0).getId().toString());
+            map.put("userId", userList.get(0).getId().toString());
             return ResultGenerator.genSuccessResult(map);
         }
 
