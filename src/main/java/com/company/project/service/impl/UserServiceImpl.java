@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.company.project.core.AbstractService;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.dao.FamilyMapper;
 import com.company.project.dao.HourseMapper;
 import com.company.project.dao.UserAuthMapper;
 import com.company.project.dao.UserMapper;
+import com.company.project.model.Family;
 import com.company.project.model.Hourse;
 import com.company.project.model.User;
 import com.company.project.model.UserAuth;
@@ -51,7 +53,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     private ParamsService paramService;
-
+    @Resource
+    private FamilyMapper familyMapper;
     private IService iService = new WxService();
 
     @Override
@@ -76,26 +79,26 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
                 return ResultGenerator.genFailResult( "图片上传失败，请稍后再试!","fail");
             }
             idHandleImgUrl = URLDecoder.decode(idHandleImgUrl, "UTF-8");
-//            try{
-//                // update by cwf  2019/10/15 10:54 Reason:改为加密后进行数据判断 原 idNO 现idNoMw
-//                //本地实人认证
+            try{
+                // update by cwf  2019/10/15 10:54 Reason:改为加密后进行数据判断 原 idNO 现idNoMw
+                //本地实人认证
 //                UserAuth userAuth = userAuthMapper.localPhoneResult(idNoMW, realName);
 //                if (userAuth!=null){
 //                    idHandleImgUrl=userAuth.getIdhandleimgurl();//目前存在无法两张人像比对的bug
 //                    logger.info("本地实人认证成功上一张成功图片为：{}",userAuth.getIdhandleimgurl());
 //                }else{
-//                    String photoResult = auth(idNO, realName, localImgUrl);
-//                    if (!"success".equals(photoResult)) {
-//                        return ResultGenerator.genFailResult(photoResult, "fail");
-//                    }
+                    String photoResult = auth(idNO, realName, localImgUrl);
+                    if (!"success".equals(photoResult)) {
+                        return ResultGenerator.genFailResult(photoResult, "fail");
+                    }
 //                }
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                return ResultGenerator.genFailResult( "图片上传出错!","fail");
-//            }
+            }catch (Exception e){
+                e.printStackTrace();
+                return ResultGenerator.genFailResult( "图片上传出错!","fail");
+            }
             Date date = new Date();
             String authDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-            User verifyUser = bindManage(userId, idNoMW);
+            User verifyUser = bindManage(userId, idNoMW,name);
 //            User verifyUser = new User();
             verifyUser.setAuthDate( authDate);
 //            verifyUser.setId(userId);
@@ -120,15 +123,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     /**
-     * 绑定管理员
+     * 绑定管理员,或者户主
      */
-    public User bindManage(Object userId,String idNoMW) throws WxErrorException {
+    public User bindManage(Object userId,String idNoMW,String name) throws WxErrorException {
         User user = hUserMapper.getUserFromId(userId);
         String wxOpenId = user.getWxOpenId();
         //是否管理员
         User manage=hUserMapper.findByIdNo(idNoMW);
         if (manage==null){
-            return user;
+            User user1 = bindHouseholder(userId, idNoMW, name);
+            return user1;
         }
 
         //发送给微信贴上标签
@@ -141,9 +145,26 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         update(user);
         update(manage);
         return manage;
-
     }
 
+    /**
+     * 绑定户主
+     */
+    public User bindHouseholder(Object userId,String idNoMW,String name) throws WxErrorException {
+        User user = hUserMapper.getUserFromId(userId);
+        String wxOpenId = user.getWxOpenId();
+        //是否管理员
+        User Householder=hUserMapper.findByIdNoName(idNoMW,name);
+        if (Householder==null){
+            return user;
+        }
+        //修改绑定用户
+        user.setWxOpenId("");
+        Householder.setWxOpenId(wxOpenId);
+        update(user);
+        update(Householder);
+        return Householder;
+    }
     @Override
     public Result uploadPhoto(String userId, String mediaId, String type) {
         String time = DateUtil.getSystemTimeFourteen();
@@ -194,21 +215,36 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
      * @return
      */
     @Override
-    public User getUser(String openId){
-        //用户信息
+    public Map<String,Object> getUser(String openId){
+
+        Map<String,Object> userInfo=new HashMap<>();
+
         User user = hUserMapper.getUserFromOpenId(openId);
+
         //房子信息
        Hourse hourse= hourseMapper.getHouseFromOpenId(openId);
+
         if (user==null){
-            user=new User();
+             user=new User();
             user.setCreateTime(DateUtil.getSystemTime());
             user.setWxOpenId(openId);
             int save = this.save(user);
         }
+        userInfo.put("user",user);
+        //家庭信息
+        Family family = familyMapper.getFamilyFromOpenId(openId);
         if (hourse!=null){
-            user.setHourse(hourse);
+            userInfo.put("hourse","T");
+        }else {
+            userInfo.put("hourse","F");
         }
-        return user;
+        if (family!=null){
+            userInfo.put("family","T");
+        }else {
+            userInfo.put("family","F");
+        }
+
+        return userInfo;
     }
 
     @Override

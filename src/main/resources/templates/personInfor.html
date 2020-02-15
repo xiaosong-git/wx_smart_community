@@ -35,23 +35,17 @@
         <div><font>户主电话</font><font id="phone" style="margin-left: 15px"> </font></div>
     </div>
 </a>
-
-
         <div >
             <button class="blue-btn"></button><font> 通行许可</font>
         </div>
-    <div class="weui-flex" style="margin-top: 15px;margin-left: 15px">
-        <div class="weui-flex__item" style="margin-top: 15px;margin-left: 15px">
+    <div  style="margin-top: 15px;margin-left: 15px">
+        <div style="margin-top: 15px;margin-left: 15px">
             <strong><font id="type" size="5" color=""></font></strong>
 
         </div>
-        <div class="weui-flex__item">
-            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary" onclick="inOut(this,'in')">进入</a>
-            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_warn" onclick="inOut(this,'out')">离开</a>
-        </div>
     </div>
 
-    <div style="margin-top: 15px;margin-left: 15px" >
+    <div style="margin-top: 15px;" >
         <div><button class="blue-btn"></button><font> 通行记录</font></div>
         <div style="margin-top: 15px;margin-left: 15px">
             <div id="record"></div>
@@ -59,6 +53,9 @@
     </div>
     <div class="weui-cells weui-cells_form">
         <button class="weui-btn blue-btn" onclick="jssdkScan()">重新扫码</button>
+        <button class="weui-btn blue-btn" onclick="inOut(this,'in')" id="enter" style="display: block">准入</button>
+        <button class="weui-btn blue-btn" onclick="inOut(this,'out')" id="leave" style="display: block">通行</button>
+
     </div>
 </div>
 
@@ -114,9 +111,9 @@
                     type: 'POST',
                     contentType: "application/x-www-form-urlencoded",
                     url: "/community/record/scanning",
-                    data: { opreId: getCookie("userId"),
-                        // idStr:result,
-                        idStr:idStr,
+                    data: { opreWxId: getCookie("openId"),
+                        idStr:"OQ==",
+                        // idStr:idStr,
                         type:"in"
                     },
                     success: function (result) {
@@ -143,7 +140,9 @@
                         }else{
                             $.toptip("该用户不属于此小区！");
                             $('#type').html("不可通行");
-                            document.getElementById('type').style.color ="#8b0000"
+                            document.getElementById('type').style.color ="#8b0000";
+                            document.getElementById('enter').style.display='none';
+                            document.getElementById('leave').style.display='none';
                             $.toptip(result.data.message);
                         }
                     }

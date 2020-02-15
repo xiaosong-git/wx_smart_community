@@ -60,11 +60,11 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     }
 
     @Override
-    public Result scanning(Long operId, String idStr, String type) throws Exception {
+    public Result scanning(String opreWxId, String idStr, String type) throws Exception {
         String recordId = new String(Base64.decode(idStr),"UTF-8");
         //todo 判断是否为该小区用户
          //
-        User operUser = userMapper.selectByPrimaryKey(operId);
+        User operUser = userMapper.selectByopreWxId(opreWxId);
         String ext1 = operUser.getExt1();
         Long areaId =0L;
         boolean isArea=false;
@@ -79,7 +79,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
                 if (userMap.get("userId")!=null){
                     List<Area> areaById = areaMapper.findAreaById((long)userMap.get("userId"));
                     for (Area area : areaById) {
-                        if(area.getArea().equals(areaId)){
+                        if(area.getId().equals(areaId)){
                             isArea=true;
                             break;
                         }
@@ -128,6 +128,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
 
     public boolean selectRecord(Long userId) {
         //目前还未考虑多小区的问题
+        //查询用户所有小区的次数
 
         //查询用户是否有小区
         int times = hRecordMapper.selectTimes(userId);

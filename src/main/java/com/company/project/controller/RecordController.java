@@ -42,9 +42,9 @@ public class RecordController {
      */
     @RequestMapping("/scanning")
     @ResponseBody
-    public Result scanning(@RequestParam Long opreId, @RequestParam String idStr, @RequestParam String type){
+    public Result scanning(@RequestParam String opreWxId, @RequestParam String idStr, @RequestParam String type){
         try {
-            return recordService.scanning(opreId,idStr,type);
+            return recordService.scanning(opreWxId,idStr,type);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -97,12 +97,8 @@
     </collection>
 
   </resultMap>
-  <select id="getUserFromOpenId" parameterType="String" resultMap="myResultMap" >
-    select *,a.id aid,b.id bid,h.id hid,f.id fid,b.name building_name,h.is_auth his_auth,f.is_join from h_user u
-    left join  h_hourse h on u.id=h.user_id
-    left join h_building  b on h.building_id =b.id
-    left join h_area a  on a.id =b.area_id
-    left join h_family f  on f.house_id =h.id
+  <select id="getUserFromOpenId" parameterType="String" resultMap="BaseResultMap" >
+    select * from h_user u
     where wx_open_id =#{openId} limit 1
   </select>
     <select id="userHourseInfo" parameterType="Long" resultType="map" >
