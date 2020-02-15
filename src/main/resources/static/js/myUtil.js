@@ -16,9 +16,8 @@ if (IS_DEVELOP){//生产环境
 }
 //朋悦比邻
 var suffix="community/";
-var visitUrl=url+suffix+"visit";
 
-var invitUrl=url+suffix+"invit";
+var areaInforUrl=url+suffix+"areaInfor";
 var secondRecordUrl=url+suffix+"secondrecord";
 
 var authUrl=url+suffix+"auth";
