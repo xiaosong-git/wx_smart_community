@@ -76,23 +76,23 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
                 return ResultGenerator.genFailResult( "图片上传失败，请稍后再试!","fail");
             }
             idHandleImgUrl = URLDecoder.decode(idHandleImgUrl, "UTF-8");
-            try{
-                // update by cwf  2019/10/15 10:54 Reason:改为加密后进行数据判断 原 idNO 现idNoMw
-                //本地实人认证
-                UserAuth userAuth = userAuthMapper.localPhoneResult(idNoMW, realName);
-                if (userAuth!=null){
-                    idHandleImgUrl=userAuth.getIdhandleimgurl();//目前存在无法两张人像比对的bug
-                    logger.info("本地实人认证成功上一张成功图片为：{}",userAuth.getIdhandleimgurl());
-                }else{
-                    String photoResult = auth(idNO, realName, localImgUrl);
-                    if (!"success".equals(photoResult)) {
-                        return ResultGenerator.genFailResult(photoResult, "fail");
-                    }
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-                return ResultGenerator.genFailResult( "图片上传出错!","fail");
-            }
+//            try{
+//                // update by cwf  2019/10/15 10:54 Reason:改为加密后进行数据判断 原 idNO 现idNoMw
+//                //本地实人认证
+//                UserAuth userAuth = userAuthMapper.localPhoneResult(idNoMW, realName);
+//                if (userAuth!=null){
+//                    idHandleImgUrl=userAuth.getIdhandleimgurl();//目前存在无法两张人像比对的bug
+//                    logger.info("本地实人认证成功上一张成功图片为：{}",userAuth.getIdhandleimgurl());
+//                }else{
+//                    String photoResult = auth(idNO, realName, localImgUrl);
+//                    if (!"success".equals(photoResult)) {
+//                        return ResultGenerator.genFailResult(photoResult, "fail");
+//                    }
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//                return ResultGenerator.genFailResult( "图片上传出错!","fail");
+//            }
             Date date = new Date();
             String authDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
             User verifyUser = bindManage(userId, idNoMW);

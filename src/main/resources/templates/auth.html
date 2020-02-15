@@ -147,6 +147,8 @@
                                     $.toptip("人脸识别成功","success");
                                     //图片服务器中的图片地址
                                     // $("#uploaderFiles").val
+                                   setCookie("userId",result.data.userId,365);
+                                   setCookie("isAuth","T",365);
                                     $("#photoDiv").val(result.data.img);
                                     $("#uploaderFiles").val(result.data.imageFileName);
                                     // alert($("#photoDiv").val());
