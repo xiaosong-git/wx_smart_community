@@ -53,8 +53,8 @@
     </div>
     <div class="weui-cells weui-cells_form">
         <button class="weui-btn blue-btn" onclick="jssdkScan()">重新扫码</button>
-        <button class="weui-btn blue-btn" onclick="inOut(this,'in')">准入</button>
-        <button class="weui-btn blue-btn" onclick="inOut(this,'out')">通行</button>
+        <button class="weui-btn blue-btn" onclick="inOut(this,'in')" id="enter" style="display: block">准入</button>
+        <button class="weui-btn blue-btn" onclick="inOut(this,'out')" id="leave" style="display: block">通行</button>
 
     </div>
 </div>
@@ -140,7 +140,9 @@
                         }else{
                             $.toptip("该用户不属于此小区！");
                             $('#type').html("不可通行");
-                            document.getElementById('type').style.color ="#8b0000"
+                            document.getElementById('type').style.color ="#8b0000";
+                            document.getElementById('enter').style.display='none';
+                            document.getElementById('leave').style.display='none';
                             $.toptip(result.data.message);
                         }
                     }
