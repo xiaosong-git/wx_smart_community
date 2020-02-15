@@ -94,13 +94,13 @@
             },
             success: function(data) {
             	console.log(data);
-            	if(data)
             	if(data.message=='SUCCESS'){
             		setCookie('userId', data.data.userId, 365);
                 	setCookie('hourse', data.data.isAuth, 365);
             	}
             	
             	alert(data.message);
+            	window.location.href="areaInfor";
             }
         });
     	
