@@ -103,6 +103,9 @@ public class HourseController {
     @PostMapping("/authJoinFamily")
     public Result authJoinFamily( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
                                   @RequestParam() String name, @RequestParam() String idCard) {
+    	 String workKey = "iB4drRzSrC";//生产的des密码
+         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+         idCard = DESUtil.encode(workKey,idCard);
         List<Hourse> list = hourseService.authFamily(name, idCard);
         List<User> userList = userservice.finUserList(name, idCard);
         Map<String, String> map = new HashMap<String, String>();
