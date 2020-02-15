@@ -90,7 +90,7 @@ public class HourseController {
                     	 family.setUserId(Long.parseLong(h.getRentId()));
                     }
                    
-                    family.setIsJoin("F");
+                    family.setIsJoin("T");
                     family.setStatus("0");
                     familyservice.save(family);
                 }

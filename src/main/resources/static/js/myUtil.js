@@ -10,7 +10,7 @@ if (IS_DEVELOP){//生产环境
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 } else{
     appId="wx2a1951f46acc4371";
-    uri="qvvfpk.natappfree.cc";
+    uri="sxy75e.natappfree.cc";
     url= "http://"+uri+"/";
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 }
@@ -57,7 +57,7 @@ function getCookie(c_name)
 }
 function isLogin() {
     console.log(getCookie('openId'));
-    if (getCookie('openId')==""){
+    if (getCookie('openId')===''){
         window.location.href=loginUrl;
         return true;
     }
