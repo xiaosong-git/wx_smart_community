@@ -91,7 +91,7 @@
 	LEFT JOIN h_building hu on ha.id = hu.area_id
 	LEFT JOIN h_hourse house on hu.id = house.building_id
 	LEFT JOIN h_family hf on house.id = hf.house_id 
-	where hf.user_id=#{userId}
+	where hf.user_id=#{userId} and hf.`status`='0'
   </select>
   
      <!-- 查看小区下用户得所有家庭对应得楼栋 -->
