@@ -38,18 +38,14 @@
         <div >
             <button class="blue-btn"></button><font> 通行许可</font>
         </div>
-    <div class="weui-flex" style="margin-top: 15px;margin-left: 15px">
-        <div class="weui-flex__item" style="margin-top: 15px;margin-left: 15px">
+    <div  style="margin-top: 15px;margin-left: 15px">
+        <div style="margin-top: 15px;margin-left: 15px">
             <strong><font id="type" size="5" color=""></font></strong>
 
         </div>
-       <!-- <div class="weui-flex__item">
-            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary" onclick="inOut(this,'in')">进入</a>
-            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_warn" onclick="inOut(this,'out')">离开</a>
-        </div>-->
     </div>
 
-    <div style="margin-top: 15px; >
+    <div style="margin-top: 15px;" >
         <div><button class="blue-btn"></button><font> 通行记录</font></div>
         <div style="margin-top: 15px;margin-left: 15px">
             <div id="record"></div>
@@ -116,8 +112,8 @@
                     contentType: "application/x-www-form-urlencoded",
                     url: "/community/record/scanning",
                     data: { opreWxId: getCookie("openId"),
-                        // idStr:result,
-                        idStr:idStr,
+                        idStr:"OQ==",
+                        // idStr:idStr,
                         type:"in"
                     },
                     success: function (result) {

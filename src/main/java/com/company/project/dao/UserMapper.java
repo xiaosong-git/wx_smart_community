@@ -34,6 +34,6 @@ public interface UserMapper extends Mapper<User> {
     @Select("select * from "+ TableList.USER +" where name=#{userName} and id_no=#{idNo} limit 1")
     User findUserIdNo(String userName, String idNo);
     //查询管理员的小区
-    @Select("select * from "+ TableList.USER+" where wx_open_id=#{opreWxId}")
+    @Select("select * from "+ TableList.USER+" where wx_open_id=#{opreWxId} limit 1")
     User selectByopreWxId(String opreWxId);
 }
