@@ -28,6 +28,6 @@ public interface UserService extends Service<User> {
     Result userAuthInfo(String openId);
 
     Result creatMenu();
-
+    //根据管理员查询员工
     Result findStaff(String openId);
 }

@@ -44,5 +44,5 @@ public interface UserMapper extends Mapper<User> {
     //查询员工信息
     @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s " +
             "on s.user_id=u.id  where s.area_id=#{ext1}  ")
-    User selectStaffUserByArea(String ext1);
+    List <User> selectStaffUserByArea(String ext1);
 }

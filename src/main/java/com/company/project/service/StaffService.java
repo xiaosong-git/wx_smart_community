@@ -1,4 +1,5 @@
 package com.company.project.service;
+import com.company.project.core.Result;
 import com.company.project.model.Staff;
 import com.company.project.core.Service;
 
@@ -8,4 +9,5 @@ import com.company.project.core.Service;
  */
 public interface StaffService extends Service<Staff> {
 
+    Result addStaff(String openId, String areaId);
 }
