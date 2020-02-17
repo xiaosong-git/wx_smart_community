@@ -94,6 +94,7 @@ public class Menu {
         btnList.add(btn3);
 
     }
+    //个性化菜单 物业管理员
     public static void initMatchruleMenu() {
         IService iService = new WxService();
         WxMenu menu = new WxMenu();
@@ -103,7 +104,15 @@ public class Menu {
         btn1.setName("通行验证");
         btn1.setUrl(URL+MenuKey.PERSONINFOR);
         btn1.setType(WxConsts.MENU_BUTTON_VIEW);
+
+        WxMenu.WxMenuButton btn1_1 = new WxMenu.WxMenuButton();
+        btn1_1.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn1_1.setName("添加管理员");
+        //添加管理员菜单
+        btn1_1.setUrl(URL+"clear");
         btnList.add(btn1);
+        List<WxMenu.WxMenuButton> subList1 = new ArrayList<>();
+        subList1.addAll(Arrays.asList(btn1_1,btn1));
         //默认按钮
         setBtn(btnList);
         menu.setButton(btnList);
@@ -126,12 +135,21 @@ public class Menu {
         return manageResutl.getTag().getId();
 
     }
+    public static int updateUserTagName() throws WxErrorException {
+
+        IService iService = new WxService();
+        WxError wxError = iService.updateUserTagName(100, "物业超管");
+        System.out.println(wxError.toString());
+//        return manageResutl.getTag().getId();
+    return 0;
+    }
+
     public static int getTags() throws WxErrorException {
         IService iService = new WxService();
         WxUserTagResult manageResutl = iService.queryAllUserTag();
         List<WxUserTagResult.WxUserTag> tags = manageResutl.getTags();
         for (WxUserTagResult.WxUserTag tag : tags) {
-            if(tag.getName().equals("物业管理")){
+            if(tag.getName().equals("物业超管")){
                 return tag.getId();
             }
         }
@@ -176,7 +194,8 @@ public class Menu {
 //        int tags = getTags();
 //        System.out.println(tags);
 //        int tags = createTags();
-
+        int tags = getTags();
+        System.out.println(tags);
 //个性化菜单
 //        initMatchruleMenu();
 

@@ -46,6 +46,6 @@ public interface UserMapper extends Mapper<User> {
             "on s.user_id=u.id  where s.area_id=#{ext1}  ")
     List <User> selectStaffUserByArea(String ext1);
     //根据姓名手机号查找用户
-    @Select("select * from "+ TableList.USER+ " where name=#{name} and phone=#{phone} limit1")
+    @Select("select * from "+ TableList.USER+ " where name=#{name} and phone=#{phone} limit 1")
     User findByNamePhone(String name, String phone);
 }
