@@ -138,7 +138,7 @@
                 data: {
                     userId: userId,
                     name: name,
-                    idNo: idNo,
+                    idNO: idNo,
                     phone:phone
                 },
                 success: function (result) {
@@ -200,7 +200,7 @@
                 data: {
                     areaId: areaId,
                     name: name,
-                    idNo: idNo,
+                    idNO: idNo,
                     phone:phone
                 },
                 success: function (result) {
@@ -217,23 +217,23 @@
     }
 
     function checkIdNo() {
-       /* var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+       var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
         var idNo = $("#idCard").val();
         if(!regIdNo.test(idNo)){
             $.toptip('身份证输入错误，请检查');
             return false;
         }else{
             return true;
-        }*/
+        }
     }
     function checkPhone() {
-       /* var tel = $('#phone').val();
+       var tel = $('#phone').val();
         if (!tel || !/1[3|4|5|7|8]\d{9}/.test(tel)) {
             $.toptip('手机号输入错误，请检查');
             return false;
         }else{
             return true;
-        }*/
+        }
     }
 </script>
 </body>
