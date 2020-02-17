@@ -345,7 +345,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     //批量生成管理员个性化菜单
     @Override
-    public Result creatMenu() {
+    public Result creatUserToTag(int tagId) {
         //由于tag每次只能生成50个openId
         int count=0;
         int size=50;
@@ -394,6 +394,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         logger.info("查询成功");
         return ResultGenerator.genSuccessResult(map);
     }
+
+
 
 
 }

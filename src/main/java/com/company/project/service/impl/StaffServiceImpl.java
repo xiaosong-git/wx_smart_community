@@ -12,6 +12,7 @@ import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -71,7 +72,8 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             }
 
         }
-        return ResultGenerator.genSuccessResult("已存入用户");
+
+        return ResultGenerator.genFailResult("存入用户失败！");
     }
 
     /**
