@@ -22,7 +22,7 @@
 </head>
 
 <body ontouchstart>
-<div  style="margin-top: 15px;margin-left: 15px">
+<div  style="margin-top: 15px;margin-left: 15px;margin-right:15px;display: none" id="badydiv">
 
 <div><button class="blue-btn"></button><font> 通行人员信息</font></div>
 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
@@ -53,12 +53,13 @@
     </div>
     <div class="weui-cells weui-cells_form">
         <button class="weui-btn blue-btn" onclick="jssdkScan()">重新扫码</button>
-        <button class="weui-btn blue-btn" onclick="inOut(this,'in')" id="enter" style="display: block">准入</button>
-        <button class="weui-btn blue-btn" onclick="inOut(this,'out')" id="leave" style="display: block">通行</button>
-
+        <button class="weui-btn blue-btn" onclick="inOut(this,'in')" id="enter" style="display: none">准入</button>
+        <button class="weui-btn blue-btn" onclick="inOut(this,'out')" id="leave" style="display: none">通行</button>
     </div>
 </div>
-
+<div style="margin-top: 30%;margin-left: 15px;margin-right:15px;" id="scandiv">
+    <button class="weui-btn blue-btn" onclick="jssdkScan()">扫一扫</button>
+</div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
@@ -102,8 +103,6 @@
     }
     var idStr;
     function jssdkScan() {
-        console.log("调用扫一扫");
-        alert("调用扫一扫");
         $(".record").remove();
         wx.scanQRCode({
             needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
@@ -121,8 +120,11 @@
                         type:"in"
                     },
                     success: function (result) {
+
                         console.log(result);
                         var list = result.data
+                        document.getElementById('badydiv').style.display='block'
+                        document.getElementById('scandiv').style.display='none'
                         if(result.code == 200){
                             $('#img').attr('src', list.user.imgUrl);
                             $('#name').html(list.user.name);
@@ -141,13 +143,14 @@
                                 }
                                 $("#record").append("<div class='record'>"+records[i].passTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
                             }
+                            document.getElementById('enter').style.display='block';
+                            document.getElementById('leave').style.display='block';
                         }else{
                             $.toptip("该用户不属于此小区！");
                             $('#type').html("不可通行");
                             speckText("不可通行")
                             document.getElementById('type').style.color ="#8b0000";
-                            document.getElementById('enter').style.display='none';
-                            document.getElementById('leave').style.display='none';
+
                             $.toptip(result.data.message);
                         }
                     }

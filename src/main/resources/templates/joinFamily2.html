@@ -146,8 +146,8 @@
             success: function (result) {
 
                 if(result.code=="200"){
-                    document.getElementById("name").innerText=result.data.name
-                    document.getElementById("idCard").innerText=result.data.idNo
+                    document.getElementById("name").value=result.data.name
+                    document.getElementById("idCard").value=result.data.idNo
                 }
             }
         })
