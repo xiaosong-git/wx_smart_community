@@ -330,8 +330,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public Result userAuthInfo(String openId) {
 
         User userInfo = hUserMapper.getUserFromOpenId(openId);
+        if (userInfo!=null){
+            String workKey = "iB4drRzSrC";//生产的des密码
+            // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+            if (userInfo.getIdNo()!=null){
+                userInfo.setIdNo(DESUtil.decode(workKey,userInfo.getIdNo()));
+            }
+            return ResultGenerator.genSuccessResult(userInfo);
+        }
+        return ResultGenerator.genFailResult("未查询到实人信息");
 
-        return ResultGenerator.genSuccessResult(userInfo);
 
     }
 
