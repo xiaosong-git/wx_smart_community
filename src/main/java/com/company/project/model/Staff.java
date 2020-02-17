@@ -12,7 +12,7 @@ public class Staff {
      * 用户的user_id
      */
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * delete-- 删除
@@ -62,7 +62,7 @@ public class Staff {
      *
      * @return user_id - 用户的user_id
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -71,7 +71,7 @@ public class Staff {
      *
      * @param userId 用户的user_id
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
