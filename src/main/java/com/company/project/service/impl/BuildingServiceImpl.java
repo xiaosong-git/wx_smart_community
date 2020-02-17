@@ -25,7 +25,11 @@ public class BuildingServiceImpl extends AbstractService<Building> implements Bu
 		// TODO Auto-generated method stub
 		return hBuildingMapper.findBuilding(areaId);
 	}
-    
-    
+
+	@Override
+	public Building findBuildingById(Long buildingId) {
+		return findById(buildingId);
+	}
+
 
 }
