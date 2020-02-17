@@ -108,6 +108,11 @@ public class UserController {
         return ResultGenerator.genFailResult("系统异常", "");
     }
 
+    /**
+     * 通过openId查找用户的实人信息
+     * @param openId 微信号
+     * @return
+     */
     @RequestMapping("/userAuthInfo")
     @ResponseBody
     public Result userAuthInfo(@RequestParam String openId) {

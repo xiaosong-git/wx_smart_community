@@ -325,10 +325,12 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         List<User> list = hUserMapper.findUserList(name, idCard);
         return list;
     }
-
+    //通过openId查找用户的实人信息
     @Override
     public Result userAuthInfo(String openId) {
+
         return null;
+
     }
 
 
