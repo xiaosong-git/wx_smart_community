@@ -59,10 +59,22 @@
     </div>
     <div class="weui-cell">
         <div class="weui-cell__hd">
+            <label class="weui-label">楼层</label>
+        </div>
+        <div class="weui-cell__bd">
+            <select class="weui-select" id="floor">
+                <option value="">请选择</option>
+            </select>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
             <label class="weui-label">门牌号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="paltaddr" value="">
+            <select class="weui-select" id="paltaddr">
+                <option value="">请选择</option>
+            </select>
         </div>
     </div>
     <br>
@@ -138,11 +150,51 @@
             }
         });
     });
+    var rooms;
+    $("#houseaddr").bind("change",function(){
+        var buildingId = $("#houseaddr option:selected").val();
+        console.log("buildingId:"+buildingId)
+        $.ajax({
+            url: "building/building",
+            type: "post",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+                buildingId: buildingId
+            },
+            success: function(data) {
+                $("#floor option").remove();
+                console.log(data)
+                 var _data = data.data;
+                 rooms = _data.numberRange;
+                 var html = '<option value="">请选择</option>';
+                 for(var i=1;i<=_data.totalFloor;i++){
+                     html += '<option value="' +i + '">' + i + '</option>'
+                 }
+                 $("#floor").append(html); //渲染*/
+            }
+        });
+    })
+    $("#floor").bind("change",function(){
+        var floorNum = $("#floor option:selected").val();
+        $("#paltaddr option").remove();
+        var html = '<option value="">请选择</option>';
+        for(var i=1;i<=rooms;i++){
+            var num;
+            if(i<10){
+                num=floorNum+"0"+i
+            }else{
+                num=floorNum+""+i
+            }
+            html += '<option value="' +num + '">' + num + '</option>'
+        }
+        $("#paltaddr").append(html); //渲染*/
+    })
    function next() {
 	   var addr =  $("#addr").attr("data-code");
 	   var communityaddr = $("#communityaddr option:selected").val();
 	   var houseaddr = $("#houseaddr option:selected").val();
-	   var paltaddr = $("#paltaddr").val();
+	   var paltaddr = $("#paltaddr option:selected").val();
        window.location.href="verifyFamily2?&houseaddr="+houseaddr+"&paltaddr="+paltaddr;
    }
 </script>
