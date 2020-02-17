@@ -282,8 +282,8 @@
             //请求成功
             success: function (result) {
                if(result.code=="200"){
-                   document.getElementById("realName").innerText=result.data.name
-                   document.getElementById("idNo").innerText=result.data.idNo
+                   document.getElementById("realName").value=result.data.name
+                   document.getElementById("idNo").value=result.data.idNo
                }
             }
         })

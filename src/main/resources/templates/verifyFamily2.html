@@ -138,13 +138,13 @@
             },
             //请求成功
             success: function (result) {
-
                 if(result.code=="200"){
-                    document.getElementById("name").innerText=result.data.name
-                    document.getElementById("idCard").innerText=result.data.idNo
+                    document.getElementById("name").value=result.data.name
+                    document.getElementById("idCard").value=result.data.idNo
                 }
             }
         })
+
     }
     //获取上个页面传过来的参数
     function getQueryString(name) {

@@ -31,6 +31,7 @@ var addPersonUrl=url+suffix+"addPerson";
 var houseInforUrl=url+suffix+"houseInfor";
 var familyIndexUrl=url+suffix+"familyIndex";
 
+
 function setCookie(c_name,value,expiredays)
 {
     var exdate=new Date()

@@ -16,11 +16,6 @@
             background-color: #5cadff;
             color: #fff;
         }
-
-        .backgroud {
-            background-image: url("images/household.png");
-            background-size: cover;
-        }
     </style>
 
 </head>
@@ -34,16 +29,29 @@
     <p class="page-hd-desc"></p>
 </div>
 <div class="weui-cells weui-cells_form" style="font-family:宋体;">
-    <div class="weui-cell weui-btn weui-btn_plain-default backgroud" onclick="editHouseholder()">
-        <div class="weui-cell__hd"></div>
-        <div class="weui-cell__bd" align="center">
-            <strong><p id="householder"></p></strong>
+
+    <div id="adminPerson"></div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell weui-btn weui-btn_plain-default">
+            <div class="weui-cell__hd"><img src=""></div>
+            <div class="weui-cell__bd" align="center">
+                <p>王力宏</p>
+            </div>
+            <div class=\"weui-cell__ft\"></div>
         </div>
     </div>
-    <div id="familyPerson"></div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell weui-btn weui-btn_plain-default">
+            <div class="weui-cell__hd"><img src=""></div>
+            <div class="weui-cell__bd" align="center">
+                <p>王大力</p>
+            </div>
+            <div class=\"weui-cell__ft\"></div>
+        </div>
+    </div>
     <br>
     <br>
-    <button class="weui-btn blue-btn" onclick="verify()" style="display: none" id="btn"><font size="5">⊕</font> 新增家庭成员
+    <button class="weui-btn blue-btn_default blue-btn" onclick="verify()"  id="btn"><font size="5">⊕</font> 新增管理员
     </button>
 </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
@@ -51,13 +59,8 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
-    var houseId;
     $(function () {
-        var addr = window.localStorage.getItem("findHouseName");
-        houseId = window.localStorage.getItem("findHouseId");
-        document.getElementById('addr').innerText = addr;
-        getHouses();
-        console.log(getCookie(addr))
+
     })
 
     function getHouses() {
@@ -68,31 +71,7 @@
             url: "/community/family/findFamilyUser",
             data: {hourseId: houseId},
             success: function (result) {
-                console.log(result)
-                var list = result.data
-                for (var i in list) {
-                    if (list[i].ext1 == "T") {
-                        document.getElementById('householder').innerText = list[i].name
-                        $("#householder").attr("userId", list[i].id)
-                        $("#householder").attr("idNo", list[i].idNo)
 
-                        //是户主身份显示新增成员按钮
-                        if (getCookie("userId") == list[i].id) {
-                            document.getElementById('btn').style.display = 'block';
-                        }
-                    } else {
-                        $("#familyPerson").append("<div class=\"weui-cells weui-cells_form\">\n" +
-                            "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"editPerson('" + encodeURI(JSON.stringify(list[i])) + "')\">\n" +
-                            "\n" +
-                            "        <div class=\"weui-cell__hd\"><img src=\"\"></div>\n" +
-                            "        <div class=\"weui-cell__bd\" align=\"center\">\n" +
-                            "            <p>" + list[i].name + "</p>\n" +
-                            "        </div>\n" +
-                            "        <div class=\"weui-cell__ft\"></div>\n" +
-                            "    </div>\n" +
-                            "</div>")
-                    }
-                }
             }
         })
     }
@@ -116,6 +95,7 @@
         var params = "?index=person&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo + "&isAuth=" + isAuth;
         console.log(userName + "===" + userId + "====" + idNo);
         window.location.href = addPersonUrl + params;
+
     }
 
     function verify() {
