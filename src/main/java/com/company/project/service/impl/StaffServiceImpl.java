@@ -1,5 +1,6 @@
 package com.company.project.service.impl;
 
+import com.company.project.core.Result;
 import com.company.project.dao.StaffMapper;
 import com.company.project.model.Staff;
 import com.company.project.service.StaffService;
@@ -19,4 +20,9 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
     @Resource
     private StaffMapper hStaffMapper;
 
+    @Override
+    public Result addStaff(String openId, String areaId) {
+
+        return null;
+    }
 }

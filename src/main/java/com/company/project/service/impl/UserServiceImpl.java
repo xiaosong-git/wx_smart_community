@@ -371,15 +371,20 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public Result findStaff(String openId) {
         User user = hUserMapper.getUserOpenId(openId);
         if (user==null){
+            logger.info("查询管理员登入信息失败");
             return ResultGenerator.genFailResult("查询管理员登入信息失败");
         }
         String ext1 = user.getExt1();
         if (ext1 == null || "".equals(ext1)) {
+            logger.info("查询管理员小区信息失败");
             return ResultGenerator.genFailResult("查询管理员小区信息失败");
         }
-        User staff = hUserMapper.selectStaffUserByArea(ext1);
-
-        return ResultGenerator.genSuccessResult(staff);
+        List<User> staff = hUserMapper.selectStaffUserByArea(ext1);
+        Map<String,Object> map=new HashMap<>();
+        map.put("areaId",ext1);
+        map.put("staff",staff);
+        logger.info("查询成功");
+        return ResultGenerator.genSuccessResult(map);
     }
 
 

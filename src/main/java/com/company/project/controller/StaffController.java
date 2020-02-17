@@ -24,10 +24,9 @@ public class StaffController {
 
 
     @PostMapping("/add")
-    public Result list( @RequestParam String size) {
+    public Result list( @RequestParam String openId,@RequestParam String areaId) {
 
-        List<Staff> list = staffService.findAll();
-//        return ResultGenerator.genSuccessResult(pageInfo);
-        return null;
+        return  staffService.addStaff(openId,areaId);
+
     }
 }
