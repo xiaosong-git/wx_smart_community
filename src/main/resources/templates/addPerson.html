@@ -42,7 +42,7 @@
             <label class="weui-label">身份证号码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="idCard" value="">
+            <input class="weui-input" placeholder="请输入" type="text" id="idCard" value="" onBlur="checkIdNo()">
         </div>
         <div class="weui-cell__ft">
             <img src="images/scan.png" style="width: 26px;height: 26px">
@@ -111,7 +111,17 @@
     function editPerson() {
         var name = $("#name").val();
         var idNo = $("#idCard").val();
-        console.log(name + "==" + idNo)
+        if(isEmpty(name)){
+            $.toptip('名字不可为空');
+            return;
+        }
+        if(isEmpty(idNo)){
+            $.toptip('身份证不可为空');
+            return;
+        }
+        if(checkIdNo()!=true){
+            return;
+        }
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
@@ -154,8 +164,18 @@
     function addNewPerson() {
         var name = $("#name").val();
         var idNo = $("#idCard").val();
-        console.log(name + "==" + idNo)
-        $.ajax({
+        if(isEmpty(name)){
+            $.toptip('名字不可为空');
+            return;
+        }
+        if(isEmpty(idNo)){
+            $.toptip('身份证不可为空');
+            return;
+        }
+        if(checkIdNo()!=true){
+            return;
+        }
+       $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/family/addFamilyNameIdNo",
@@ -174,6 +194,18 @@
                 }
             }
         })
+    }
+
+    function checkIdNo() {
+        var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        var idNo = $("#idCard").val();
+        if(!regIdNo.test(idNo)){
+            $.toptip('身份证输入错误，请检查');
+            return false;
+        }else{
+            $.toptip('身份证合法',"success");
+            return true;
+        }
     }
 </script>
 </body>

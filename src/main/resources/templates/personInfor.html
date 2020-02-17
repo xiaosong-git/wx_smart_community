@@ -126,7 +126,7 @@
                             $('#phone').html(list.user.phone);
                             document.getElementById('type').style.color ="#006400"
                             $('#type').html("可通行");
-
+                            speckText("可通行")
                             var records = list.records;
                             for(var i in records){
                                 var turnover ="";
@@ -140,6 +140,7 @@
                         }else{
                             $.toptip("该用户不属于此小区！");
                             $('#type').html("不可通行");
+                            speckText("不可通行")
                             document.getElementById('type').style.color ="#8b0000";
                             document.getElementById('enter').style.display='none';
                             document.getElementById('leave').style.display='none';
@@ -174,7 +175,12 @@
             }
         })
     };
-
+    function speckText(str){
+        var url = "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&text=" + encodeURI(str);        // baidu
+        var n = new Audio(url);
+        n.src = url;
+        n.play();
+    }
 </script>
 </body>
 
