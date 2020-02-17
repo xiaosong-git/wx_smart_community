@@ -62,15 +62,15 @@
     </div>
 
     <div class="weui-btn-area" style="display:none" id="btn2">
-        <a class="weui-btn weui-btn_default blue-btn" href="javascript:" onclick="editPerson()">修改</a>
-        <a class="weui-btn weui-btn_warn" href="javascript:" onclick="delPerson()">删除</a>
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript:" onclick="editAdminInfo()">修改</a>
+        <a class="weui-btn weui-btn_warn" href="javascript:" onclick="delAdmin()">删除</a>
     </div>
     <div class="weui-btn-area" style="display:none" id="btn3">
-        <a class="weui-btn weui-btn_warn" href="javascript:" onclick="delPerson()">删除</a>
+        <a class="weui-btn weui-btn_warn" href="javascript:" onclick="delAdmin()">删除</a>
     </div>
 
     <div class="weui-btn-area" style="display:none" id="btn4">
-        <a class="weui-btn weui-btn_default blue-btn" href="javascript:" onclick="editPerson()">修改</a>
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript:" onclick="editAdminInfo()">修改</a>
     </div>
 
 </div>
@@ -94,8 +94,9 @@
         userId = getQueryString('userId');
         var index = getQueryString('index');
         if(index =="edit"){
+            console.log("isAuth:"+isAuth)
             if(isAuth=="F"){
-                document.getElementById('btn2').style.display = 'block';
+                document.getElementById("btn2").style.display = 'block';
             }else{
                 document.getElementById('btn3').style.display = 'block';
 
@@ -113,36 +114,51 @@
         if (r != null) return unescape(r[2]);
         return null;
     }
-    function editPerson() {
+    function editAdminInfo() {
         var name = $("#name").val();
         var idNo = $("#idCard").val();
-        if(isEmpty(name)){
+        var phone = $("#phone").val();
+        /*if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
-        }
-        if(isEmpty(idNo)){
+        }else if(isEmpty(idNo)){
             $.toptip('身份证不可为空');
             return;
-        }
-        if(checkIdNo()!=true){
+        }else if(isEmpty(phone)){
+            $.toptip('手机号不可为空');
             return;
-        }
+        }else if(checkIdNo()!=true){
+            return;
+        }else if(checkPhone()!=true){
+            return;
+        }else{
+            $.ajax({
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded",
+                url: "/community/staff/editStaff",
+                data: {
+                    userId: userId,
+                    name: name,
+                    idNo: idNo,
+                    phone:phone
+                },
+                success: function (result) {
+                    console.log(result)
+                }
+            })
+        }*/
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
-            url: "/community/family/editFamilyUser",
+            url: "/community/staff/editStaff",
             data: {
-                userId: editUserId,
-                idNo:idNo,
-                userName:name
+                userId: userId,
+                name: name,
+                idNo: idNo,
+                phone:phone
             },
             success: function (result) {
-                if(result.code==200){
-                    $.toptip('修改成功','success');
-                    window.location.href = familyInforUrl;
-                }else{
-                    $.toptip('删除失败');
-                }
+                console.log(result)
             }
         })
     }
@@ -226,13 +242,13 @@
         }*/
     }
     function checkPhone() {
-        var tel = $('#phone').val();
+       /* var tel = $('#phone').val();
         if (!tel || !/1[3|4|5|7|8]\d{9}/.test(tel)) {
             $.toptip('手机号输入错误，请检查');
             return false;
         }else{
             return true;
-        }
+        }*/
     }
 </script>
 </body>
