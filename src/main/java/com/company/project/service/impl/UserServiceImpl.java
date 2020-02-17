@@ -336,9 +336,10 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             if (userInfo.getIdNo()!=null){
                 userInfo.setIdNo(DESUtil.decode(workKey,userInfo.getIdNo()));
             }
+            return ResultGenerator.genSuccessResult(userInfo);
         }
+        return ResultGenerator.genFailResult("未查询到实人信息");
 
-        return ResultGenerator.genSuccessResult(userInfo);
 
     }
 
