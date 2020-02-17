@@ -9,5 +9,10 @@ import com.company.project.core.Service;
  */
 public interface StaffService extends Service<Staff> {
 
-    Result addStaff(String openId, String areaId);
+    //添加员工
+    Result addStaff(String areaId, String name, String idNO, String phone);
+    //修改员工
+    Result editStaff(Long userId,String name, String idNO, String phone);
+
+    Result deleteStaff(String areaId, Long userId);
 }

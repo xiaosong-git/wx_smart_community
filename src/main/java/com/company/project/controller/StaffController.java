@@ -22,11 +22,53 @@ public class StaffController {
     @Resource
     private StaffService staffService;
 
-
+    /**
+     * 新增员工
+     * @param areaId 小区id
+     * @param name  用户名
+     * @param idNO  用户身份证
+     * @param phone 电话号码
+     * @return 是否成功
+     */
     @PostMapping("/add")
-    public Result list( @RequestParam String openId,@RequestParam String areaId) {
+    public Result list( @RequestParam String areaId,@RequestParam String name,
+                         @RequestParam String idNO, String phone) {
+        try {
+            return  staffService.addStaff(areaId,name,idNO,phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
 
-        return  staffService.addStaff(openId,areaId);
+    }
+
+    /**
+     *
+     * @param userId 用户id
+     * @param name 姓名
+     * @param idNO 身份证
+     * @param phone 电话
+     * @return
+     */
+    @PostMapping("/editStaff")
+    public Result editStaff( @RequestParam Long userId, @RequestParam String name,
+                        @RequestParam(defaultValue = "") String idNO, String phone) {
+        try {
+            return  staffService.editStaff(userId, name, idNO,  phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+
+    }
+    @PostMapping("/deleteStaff")
+    public Result delete( @RequestParam String areaId,@RequestParam Long userId) {
+        try {
+            return  staffService.deleteStaff(areaId,userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
 
     }
 }
