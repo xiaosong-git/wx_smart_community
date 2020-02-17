@@ -133,6 +133,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         //是否管理员
         User manage=hUserMapper.findByIdNo(idNoMW);
         if (manage==null){
+
             User user1 = bindHouseholder(userId, idNoMW, name);
             return user1;
         }
@@ -155,8 +156,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public User bindHouseholder(Object userId,String idNoMW,String name) throws WxErrorException {
         User user = hUserMapper.getUserFromId(userId);
         String wxOpenId = user.getWxOpenId();
-        //是否管理员
+        //是否普通用户
         User Householder=hUserMapper.findByIdNoName(idNoMW,name);
+
         if (Householder==null){
             return user;
         }
@@ -169,7 +171,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
     @Override
     public Result uploadPhoto(String userId, String mediaId, String type) throws Exception {
-        String time = DateUtil.getSystemTimeFourteen();
+//        String time = DateUtil.getSystemTimeFourteen();
         //临时图片地址
 //        String url="D:\\test\\community\\tempotos";
         String url="/project/weixin/community/tempotos";

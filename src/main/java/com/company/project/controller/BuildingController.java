@@ -70,6 +70,7 @@ public class BuildingController {
     public Result building(@RequestParam() Long buildingId) {
         try {
             Building building= buildingService.findBuildingById(buildingId);
+            return ResultGenerator.genSuccessResult(building);
         } catch (Exception e) {
             e.printStackTrace();
         }
