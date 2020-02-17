@@ -234,11 +234,13 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         //家庭信息
         Family family = familyMapper.getFamilyFromOpenId(openId);
         if (hourse!=null){
+            System.out.println("---有房子---");
             userInfo.put("hourse","T");
         }else {
             userInfo.put("hourse","F");
         }
         if (family!=null){
+            System.out.println("---有家庭---");
             userInfo.put("family","T");
         }else {
             userInfo.put("family","F");

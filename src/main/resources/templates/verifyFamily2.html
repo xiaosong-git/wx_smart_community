@@ -97,6 +97,9 @@
             	if(data.message=='SUCCESS'){
             		setCookie('userId', data.data.userId, 365);
                 	setCookie('hourse', data.data.isAuth, 365);
+                	console.log(getCookie("hourse"))
+                	console.log(getCookie("family"));
+                	setCookie('family', 'T', 365);
                 	alert('认证成功');
             	}else{
             		alert('认证失败');

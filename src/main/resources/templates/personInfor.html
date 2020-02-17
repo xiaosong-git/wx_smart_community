@@ -112,7 +112,7 @@
                     contentType: "application/x-www-form-urlencoded",
                     url: "/community/record/scanning",
                     data: { opreWxId: getCookie("openId"),
-                        idStr:"OQ==",
+                        idStr:result,
                         // idStr:idStr,
                         type:"in"
                     },
@@ -130,12 +130,12 @@
                             var records = list.records;
                             for(var i in records){
                                 var turnover ="";
-                                if(records[i].type=="in"){
+                                if(records[i].type==="in"){
                                     turnover ="进入"
                                 }else{
                                     turnover ="离开"
                                 }
-                                $("#record").append("<div class='record'>"+records[i].createTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
+                                $("#record").append("<div class='record'>"+records[i].passTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
                             }
                         }else{
                             $.toptip("该用户不属于此小区！");

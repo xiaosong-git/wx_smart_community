@@ -51,14 +51,14 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
         String workKey = "iB4drRzSrC";//生产的des密码
         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
         String idNoMW = DESUtil.encode(workKey,idNo);
-        User user = userMapper.findUserIdNo(userName, idNo);
+        User user = userMapper.findUserIdNo(userName, idNoMW);
 
         long hisUserId;
         if (user==null){
 
             user=new User();
             user.setName(userName);
-            user.setIdNo(idNo);
+            user.setIdNo(idNoMW);
             userId = (long) userService.save(user);
         }
         if (userId.equals(user.getId())){
