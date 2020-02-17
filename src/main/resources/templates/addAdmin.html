@@ -95,11 +95,10 @@
         var index = getQueryString('index');
         if(index =="edit"){
             console.log("isAuth:"+isAuth)
-            if(isAuth=="F"){
+            if(isAuth!="T"){
                 document.getElementById("btn2").style.display = 'block';
             }else{
                 document.getElementById('btn3').style.display = 'block';
-
             }
             document.getElementById('name').value=name;
             document.getElementById('idCard').value=idNo;
@@ -118,7 +117,7 @@
         var name = $("#name").val();
         var idNo = $("#idCard").val();
         var phone = $("#phone").val();
-        /*if(isEmpty(name)){
+        if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
         }else if(isEmpty(idNo)){
@@ -143,50 +142,44 @@
                     phone:phone
                 },
                 success: function (result) {
-                    console.log(result)
+                   if(result.code=="200"){
+                       $.toptip(result.data,"success");
+                       window.location.href = adminInforUrl;
+                   }else{
+                       $.toptip(result.data);
+                   }
                 }
             })
-        }*/
+        }
+    }
+    function delAdmin() {
+        console.log("areaId:"+areaId)
+        console.log("userId:"+userId)
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
-            url: "/community/staff/editStaff",
+            url: "/community/staff/deleteStaff",
             data: {
-                userId: userId,
-                name: name,
-                idNo: idNo,
-                phone:phone
+                areaId: areaId,
+                userId:userId
             },
             success: function (result) {
                 console.log(result)
-            }
-        })
-    }
-    function delPerson() {
-        console.log(houseId + "==" + editUserId)
-        $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "/community/family/deleteFamilyUser",
-            data: {
-                hourseId: houseId,
-                userId: editUserId
-            },
-            success: function (result) {
-                if(result.code==200){
-                    $.toptip('删除成功','success');
-                    window.location.href = familyInforUrl;
+                /*if(result.code=="200"){
+                    $.toptip(result.data,"success");
+                    window.location.href = adminInforUrl;
                 }else{
-                    $.toptip('删除失败');
-                }
+                    $.toptip(result.data);
+                }*/
             }
         })
     }
     function addNewAdmin() {
+
         var name = $("#name").val();
         var idNo = $("#idCard").val();
         var phone = $("#phone").val();
-        /*if(isEmpty(name)){
+        if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
         }else if(isEmpty(idNo)){
@@ -212,23 +205,15 @@
                 },
                 success: function (result) {
                     console.log(result)
+                    if(result.code=="200"){
+                        $.toptip(result.data,"success");
+                        window.location.href = adminInforUrl;
+                    }else{
+                        $.toptip(result.data);
+                    }
                 }
             })
-        }*/
-        $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "/community/staff/add",
-            data: {
-                areaId: areaId,
-                name: name,
-                idNO: idNo,
-                phone:phone
-            },
-            success: function (result) {
-                console.log(result)
-            }
-        })
+        }
     }
 
     function checkIdNo() {
