@@ -64,6 +64,7 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script src="js/myUtil.js"></script>
+</body>
 <script>
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -85,14 +86,15 @@
         console.log(res);
     });
     $(function(){
-        jssdkScan();
-        //解决表单控件不能回弹 只有微信ios有这个问题
+        // jssdkScan();
         $("input,select,textarea").blur(function(){
             setTimeout(() => {
                 const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
             window.scrollTo(0, Math.max(scrollHeight - 1, 0));
         }, 100);
+            //解决表单控件不能回弹 只有微信ios有这个问题
         })
+        // setTimeout(function(){jssdkScan();},800);
 
     });
     function quit(){
@@ -100,6 +102,8 @@
     }
     var idStr;
     function jssdkScan() {
+        console.log("调用扫一扫");
+        alert("调用扫一扫");
         $(".record").remove();
         wx.scanQRCode({
             needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
@@ -121,7 +125,7 @@
                         var list = result.data
                         if(result.code == 200){
                             $('#img').attr('src', list.user.imgUrl);
-                           $('#name').html(list.user.name);
+                            $('#name').html(list.user.name);
                             $('#building').html(list.user.hourseNum);
                             $('#phone').html(list.user.phone);
                             document.getElementById('type').style.color ="#006400"
@@ -167,7 +171,7 @@
                 $(obj).removeClass("weui-btn_loading");
                 var list = result.data
                 if(result.code == 200){
-                   $.toptip("放行成功！","success");
+                    $.toptip("放行成功！","success");
                 }else{
                     $.toptip("放行失败，系统错误！");
                 }
@@ -176,7 +180,6 @@
     };
 
 </script>
-</body>
 
 
 </html>

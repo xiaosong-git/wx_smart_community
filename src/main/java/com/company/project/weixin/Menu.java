@@ -4,11 +4,14 @@ import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxConsts;
 import com.soecode.wxtools.api.WxService;
 import com.soecode.wxtools.bean.WxMenu;
+import com.soecode.wxtools.bean.result.WxError;
+import com.soecode.wxtools.bean.result.WxUserListResult;
 import com.soecode.wxtools.bean.result.WxUserTagResult;
 import com.soecode.wxtools.exception.WxErrorException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.company.project.weixin.MenuKey.URL;
@@ -134,25 +137,52 @@ public class Menu {
         }
         return 0;
     }
+    //将用户加入标签
+    public static void pushToTags() throws WxErrorException {
+        IService iService = new WxService();
+        List<String> openIds=new LinkedList<>();
+        openIds.add("oFw0JwGlkNWM9DByJR8C76hSgYuc");
+        WxError wxError = iService.batchMovingUserToNewTag(openIds, 100);
+
+    }
+    //检查标签
+    public static void check() throws WxErrorException {
+        IService iService = new WxService();
+//        List<String> openIds=new LinkedList<>();
+//        openIds.add("oFw0JwGlkNWM9DByJR8C76hSgYuc");
+        WxUserListResult wxUserListResult = iService.queryAllUserUnderByTag(100, "");
+        wxUserListResult.getData();
+
+    }
+    //将用户加入标签
+    public static void checkMenu() throws WxErrorException {
+        IService iService = new WxService();
+        try {
+            WxUserTagResult wxUserTagResult = iService.queryAllUserTag();
+            List<WxUserTagResult.WxUserTag> tags = wxUserTagResult.getTags();
+            for (WxUserTagResult.WxUserTag tag : tags) {
+                System.out.println("-----tag_id:"+tag.getId());
+            }
+            String s = iService.menuTryMatch("oFw0JwGlkNWM9DByJR8C76hSgYuc");
+            System.out.println(s);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws WxErrorException {
-        creatMenu();
-        initMatchruleMenu();
+//        creatMenu();
+//        initMatchruleMenu();
+//        int tags = getTags();
+//        System.out.println(tags);
 //        int tags = createTags();
 
 //个性化菜单
 //        initMatchruleMenu();
-        IService iService = new WxService();
-//        try {
-////            WxUserTagResult wxUserTagResult = iService.queryAllUserTag();
-////            List<WxUserTagResult.WxUserTag> tags = wxUserTagResult.getTags();
-////            for (WxUserTagResult.WxUserTag tag : tags) {
-////                System.out.println("-----tag_id:"+tag.getId());
-////            }
-////            String s = iService.menuTryMatch("otlyluFmKy3-oThjxdBYGQj2hzLI");
-////            System.out.println(s);
-//        } catch (WxErrorException e) {
-//            e.printStackTrace();
-//        }
+
+//        pushToTags();
+//        check();
+//        checkMenu();
     }
 
 
