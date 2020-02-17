@@ -16,14 +16,15 @@
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
   </resultMap>
 
-  <select id="selectTimes" parameterType="Long" resultType="map">
+  <select id="selectTimes" parameterType="Long" resultType="int">
     select (times-c) c from (
     select round(1/frequency)*2 times,(select count(*) from  h_record
     where user_id=#{userId} and date_format(NOW(),'%Y-%m-%d')=date_format(create_time,'%Y-%m-%d') and
     is_pass ='0') c from h_area a
     left join h_building  b on a.id =b.area_id
     left join  h_hourse h on h.building_id =b.id
-    where h.user_id=#{userId})x limit 1
+    left join h_family f on f.house_id=h.id
+    where f.user_id=#{userId})x limit 1
  </select>
   <select id="findMyRecord" parameterType="Long" resultMap="BaseResultMap">
   select * from h_record where date_format(NOW(),'%Y-%m-%d')=date_format(create_time,'%Y-%m-%d')

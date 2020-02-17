@@ -13,6 +13,9 @@ import com.company.project.service.ParamsService;
 import com.company.project.service.RecordService;
 import com.company.project.util.Base64;
 import com.company.project.util.DateUtil;
+import com.company.project.weixin.WxController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +42,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     private AreaMapper areaMapper;
     @Resource
     private ParamsService paramsService;
-
+    Logger logger = LoggerFactory.getLogger(RecordServiceImpl.class);
     @Resource
     private RecordMapper recordMapper;
 
@@ -63,7 +66,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     public Result scanning(String opreWxId, String idStr, String type) throws Exception {
         String recordId = new String(Base64.decode(idStr),"UTF-8");
         //todo 判断是否为该小区用户
-         //
+        System.out.println("操作者微信："+opreWxId);
         User operUser = userMapper.selectByopreWxId(opreWxId);
         String ext1 = operUser.getExt1();
         Long areaId =0L;
@@ -80,6 +83,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
                     List<Area> areaById = areaMapper.findAreaById((long)userMap.get("userId"));
                     for (Area area : areaById) {
                         if(area.getId().equals(areaId)){
+                            System.out.println("对比用户小区："+area.getId()+" 管理员小区"+areaId);
                             isArea=true;
                             break;
                         }

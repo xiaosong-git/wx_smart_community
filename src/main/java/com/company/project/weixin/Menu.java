@@ -41,13 +41,7 @@ public class Menu {
 //        btn2.setType(WxConsts.MENU_BUTTON_VIEW);
 //        btnList.add(btn2);
         menu.setButton(btnList);
-//        String url=null;
-//        try {
-            //通过公众号访问地址授权
-//            url = iService.oauth2buildAuthorizationUrl(URL + "login", "snsapi_userinfo", "233");
-//        }catch (WxErrorException w){
-//            w.getStackTrace();
-//        }
+
         //调用API即可
         try {
             //参数1--menu  ，参数2--是否是个性化定制。如果是个性化菜单栏，需要设置MenuRule
@@ -60,13 +54,27 @@ public class Menu {
     public static void setBtn(List<WxMenu.WxMenuButton> btnList){
         //按钮二
         WxMenu.WxMenuButton btn2 = new WxMenu.WxMenuButton();
-        btn2.setName("门禁卡");
+        btn2.setName("通行码");
         btn2.setUrl(URL+MenuKey.QRCODE);
         btn2.setType(WxConsts.MENU_BUTTON_VIEW);
         //按钮三
         WxMenu.WxMenuButton btn3=new WxMenu.WxMenuButton();
         btn3.setName("我的");
         List<WxMenu.WxMenuButton> subList3 = new ArrayList<>();
+//        String url=null;
+//        WxMenu.WxMenuButton btn3_4 = new WxMenu.WxMenuButton();
+//        try {
+//            IService iService = new WxService();
+////            通过公众号访问地址授权
+//
+//            url = iService.oauth2buildAuthorizationUrl(URL + "login", "snsapi_userinfo", "233");
+//            btn3_4.setType(WxConsts.MENU_BUTTON_VIEW);
+//            btn3_4.setUrl(url);
+//            //授权登入
+//            btn3_4.setName("登入");
+//        }catch (WxErrorException w){
+//            w.getStackTrace();
+//        }
         WxMenu.WxMenuButton btn3_1 = new WxMenu.WxMenuButton();
         btn3_1.setType(WxConsts.MENU_BUTTON_VIEW);
         btn3_1.setName("清除缓存");

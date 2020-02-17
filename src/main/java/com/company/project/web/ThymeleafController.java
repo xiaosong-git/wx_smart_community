@@ -51,6 +51,7 @@ public class ThymeleafController {
             Map<String,Object> user = userService.getUser(wxUser1.getOpenid());
 
             model.addAttribute("user",user.get("user"));
+            System.out.println("--是否有房子：-"+user.get("hourse")+"---是否有家庭-----"+user.get("family"));
             model.addAttribute("hourse",user.get("hourse"));
             model.addAttribute("family",user.get("family"));
 

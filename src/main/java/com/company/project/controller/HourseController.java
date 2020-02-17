@@ -75,7 +75,7 @@ public class HourseController {
         String isAuth = "F";
         if(list!=null) {
             for(Hourse h:list) {
-                if(h.getBuildingId()==houseaddr&&h.getNum().equals(paltaddr)) {
+                if(h.getBuildingId().equals(houseaddr) &&h.getNum().equals(paltaddr)) {
                     Hourse hourse = new Hourse();
                     hourse.setIsAuth("T");
                     hourse.setId(h.getId());
@@ -92,11 +92,13 @@ public class HourseController {
                    
                     family.setIsJoin("T");
                     family.setStatus("0");
-                    familyservice.save(family);
+                    int save = familyservice.save(family);
+
+                    System.out.println("是否生成家庭成功？"+save);
                 }
             }
         }
-        if(flag==true) {
+        if(flag) {
             String workKey = "iB4drRzSrC";//生产的des密码
             // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
             idCard = DESUtil.encode(workKey,idCard);
@@ -114,11 +116,12 @@ public class HourseController {
     @PostMapping("/authJoinFamily")
     public Result authJoinFamily( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
                                   @RequestParam() String name, @RequestParam() String idCard) {
-    	 String workKey = "iB4drRzSrC";//生产的des密码
+        List<User> userList = userservice.finUserList(name, idCard);
+        String workKey = "iB4drRzSrC";//生产的des密码
          // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
          idCard = DESUtil.encode(workKey,idCard);
         List<Hourse> list = hourseService.authFamily(name, idCard);
-        List<User> userList = userservice.finUserList(name, idCard);
+
         Map<String, String> map = new HashMap<String, String>();
         boolean flag = false;
         String isJoin = "F";

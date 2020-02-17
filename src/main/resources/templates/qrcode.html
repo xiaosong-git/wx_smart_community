@@ -80,7 +80,7 @@
                     var canvas = qrcode.find('canvas').get(0);
                     $('#imgOne').attr('src', canvas.toDataURL("image/png"));
                 } else {
-                    $.toptip(result.data.message);
+                    $.toptip(result.message);
                 }
             }
         })

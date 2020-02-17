@@ -11,6 +11,6 @@ public interface RecordMapper extends Mapper<Record> {
     int selectTimes(Long userId);
 
     Record findMyRecord(Long userId);
-    @Select("select * from h_record where user_id =#{id} order by create_time desc limit 4")
+    @Select("select * from h_record where user_id =#{id} and is_pass=0 order by pass_time desc limit 4")
     List<Record> selectByUserId(String id);
 }
