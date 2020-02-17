@@ -15,6 +15,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxService;
+import com.soecode.wxtools.bean.result.WxError;
 import com.soecode.wxtools.exception.WxErrorException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -351,22 +352,37 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         int size=50;
         List<String> openIds=new LinkedList<>();
 
-        List<User> list = hUserMapper.findManager();
+        List<User> list = null;
+        if (tagId==100){
 
-        for (User user : list) {
-            count++;
-            openIds.add(user.getWxOpenId());
+        list=hUserMapper.findManager();
+        }else if (tagId==101){
+            list=hUserMapper.findStaff();
+        }
+        WxError wxError;
+        if (list!=null) {
+            for (User user : list) {
+                count++;
+                openIds.add(user.getWxOpenId());
 
-            if (count%size==0){
-                try {
-                iService.batchMovingUserToNewTag(openIds,100);
-                } catch (WxErrorException e) {
-                    logger.error("批量生成管理员菜单报错",e);
+                if (count % size == 0) {
+                    try {
+                         wxError = iService.batchMovingUserToNewTag(openIds, 100);
+                        logger.info(wxError.getErrmsg());
+                    } catch (WxErrorException e) {
+                        logger.error("批量生成管理员菜单报错", e);
+                    }
+                    openIds.removeAll(list);
                 }
-                openIds.removeAll(list);
             }
         }
 
+        try {
+             wxError = iService.batchMovingUserToNewTag(openIds, 100);
+            logger.info(wxError.getErrmsg());
+        } catch (WxErrorException e) {
+            logger.error("批量生成管理员菜单报错", e);
+        }
         return ResultGenerator.genSuccessResult(list);
     }
 

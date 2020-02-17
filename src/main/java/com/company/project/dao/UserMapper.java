@@ -43,9 +43,12 @@ public interface UserMapper extends Mapper<User> {
     List<User> findManager();
     //查询员工信息
     @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s " +
-            "on s.user_id=u.id  where s.area_id=#{ext1}  ")
+            "on s.user_id=u.id  where s.area_id=#{ext1}  and s.status<>'delete' ")
     List <User> selectStaffUserByArea(String ext1);
     //根据姓名手机号查找用户
     @Select("select * from "+ TableList.USER+ " where name=#{name} and phone=#{phone} limit 1")
     User findByNamePhone(String name, String phone);
+    //查找二级管理员信息
+    @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where  wx_open_id is not null")
+    List<User> findStaff();
 }
