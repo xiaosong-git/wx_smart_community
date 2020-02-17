@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Select;
 
 public interface StaffMapper extends Mapper<Staff> {
 
-    @Select("select * from "+ TableList.STAFF+" where area_id=#{areaId} and #{userId} limit 1")
+    @Select("select * from "+ TableList.STAFF+" where area_id=#{areaId} and user_id= #{userId} limit 1")
     Staff findbyAreaId(String areaId,Long userId);
 }

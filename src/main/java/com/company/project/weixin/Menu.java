@@ -144,12 +144,12 @@ public class Menu {
     return 0;
     }
 
-    public static int getTags() throws WxErrorException {
+    public static int getTags(String manage) throws WxErrorException {
         IService iService = new WxService();
         WxUserTagResult manageResutl = iService.queryAllUserTag();
         List<WxUserTagResult.WxUserTag> tags = manageResutl.getTags();
         for (WxUserTagResult.WxUserTag tag : tags) {
-            if(tag.getName().equals("物业超管")){
+            if(tag.getName().equals(manage)){
                 return tag.getId();
             }
         }
@@ -189,12 +189,13 @@ public class Menu {
     }
 
     public static void main(String[] args) throws WxErrorException {
-//        creatMenu();
+//        creatUserToTag();
 //        initMatchruleMenu();
 //        int tags = getTags();
 //        System.out.println(tags);
 //        int tags = createTags();
-        int tags = getTags();
+        createTags();
+        int tags = getTags("物业管理");
         System.out.println(tags);
 //个性化菜单
 //        initMatchruleMenu();

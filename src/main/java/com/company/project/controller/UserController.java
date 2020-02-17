@@ -128,11 +128,11 @@ public class UserController {
      * 根据 openId 生成个性化菜单
      *
      */
-    @RequestMapping("/creatMenu")
+    @RequestMapping("/creatUserToTag")
     @ResponseBody
-    public Result creatMenu() {
+    public Result creatUserToTag(@RequestParam int tagId) {
         try {
-            return userService.creatMenu();
+            return userService.creatUserToTag(tagId);
         } catch (Exception e) {
             e.printStackTrace();
         }
