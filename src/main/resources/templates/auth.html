@@ -93,13 +93,14 @@
 
     $(function(){
 
-        //解决表单控件不能回弹 只有微信ios有这个问题
+        getAuthInfo();
+       /* //解决表单控件不能回弹 只有微信ios有这个问题
         $("input,select,textarea").blur(function(){
             setTimeout(() => {
                 const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
             window.scrollTo(0, Math.max(scrollHeight - 1, 0));
         }, 100);
-        })
+        })*/
 
     });
     function removeimg(obj){
@@ -265,6 +266,25 @@
                 $.toptip("网络错误!");
             }
         });
+    }
+    function getAuthInfo() {
+        $.ajax({
+            //请求方式
+            type: "POST",
+            //请求的媒体类型
+            contentType: "application/x-www-form-urlencoded",
+            //请求地址
+            url: "/community/user/userAuthInfo",
+            //数据，json字符串
+            data: {
+                openId:getCookie("openId")
+            },
+            //请求成功
+            success: function (result) {
+                console.log(result)
+            }
+        })
+
     }
     function checkIdNo() {
         var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;

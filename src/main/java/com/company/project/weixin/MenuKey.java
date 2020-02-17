@@ -23,6 +23,6 @@ public class MenuKey {
     //本地测试
     public static final String URL = "http://j7h3rk.natappfree.cc/community/";
     //智慧小区
-//    public static final String URL = "http://f.pyblkj.cn/community/";
+   // public static final String URL = "http://f.pyblkj.cn/community/";
 
 }

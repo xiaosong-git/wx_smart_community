@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+
 /**
  * Created by CodeGenerator on 2020/02/11.
  */
@@ -166,7 +167,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return Householder;
     }
     @Override
-    public Result uploadPhoto(String userId, String mediaId, String type) {
+    public Result uploadPhoto(String userId, String mediaId, String type) throws Exception {
         String time = DateUtil.getSystemTimeFourteen();
         //临时图片地址
 //        String url="D:\\test\\community\\tempotos";
@@ -178,18 +179,20 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
-        String fileName = newFile.getName();
+        String fileName = newFile.getAbsolutePath();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-        String newFileName = url+File.separator+userId+System.currentTimeMillis() + "."+suffix;
-        File newNameFile=new File(newFileName);
-        boolean b = newFile.renameTo(newNameFile);
-
-        String name = newNameFile.getAbsolutePath();
+        //获取文件
+        byte[] photo = FilesUtils.getPhoto(fileName);
+        //压缩
+        String newFileName = userId+System.currentTimeMillis() + "."+suffix;
+        File compressImg = FilesUtils.getFileFromBytes(FilesUtils.compressUnderSize(photo, 10240L), url+File.separator, newFileName);
+        String name = compressImg.getAbsolutePath();
+        logger.info(name);
         OkHttpUtil okHttpUtil=new OkHttpUtil();
-        Map<String,Object> map=new HashMap();
+        Map<String,Object> map=new HashMap<>();
         map.put("userId",userId);
         map.put("type",type);
-        map.put("file",newNameFile);
+        map.put("file",compressImg);
         String imageServerApiUrl = paramService.findValueByName("imageServerApiUrl");
         String s = okHttpUtil.postFile(imageServerApiUrl, map, "multipart/form-data");//上传图片
         JSONObject jsonObject=JSONObject.parseObject(s);
@@ -322,6 +325,13 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         List<User> list = hUserMapper.findUserList(name, idCard);
         return list;
     }
-    
-    
+    //通过openId查找用户的实人信息
+    @Override
+    public Result userAuthInfo(String openId) {
+
+        return null;
+
+    }
+
+
 }

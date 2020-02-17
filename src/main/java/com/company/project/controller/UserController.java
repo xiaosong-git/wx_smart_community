@@ -99,9 +99,25 @@ public class UserController {
 
     @RequestMapping("/userHourseInfo")
     @ResponseBody
-    public Result uploadPhoto(@RequestParam Long userId) {
+    public Result userHourseInfo(@RequestParam Long userId) {
         try {
             return userService.userHourseInfo(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+    }
+
+    /**
+     * 通过openId查找用户的实人信息
+     * @param openId 微信号
+     * @return
+     */
+    @RequestMapping("/userAuthInfo")
+    @ResponseBody
+    public Result userAuthInfo(@RequestParam String openId) {
+        try {
+            return userService.userAuthInfo(openId);
         } catch (Exception e) {
             e.printStackTrace();
         }
