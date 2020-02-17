@@ -94,7 +94,7 @@ public class Menu {
         btnList.add(btn3);
 
     }
-    //个性化菜单 物业管理员
+    //个性化菜单 超管
     public static void initMatchruleMenu() {
         IService iService = new WxService();
         WxMenu menu = new WxMenu();
@@ -109,7 +109,7 @@ public class Menu {
         btn1_1.setType(WxConsts.MENU_BUTTON_VIEW);
         btn1_1.setName("添加管理员");
         //添加管理员菜单
-        btn1_1.setUrl(URL+"clear");
+        btn1_1.setUrl(URL+"adminInfor");
         btnList.add(btn1);
         List<WxMenu.WxMenuButton> subList1 = new ArrayList<>();
         subList1.addAll(Arrays.asList(btn1_1,btn1));
@@ -120,6 +120,31 @@ public class Menu {
         WxMenu.WxMenuRule menuRule=new WxMenu.WxMenuRule();
         //需要得知标签的id
         menuRule.setTag_id("100");
+        menu.setMatchrule(menuRule);
+        try {
+            //参数1--menu  ，参数2--是否是个性化定制。如果是个性化菜单栏，需要设置MenuRule
+            iService.createMenu(menu, true);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+    }
+    //普通管理员
+    public static void initManageMenu() {
+        IService iService = new WxService();
+        WxMenu menu = new WxMenu();
+        List<WxMenu.WxMenuButton> btnList = new ArrayList<>();
+        //个性化按钮
+        WxMenu.WxMenuButton btn1 = new WxMenu.WxMenuButton();
+        btn1.setName("通行验证");
+        btn1.setUrl(URL+MenuKey.PERSONINFOR);
+        btn1.setType(WxConsts.MENU_BUTTON_VIEW);
+        //默认按钮
+        setBtn(btnList);
+        menu.setButton(btnList);
+        //配置个性化规则
+        WxMenu.WxMenuRule menuRule=new WxMenu.WxMenuRule();
+        //需要得知标签的id
+        menuRule.setTag_id("101");
         menu.setMatchrule(menuRule);
         try {
             //参数1--menu  ，参数2--是否是个性化定制。如果是个性化菜单栏，需要设置MenuRule
