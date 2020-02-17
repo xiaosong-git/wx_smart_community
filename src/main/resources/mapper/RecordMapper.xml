@@ -11,6 +11,7 @@
     <result column="is_pass" jdbcType="VARCHAR" property="isPass" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="ext1" jdbcType="VARCHAR" property="ext1" />
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />

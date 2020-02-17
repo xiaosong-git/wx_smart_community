@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+
 import java.util.List;
 
 
@@ -37,7 +38,11 @@ public class AreaServiceImpl extends AbstractService<Area> implements AreaServic
 		// TODO Auto-generated method stub
 		return hAreaMapper.findByAreaId(userId, areaId);
 	}
-    
-    
 
+	@Override
+	public List<Area> reports(Long areaId, String userName){
+		// TODO Auto-generated method stub
+		List<Area> list = hAreaMapper.record(areaId);
+		return list;
+	}
 }
