@@ -133,19 +133,20 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         //是否管理员
         User manage=hUserMapper.findByIdNo(idNoMW);
         if (manage==null){
+
             User user1 = bindHouseholder(userId, idNoMW, name);
             return user1;
         }
-
         //发送给微信贴上标签
         List<String> openIds=new LinkedList<>();
         openIds.add(wxOpenId);
-        iService.batchMovingUserToNewTag(openIds,100);//100 物业管理标签号
+        iService.batchMovingUserToNewTag(openIds,100);//100 物业超管标签号
         //修改绑定用户
         user.setWxOpenId("");
         manage.setWxOpenId(wxOpenId);
         update(user);
         update(manage);
+        logger.info("绑定超管成功,{},{}",user.getId(),manage.getId());
         return manage;
     }
 
@@ -155,8 +156,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public User bindHouseholder(Object userId,String idNoMW,String name) throws WxErrorException {
         User user = hUserMapper.getUserFromId(userId);
         String wxOpenId = user.getWxOpenId();
-        //是否管理员
+        //是否普通用户
         User Householder=hUserMapper.findByIdNoName(idNoMW,name);
+
         if (Householder==null){
             return user;
         }
@@ -169,7 +171,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
     @Override
     public Result uploadPhoto(String userId, String mediaId, String type) throws Exception {
-        String time = DateUtil.getSystemTimeFourteen();
+//        String time = DateUtil.getSystemTimeFourteen();
         //临时图片地址
 //        String url="D:\\test\\community\\tempotos";
         String url="/project/weixin/community/tempotos";
@@ -398,7 +400,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             logger.info("查询管理员小区信息失败");
             return ResultGenerator.genFailResult("查询管理员小区信息失败");
         }
-        List<User> staff = hUserMapper.selectStaffUserByArea(ext1);
+        List<User> staffs = hUserMapper.selectStaffUserByArea(ext1);
+        if (staffs!=null){
+            for (User staff : staffs) {
+                if (!"".equals(staff.getIdNo())&&staff.getIdNo()!=null){
+
+                    staff.setIdNo(DESUtil.decode("iB4drRzSrC",staff.getIdNo()));
+
+                }
+            }
+        }
         Map<String,Object> map=new HashMap<>();
 
         Area area = areaService.findBy("id", Long.valueOf(ext1));
@@ -406,7 +417,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             map.put("areaName",area.getAreaName());
         }
             map.put("areaId",ext1);
-        map.put("staff",staff);
+        map.put("staff",staffs);
         logger.info("查询成功");
         return ResultGenerator.genSuccessResult(map);
     }

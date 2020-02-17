@@ -28,7 +28,9 @@ public class BuildingServiceImpl extends AbstractService<Building> implements Bu
 
 	@Override
 	public Building findBuildingById(Long buildingId) {
-		return findById(buildingId);
+
+		Building building = findById(buildingId);
+		return building;
 	}
 
 
