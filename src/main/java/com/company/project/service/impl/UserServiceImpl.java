@@ -7,6 +7,7 @@ import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.dao.*;
 import com.company.project.model.*;
+import com.company.project.service.AreaService;
 import com.company.project.service.ParamsService;
 import com.company.project.service.UserService;
 import com.company.project.util.*;
@@ -55,6 +56,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     private IService iService = new WxService();
     @Resource
     private StaffMapper StaffMapper;
+    @Resource
+    private AreaService areaService;
     @Override
     public Result verify(long userId, String idNO, String name, String idHandleImgUrl,String localImgUrl) {
         try {
@@ -381,7 +384,12 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         }
         List<User> staff = hUserMapper.selectStaffUserByArea(ext1);
         Map<String,Object> map=new HashMap<>();
-        map.put("areaId",ext1);
+
+        Area area = areaService.findBy("id", Long.valueOf(ext1));
+        if (area!=null){
+            map.put("areaName",area.getAreaName());
+        }
+            map.put("areaId",ext1);
         map.put("staff",staff);
         logger.info("查询成功");
         return ResultGenerator.genSuccessResult(map);
