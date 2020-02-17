@@ -94,13 +94,13 @@
     $(function(){
 
         getAuthInfo();
-       /* //解决表单控件不能回弹 只有微信ios有这个问题
+        //解决表单控件不能回弹 只有微信ios有这个问题
         $("input,select,textarea").blur(function(){
             setTimeout(() => {
                 const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
             window.scrollTo(0, Math.max(scrollHeight - 1, 0));
         }, 100);
-        })*/
+        })
 
     });
     function removeimg(obj){
@@ -281,7 +281,10 @@
             },
             //请求成功
             success: function (result) {
-                console.log(result)
+               if(result.code=="200"){
+                   document.getElementById("realName").innerText=result.data.name
+                   document.getElementById("idNo").innerText=result.data.idNo
+               }
             }
         })
 

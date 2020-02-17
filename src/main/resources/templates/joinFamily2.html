@@ -60,6 +60,10 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
+
+    $(function(){
+        getAuthInfo();
+    })
     function back() {
         window.history.back();
     }
@@ -124,6 +128,29 @@
             $.toptip('身份证合法',"success");
             return true;
         }
+    }
+
+    function getAuthInfo() {
+        $.ajax({
+            //请求方式
+            type: "POST",
+            //请求的媒体类型
+            contentType: "application/x-www-form-urlencoded",
+            //请求地址
+            url: "/community/user/userAuthInfo",
+            //数据，json字符串
+            data: {
+                openId:getCookie("openId")
+            },
+            //请求成功
+            success: function (result) {
+
+                if(result.code=="200"){
+                    document.getElementById("name").innerText=result.data.name
+                    document.getElementById("idCard").innerText=result.data.idNo
+                }
+            }
+        })
     }
 </script>
 </body>
