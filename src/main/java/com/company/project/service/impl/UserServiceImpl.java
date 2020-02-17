@@ -136,16 +136,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             User user1 = bindHouseholder(userId, idNoMW, name);
             return user1;
         }
-
         //发送给微信贴上标签
         List<String> openIds=new LinkedList<>();
         openIds.add(wxOpenId);
-        iService.batchMovingUserToNewTag(openIds,100);//100 物业管理标签号
+        iService.batchMovingUserToNewTag(openIds,100);//100 物业超管标签号
         //修改绑定用户
         user.setWxOpenId("");
         manage.setWxOpenId(wxOpenId);
         update(user);
         update(manage);
+        logger.info("绑定超管成功,{},{}",user.getId(),manage.getId());
         return manage;
     }
 
@@ -398,7 +398,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             logger.info("查询管理员小区信息失败");
             return ResultGenerator.genFailResult("查询管理员小区信息失败");
         }
-        List<User> staff = hUserMapper.selectStaffUserByArea(ext1);
+        List<User> staffs = hUserMapper.selectStaffUserByArea(ext1);
+        if (staffs!=null){
+            for (User staff : staffs) {
+                if (!"".equals(staff.getIdNo())&&staff.getIdNo()!=null){
+
+                    staff.setIdNo(DESUtil.decode("iB4drRzSrC",staff.getIdNo()));
+
+                }
+            }
+        }
         Map<String,Object> map=new HashMap<>();
 
         Area area = areaService.findBy("id", Long.valueOf(ext1));
@@ -406,7 +415,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             map.put("areaName",area.getAreaName());
         }
             map.put("areaId",ext1);
-        map.put("staff",staff);
+        map.put("staff",staffs);
         logger.info("查询成功");
         return ResultGenerator.genSuccessResult(map);
     }

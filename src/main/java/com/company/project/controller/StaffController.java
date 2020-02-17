@@ -34,7 +34,7 @@ public class StaffController {
     public Result list( @RequestParam String areaId,@RequestParam String name,
                          @RequestParam String idNO, String phone) {
         try {
-            return  staffService.addStaff(areaId,name,idNO,phone);
+            return  staffService. addStaff(areaId,name,idNO,phone);
         } catch (Exception e) {
             e.printStackTrace();
         }

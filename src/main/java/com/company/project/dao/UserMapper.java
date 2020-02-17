@@ -39,7 +39,7 @@ public interface UserMapper extends Mapper<User> {
     @Select("select * from "+ TableList.USER+" where wx_open_id=#{opreWxId} limit 1")
     User selectByopreWxId(String opreWxId);
     //查询管理员信息
-    @Select("select * from "+TableList.USER+" where is_manager=0 and wx_open_id is not null")
+    @Select("select DISTINCT wx_open_id from "+TableList.USER+" where is_manager=0 and wx_open_id is not null and wx_open_id<>''")
     List<User> findManager();
     //查询员工信息
     @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s " +
