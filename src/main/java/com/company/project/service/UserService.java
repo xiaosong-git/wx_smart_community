@@ -26,4 +26,8 @@ public interface UserService extends Service<User> {
     List<User> finUserList(String name, String idCard);
 
     Result userAuthInfo(String openId);
+
+    Result creatMenu();
+
+    Result findStaff(String openId);
 }

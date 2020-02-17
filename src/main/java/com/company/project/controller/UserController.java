@@ -123,4 +123,33 @@ public class UserController {
         }
         return ResultGenerator.genFailResult("系统异常", "");
     }
+
+    /**
+     * 根据 openId 生成个性化菜单
+     *
+     */
+    @RequestMapping("/creatMenu")
+    @ResponseBody
+    public Result creatMenu() {
+        try {
+            return userService.creatMenu();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+    }
+
+    /**
+     * 查询管理员所管理的员工
+     */
+    @RequestMapping("/findStaff")
+    @ResponseBody
+    public Result findStaff(@RequestParam String openId) {
+        try {
+            return userService.findStaff(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+    }
 }

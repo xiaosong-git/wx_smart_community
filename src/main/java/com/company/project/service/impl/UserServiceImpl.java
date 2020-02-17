@@ -5,17 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.company.project.core.AbstractService;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
-import com.company.project.dao.FamilyMapper;
-import com.company.project.dao.HourseMapper;
-import com.company.project.dao.UserAuthMapper;
-import com.company.project.dao.UserMapper;
-import com.company.project.model.Family;
-import com.company.project.model.Hourse;
-import com.company.project.model.User;
-import com.company.project.model.UserAuth;
+import com.company.project.dao.*;
+import com.company.project.model.*;
 import com.company.project.service.ParamsService;
 import com.company.project.service.UserService;
 import com.company.project.util.*;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxService;
 import com.soecode.wxtools.exception.WxErrorException;
@@ -57,7 +53,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Resource
     private FamilyMapper familyMapper;
     private IService iService = new WxService();
-
+    @Resource
+    private StaffMapper StaffMapper;
     @Override
     public Result verify(long userId, String idNO, String name, String idHandleImgUrl,String localImgUrl) {
         try {
@@ -341,6 +338,48 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return ResultGenerator.genFailResult("未查询到实人信息");
 
 
+    }
+
+    //批量生成管理员个性化菜单
+    @Override
+    public Result creatMenu() {
+        //由于tag每次只能生成50个openId
+        int count=0;
+        int size=50;
+        List<String> openIds=new LinkedList<>();
+
+        List<User> list = hUserMapper.findManager();
+
+        for (User user : list) {
+            count++;
+            openIds.add(user.getWxOpenId());
+
+            if (count%size==0){
+                try {
+                iService.batchMovingUserToNewTag(openIds,100);
+                } catch (WxErrorException e) {
+                    logger.error("批量生成管理员菜单报错",e);
+                }
+                openIds.removeAll(list);
+            }
+        }
+
+        return ResultGenerator.genSuccessResult(list);
+    }
+
+    @Override
+    public Result findStaff(String openId) {
+        User user = hUserMapper.getUserOpenId(openId);
+        if (user==null){
+            return ResultGenerator.genFailResult("查询管理员登入信息失败");
+        }
+        String ext1 = user.getExt1();
+        if (ext1 == null || "".equals(ext1)) {
+            return ResultGenerator.genFailResult("查询管理员小区信息失败");
+        }
+        User staff = hUserMapper.selectStaffUserByArea(ext1);
+
+        return ResultGenerator.genSuccessResult(staff);
     }
 
 
