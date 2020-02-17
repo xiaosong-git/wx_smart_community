@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface BuildingService extends Service<Building> {
 	List<Building> findBuilding(String areaCode);
+
+	Building findBuildingById(Long buildingId);
 }

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface BuildingMapper extends Mapper<Building> {
 	List<Building> findBuilding(@Param("areaId") String areaId);
+
+
 }

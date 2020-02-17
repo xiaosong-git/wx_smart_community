@@ -127,7 +127,7 @@ public class HourseController {
         String isJoin = "F";
         if(list!=null) {
             for(Hourse h:list) {
-                if(h.getBuildingId()==houseaddr&&h.getNum().equals(paltaddr)) {
+                if(h.getBuildingId().equals(houseaddr) &&h.getNum().equals(paltaddr)) {
                     Family family = new Family();
                     family.setIsJoin("T");
                     family.setId(h.getFamily().getId());
@@ -137,7 +137,7 @@ public class HourseController {
                 }
             }
         }
-        if(flag == true) {
+        if(flag ) {
             User user = new User();
             user.setWxOpenId(openId);
             user.setId(userList.get(0).getId());
