@@ -31,27 +31,19 @@
 <div class="weui-cells weui-cells_form" style="font-family:宋体;">
 
     <div id="adminPerson"></div>
-    <div class="weui-cells weui-cells_form">
+<!--    <div class="weui-cells weui-cells_form">
         <div class="weui-cell weui-btn weui-btn_plain-default">
             <div class="weui-cell__hd"><img src=""></div>
             <div class="weui-cell__bd" align="center">
                 <p>王力宏</p>
             </div>
-            <div class=\"weui-cell__ft\"></div>
+            <div class="weui-cell__ft"></div>
         </div>
-    </div>
-    <div class="weui-cells weui-cells_form">
-        <div class="weui-cell weui-btn weui-btn_plain-default">
-            <div class="weui-cell__hd"><img src=""></div>
-            <div class="weui-cell__bd" align="center">
-                <p>王大力</p>
-            </div>
-            <div class=\"weui-cell__ft\"></div>
-        </div>
-    </div>
+    </div>-->
+
     <br>
     <br>
-    <button class="weui-btn blue-btn_default blue-btn" onclick="verify()"  id="btn"><font size="5">⊕</font> 新增管理员
+    <button class="weui-btn blue-btn_default blue-btn" onclick="addAdmin()"  id="btn"><font size="5">⊕</font> 新增管理员
     </button>
 </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
@@ -60,46 +52,46 @@
 <script src="js/myUtil.js"></script>
 <script>
     $(function () {
-
+        getAdmin();
     })
 
-    function getHouses() {
+    function getAdmin() {
 
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
-            url: "/community/family/findFamilyUser",
-            data: {hourseId: houseId},
+            url: "/community/user/findStaff",
+            data: {openId:"oFw0JwGlkNWM9DByJR8C76hSgYuc"},
             success: function (result) {
+                console.log(result)
+                if(result.code=="200"){
+                    document.getElementById("addr").innerText=result.data.areaName;
+                    var list = result.data.staff;
+                    for(var i in list){
+                        $("#adminPerson").append("  <div class=\"weui-cells weui-cells_form\">\n" +
+                            "        <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"editAdmin('"+encodeURI(JSON.stringify(list[i]))+"')\">\n" +
+                            "            <div class=\"weui-cell__hd\"><img src=\"\"></div>\n" +
+                            "            <div class=\"weui-cell__bd\" align=\"center\">\n" +
+                            "                <p>"+list[i].name+"</p>\n" +
+                            "            </div>\n" +
+                            "            <div class=\"weui-cell__ft\"></div>\n" +
+                            "        </div>\n" +
+                            "    </div>")
+                    }
+                }else{
 
+                }
             }
         })
     }
 
-    function editHouseholder() {
-
-        var userName = escape(document.getElementById('householder').innerText);
-        var userId = $("#householder").attr("userId")
-        var idNo = $("#householder").attr("idNo")
-        var params = "?index=householder&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo;
-        console.log(userName + "===" + userId + "====" + idNo);
-        window.location.href = addPersonUrl + params;
-    }
-
-    function editPerson(list) {
-        var jsonData = JSON.parse(decodeURI(list))
-        var userName = escape(jsonData.name);
-        var userId = jsonData.id;
-        var idNo = jsonData.idNo;
-        var isAuth = jsonData.isAuth
-        var params = "?index=person&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo + "&isAuth=" + isAuth;
-        console.log(userName + "===" + userId + "====" + idNo);
-        window.location.href = addPersonUrl + params;
+    function editAdmin(list) {
+        var staffJson = JSON.parse(decodeURI(list))
 
     }
 
-    function verify() {
-        console.log(houseId)
+    function addAdmin() {
+
         window.location.href = addPersonUrl + "?houseId=" + houseId;
     }
 </script>

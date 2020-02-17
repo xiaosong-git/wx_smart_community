@@ -136,6 +136,11 @@ public class ThymeleafController {
         return "adminInfor";
     }
 
+    @RequestMapping(value = "/addAdmin",method= RequestMethod.GET)
+    public String addAdmin() {
+        return "addAdmin";
+    }
+
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
     public String personInfor(Model model) {
         List<String> jsApiList = new ArrayList<>();
