@@ -329,7 +329,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Override
     public Result userAuthInfo(String openId) {
 
-        return null;
+        User userInfo = hUserMapper.getUserFromOpenId(openId);
+
+        return ResultGenerator.genSuccessResult(userInfo);
 
     }
 
