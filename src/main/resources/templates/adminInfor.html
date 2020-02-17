@@ -51,6 +51,7 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
+    var areaId;
     $(function () {
         getAdmin();
     })
@@ -66,6 +67,7 @@
                 console.log(result)
                 if(result.code=="200"){
                     document.getElementById("addr").innerText=result.data.areaName;
+                    areaId = result.data.areaId
                     var list = result.data.staff;
                     for(var i in list){
                         $("#adminPerson").append("  <div class=\"weui-cells weui-cells_form\">\n" +
@@ -87,12 +89,17 @@
 
     function editAdmin(list) {
         var staffJson = JSON.parse(decodeURI(list))
-
+        var isAuth = staffJson.isAuth;
+        var name = escape(staffJson.name)
+        var idNo = staffJson.idNo
+        var phone = staffJson.phone
+        var userId = staffJson.id
+        var params = "?index=edit&areaId="+areaId+"&isAuth="+isAuth+"&name="+name+"&idNo="+idNo+"&phone="+phone+"&userId="+userId;
+        window.location.href = addAdminUrl + params;
     }
-
     function addAdmin() {
 
-        window.location.href = addPersonUrl + "?houseId=" + houseId;
+        window.location.href = addAdminUrl + "?areaId=" + areaId;
     }
 </script>
 </body>
