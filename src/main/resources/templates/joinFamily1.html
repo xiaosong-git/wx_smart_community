@@ -62,7 +62,9 @@
             <label class="weui-label">门牌号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="paltaddr" value="">
+            <select class="weui-select" id="paltaddr">
+                <option value="">请选择</option>
+            </select>
         </div>
     </div>
     <br>
@@ -116,7 +118,6 @@
         });
     	//alert(addr);
     }
-
     $("#communityaddr").bind("change",function(){
     	var areaId = $("#communityaddr option:selected").val();
     	$.ajax({
@@ -138,6 +139,29 @@
             }
         });
     });
+    $("#houseaddr").bind("change",function(){
+        var buildingId = $("#houseaddr option:selected").val();
+        console.log("buildingId:"+buildingId)
+        $.ajax({
+            url: "building/building",
+            type: "post",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+                buildingId: buildingId
+            },
+            success: function(data) {
+                $("#paltaddr option").remove();
+                console.log(data)
+               /* var _data = data.data;
+                var html = '<option value="">请选择</option>';
+                for (var e in _data) {
+                    html += '<option value="' + _data[e].id + '">' + _data[e].name + '</option>'
+                }
+                $("#houseaddr").append(html); //渲染*/
+            }
+        });
+    })
    function next() {
        var addr =  $("#addr").attr("data-code");
        var communityaddr = $("#communityaddr option:selected").val();
