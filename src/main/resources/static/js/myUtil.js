@@ -1,4 +1,4 @@
-var IS_DEVELOP=false;//是否生产环境
+var IS_DEVELOP=true;//是否生产环境
 var uri;
 var url;
 var loginUrl;
@@ -32,7 +32,7 @@ var houseInforUrl=url+suffix+"houseInfor";
 var familyIndexUrl=url+suffix+"familyIndex";
 var addAdminUrl=url+suffix+"addAdmin";
 var adminInforUrl=url+suffix+"adminInfor";
-
+var downloadUrl=url+suffix+"area/reports";
 function setCookie(c_name,value,expiredays)
 {
     var exdate=new Date()

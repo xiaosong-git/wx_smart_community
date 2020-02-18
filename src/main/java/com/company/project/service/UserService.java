@@ -31,4 +31,6 @@ public interface UserService extends Service<User> {
     Result findStaff(String openId);
 
     Result creatUserToTag(int tagId);
+
+    Result findByOpenId(String openId);
 }

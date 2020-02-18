@@ -101,7 +101,7 @@
     <result column="is_pass" jdbcType="VARCHAR" property="isPass" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="recordType" jdbcType="VARCHAR" property="type" />
     <result column="ext1" jdbcType="VARCHAR" property="ext1" />
     <result column="ext2" jdbcType="VARCHAR" property="ext2" />
     <result column="ext3" jdbcType="VARCHAR" property="ext3" />
@@ -113,7 +113,7 @@
   
     <!-- 查看所有得小区 -->
   <select id="findAreaById" resultMap="myResultMap" parameterType="Long">
-	select ha.* from h select ha.*,house.id hid from h_area ha
+	select ha.*,house.id hid from h_area ha
  LEFT JOIN h_building hu on ha.id = hu.area_id
  LEFT JOIN h_hourse house on hu.id = house.building_id
  LEFT JOIN h_family hf on house.id = hf.house_id
@@ -131,10 +131,12 @@
   
   <!-- 查看小区下的人员通行记录 -->
   <select id="record" resultMap="myResultMap" parameterType="Long">
-  	SELECT * from h_area ha
-	LEFT JOIN h_record hr on ha.id=hr.area_id
+  	SELECT *,hr.type recordType,hu.name username from h_record hr
+	LEFT JOIN h_area ha on ha.id=hr.area_id
+	LEFT JOIN h_building hb on hr.id=hb.area_id
+	LEFT JOIN h_hourse hh on hr.id=hh.building_id
 	LEFT JOIN h_user hu on hr.user_id=hu.id
-	WHERE ha.id=#{areaId}
+	WHERE ha.id=#{areaId} ORDER BY hb.total_floor,hh.num
   </select>
 </mapper>
 

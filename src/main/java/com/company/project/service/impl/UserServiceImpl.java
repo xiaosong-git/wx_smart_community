@@ -186,8 +186,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public Result uploadPhoto(String userId, String mediaId, String type) throws Exception {
 //        String time = DateUtil.getSystemTimeFourteen();
         //临时图片地址
-        String url="D:\\test\\community\\tempotos";
-//        String url="/project/weixin/community/tempotos";
+//        String url="D:\\test\\community\\tempotos";
+        String url="/project/weixin/community/tempotos";
         File file=new File(url);
         File newFile = null;
         try {
@@ -242,14 +242,17 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
         //房子信息
        Hourse hourse= hourseMapper.getHouseFromOpenId(openId);
-
-        if (user==null){
-             user=new User();
-            user.setCreateTime(DateUtil.getSystemTime());
-            user.setWxOpenId(openId);
-            int save = this.save(user);
-        }
+//
+//        if (user==null){
+//             user=new User();
+//            user.setCreateTime(DateUtil.getSystemTime());
+//            user.setWxOpenId(openId);
+//            int save = this.save(user);
+//        }
         userInfo.put("user",user);
+        if (user.getExt1()!=null&&!"".equals(user)){
+            userInfo.put("areaId", Long.valueOf(user.getExt1()));
+        }
         //家庭信息
         Family family = familyMapper.getFamilyFromOpenId(openId);
         if (hourse!=null){
@@ -399,6 +402,18 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             logger.error("批量生成管理员菜单报错", e);
         }
         return ResultGenerator.genSuccessResult(list);
+    }
+
+    @Override
+    public Result findByOpenId(String openId) {
+        User user = hUserMapper.getUserFromOpenId(openId);
+        if (user!=null){
+            if (user.getExt1()!=null){
+                Long areaId = Long.valueOf(user.getExt1());
+                return ResultGenerator.genSuccessResult(areaId);
+            }
+        }
+        return ResultGenerator.genFailResult("查询失败");
     }
 
     @Override

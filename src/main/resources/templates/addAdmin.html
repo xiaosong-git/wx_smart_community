@@ -58,18 +58,22 @@
     <br>
     <br>
     <div class="weui-btn-area" style="display:none" id="btn1">
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript: " onclick="back()">上一步</a>
         <a class="weui-btn weui-btn_default blue-btn" href="javascript:" onclick="addNewAdmin()">新增</a>
     </div>
 
     <div class="weui-btn-area" style="display:none" id="btn2">
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript: " onclick="back()">上一步</a>
         <a class="weui-btn weui-btn_default blue-btn" href="javascript:" onclick="editAdminInfo()">修改</a>
         <a class="weui-btn weui-btn_warn" href="javascript:" onclick="delAdmin()">删除</a>
     </div>
     <div class="weui-btn-area" style="display:none" id="btn3">
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript: " onclick="back()">上一步</a>
         <a class="weui-btn weui-btn_warn" href="javascript:" onclick="delAdmin()">删除</a>
     </div>
 
     <div class="weui-btn-area" style="display:none" id="btn4">
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript: " onclick="back()">上一步</a>
         <a class="weui-btn weui-btn_default blue-btn" href="javascript:" onclick="editAdminInfo()">修改</a>
     </div>
 
@@ -234,6 +238,9 @@
         }else{
             return true;
         }
+    }
+    function back() {
+        window.history.back();
     }
 </script>
 </body>

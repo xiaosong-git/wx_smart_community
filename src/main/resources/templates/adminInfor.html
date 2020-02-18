@@ -56,7 +56,7 @@
         if (! isLogin()){
             getAdmin();
         }
-
+        $.showLoading();
     })
 
     function getAdmin() {
@@ -67,6 +67,7 @@
             url: "/community/user/findStaff",
             data: {openId:getCookie("openId")},
             success: function (result) {
+                $.hideLoading();
                 console.log(result)
                 if(result.code=="200"){
                     document.getElementById("addr").innerText=result.data.areaName;

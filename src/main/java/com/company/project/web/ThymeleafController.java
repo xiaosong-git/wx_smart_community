@@ -38,6 +38,14 @@ public class ThymeleafController {
     @Autowired
     private UserService userService;
 
+    /**
+     *
+     * @param code 用code去换openID
+     * @param state 任意标识
+     * @param model
+     * @return
+     * @throws WxErrorException
+     */
         @RequestMapping(value = "/login",method= RequestMethod.GET)
         public String login(@RequestParam(name="code",required=false) String code,
                             @RequestParam(name="state",defaultValue = "0" ) String state,Model model) throws WxErrorException {
@@ -51,6 +59,7 @@ public class ThymeleafController {
             Map<String,Object> user = userService.getUser(wxUser1.getOpenid());
 
             model.addAttribute("user",user.get("user"));
+
             System.out.println("--是否有房子：-"+user.get("hourse")+"---是否有家庭-----"+user.get("family"));
             model.addAttribute("hourse",user.get("hourse"));
             model.addAttribute("family",user.get("family"));
@@ -135,13 +144,16 @@ public class ThymeleafController {
     public String adminInfor() {
         return "adminInfor";
     }
-
+    @RequestMapping(value = "/download",method= RequestMethod.GET)
+    public String download() {
+        return "download";
+    }
     @RequestMapping(value = "/addAdmin",method= RequestMethod.GET)
     public String addAdmin() {
         return "addAdmin";
     }
 
-
+    //扫一扫功能调用微信sdk
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
     public String personInfor(Model model) {
         List<String> jsApiList = new ArrayList<>();
@@ -187,24 +199,6 @@ public class ThymeleafController {
         }
 
         return "auth";
-    }
-    @RequestMapping(value = "/scan", method = RequestMethod.GET)
-    public String scan(Model model) {
-        List<String> jsApiList = new ArrayList<>();
-        //需要用到哪些JS SDK API 就设置哪些
-        jsApiList.add("scanQRCode");//扫一扫
-        logger.info("已进入scan界面");
-        try {
-            //把config返回到前端进行js调用即可。
-            WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "scan", jsApiList);
-            config.setAppid(WxConfig.getInstance().getAppId());
-            System.out.println(config.getNoncestr());
-            model.addAttribute("config", config);
-            logger.info("进入扫一扫");
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-        }
-        return "scan";
     }
 
 }

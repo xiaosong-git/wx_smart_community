@@ -1,4 +1,5 @@
 package com.company.project.controller;
+
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.model.Area;
@@ -7,23 +8,17 @@ import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -97,7 +92,7 @@ public class AreaController {
 	 * 某小区下人员通行报表 
 	 * 
 	 * */
-    @PostMapping("/reports")
+    @GetMapping("/reports")
     public Result reports(@RequestParam() Long userId, @RequestParam() Long areaId,
     		HttpServletRequest req, HttpServletResponse resp) {
     	String userName = userservice.findById(userId).getName();
@@ -127,7 +122,7 @@ public class AreaController {
 	        CellRangeAddress region1=new CellRangeAddress(1,1,0,1);
 	        xssfSheet.addMergedRegion(region1);
 	        
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS"); //制定输出格式
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //制定输出格式
 			String date = sdf.format( new Date()); //将日期转换为字符串且格式按照之前制定的
 	        
 	        row1.createCell(2).setCellValue("日期："+date);
@@ -143,43 +138,54 @@ public class AreaController {
 	        row2.createCell(4).setCellValue("列别（进或出）");
 	        
 	        for(int i=3;i<list.size()+3;i++) {
+	        	int j = i-3;
 	        	 XSSFRow row = xssfSheet.createRow(i);
-	        	 row.createCell(0).setCellValue(list.get(i).getUser().getName());
-	        	 row.createCell(1).setCellValue(encryptIdCard(list.get(i).getUser().getIdNo()));
-			        String managerType = list.get(i).getUser().getIsManager();
-			        switch (managerType) {
-					case "0":
-						managerType = "管理员";
-						break;
-					case "10" :
-						managerType = "工作人员";
-						break;
-					case "20" :
-						managerType = "普通用户";
-						break;
-					default:
-						break;
-					}
-			        row.createCell(2).setCellValue(managerType);
-			        row.createCell(3).setCellValue(list.get(i).getRecord().getPassTime());
+	        	 row.createCell(0).setCellValue(list.get(j).getUser().getName());
+	        	 row.createCell(1).setCellValue(encryptIdCard(list.get(j).getUser().getIdNo()));
+			        if(list.get(j).getUser()!=null) {
+			        	String managerType = list.get(j).getUser().getIsManager();
+			        	switch (managerType) {
+						case "0":
+							managerType = "管理员";
+							break;
+						case "10" :
+							managerType = "工作人员";
+							break;
+						case "20" :
+							managerType = "普通用户";
+							break;
+						default:
+							break;
+						}
+			        	row.createCell(2).setCellValue(managerType);
+			        }else {
+			        	row.createCell(2).setCellValue("");
+			        }
+			        row.createCell(3).setCellValue(list.get(j).getRecord().getPassTime());
 			        
-			        String type = list.get(i).getRecord().getType();
-			        switch (type) {
-					case "in":
-						managerType = "进";
-						break;
-					case "out" :
-						managerType = "出";
-						break;
-					default:
-						break;
-					}
+			        if(list.get(j).getRecord()!=null) {
+			        	String type = list.get(j).getRecord().getType();
+			        	switch (type) {
+						case "in":
+							type = "进";
+							break;
+						case "out" :
+							type = "出";
+							break;
+						default:
+							break;
+						}
+			        	 row.createCell(4).setCellValue(type);
+			        }else {
+			        	row.createCell(4).setCellValue("");
+			        }
 			        
-			        row.createCell(4).setCellValue(type);
+			       
 	        }
 	      //通过流输出进行文件下载
             ServletOutputStream out = resp.getOutputStream();
             resp.setContentType("applicatioon/vnd.ms-excel");
+            resp.setContentType("text/html; charset=UTF-8");
             resp.setHeader("content-Disposition"
                     , "attachment;filename=人员进出报表.xlsx");
             workbook.write(out);
@@ -229,4 +235,10 @@ public class AreaController {
   			return sourceStr;
   		}
   	}
+
+	@PostMapping("/findByOpenId")
+	public Result findByOpenId( @RequestParam() String openId) {
+
+		return userservice.findByOpenId(openId);
+	}
 }
