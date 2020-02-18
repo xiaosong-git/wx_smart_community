@@ -291,7 +291,7 @@
     }
     function checkIdNo() {
         var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        var idNo = $("#idCard").val();
+        var idNo = $("#idNo").val();
         if(!regIdNo.test(idNo)){
             $.toptip('身份证输入错误，请检查');
             return false;
