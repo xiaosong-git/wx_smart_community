@@ -162,6 +162,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         if (Householder==null){
             return user;
         }
+        //查询是否
         User byStaff = hUserMapper.findByStaff(Householder.getId());
         if (byStaff==null){
             user.setWxOpenId("");
@@ -174,6 +175,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         openIds.add(wxOpenId);
         iService.batchMovingUserToNewTag(openIds,101);
         //修改绑定用户
+//        if ()
         user.setWxOpenId("");
         byStaff.setWxOpenId(wxOpenId);
         update(user);
@@ -184,8 +186,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public Result uploadPhoto(String userId, String mediaId, String type) throws Exception {
 //        String time = DateUtil.getSystemTimeFourteen();
         //临时图片地址
-//        String url="D:\\test\\community\\tempotos";
-        String url="/project/weixin/community/tempotos";
+        String url="D:\\test\\community\\tempotos";
+//        String url="/project/weixin/community/tempotos";
         File file=new File(url);
         File newFile = null;
         try {

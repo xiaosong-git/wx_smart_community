@@ -79,16 +79,41 @@
       <result column="ext2" jdbcType="VARCHAR" property="ext2" />
       <result column="ext3" jdbcType="VARCHAR" property="ext3" />
     </collection>
-
+     <collection property="user" ofType="com.company.project.model.User">
+     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="name" />
+    <result column="id_no" jdbcType="VARCHAR" property="idNo" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="is_auth" jdbcType="VARCHAR" property="isAuth" />
+    <result column="auth_date" jdbcType="VARCHAR" property="authDate" />
+    <result column="wx_open_id" jdbcType="VARCHAR" property="wxOpenId" />
+    <result column="is_manager" jdbcType="VARCHAR" property="isManager" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
+    <collection property="record" ofType="com.company.project.model.Record">
+	 <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="pass_time" jdbcType="VARCHAR" property="passTime" />
+    <result column="is_pass" jdbcType="VARCHAR" property="isPass" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="recordType" jdbcType="VARCHAR" property="type" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    </collection>
   </resultMap>
   <select id="areaList" resultMap="BaseResultMap" parameterType="string">
   	select * from h_area where area_code=#{areaCode}
   </select>
   
     <!-- 查看所有得小区 -->
-  <!-- 查看所有得小区 -->
   <select id="findAreaById" resultMap="myResultMap" parameterType="Long">
- select ha.*,house.id hid from h_area ha
+	select ha.* from h select ha.*,house.id hid from h_area ha
  LEFT JOIN h_building hu on ha.id = hu.area_id
  LEFT JOIN h_hourse house on hu.id = house.building_id
  LEFT JOIN h_family hf on house.id = hf.house_id
@@ -102,6 +127,16 @@
   LEFT JOIN h_hourse house on hu.id = house.building_id
   LEFT JOIN h_family hf on house.id = hf.house_id
   where hf.user_id=#{userId} and ha.id=#{areaId} and hf.`status`='0'
+  </select>
+  
+  <!-- 查看小区下的人员通行记录 -->
+  <select id="record" resultMap="myResultMap" parameterType="Long">
+  	SELECT *,hr.type recordType from h_record hr
+	LEFT JOIN h_area ha on ha.id=hr.area_id
+	LEFT JOIN h_building hb on hr.id=hb.area_id
+	LEFT JOIN h_hourse hh on hr.id=hh.building_id
+	LEFT JOIN h_user hu on hr.user_id=hu.id
+	WHERE ha.id=#{areaId} ORDER BY hb.total_floor,hh.num
   </select>
 </mapper>
 
