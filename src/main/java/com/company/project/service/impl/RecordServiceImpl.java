@@ -13,7 +13,6 @@ import com.company.project.service.ParamsService;
 import com.company.project.service.RecordService;
 import com.company.project.util.Base64;
 import com.company.project.util.DateUtil;
-import com.company.project.weixin.WxController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
