@@ -44,8 +44,10 @@
 <script>
 
     $(function () {
-        isLogin();
-    }
+        if(is_weixin){
+            isLogin();
+        }
+    });
     //从浏览器url地址中获取参数对应的值
     function GetRequest() {
         var url = location.search;//获取url中"?"符后的字符串
@@ -86,7 +88,7 @@
 
         var areaId= getCookie("areaId");
        /* var areaId=*/
-        var params="?userId="+userId+"&areaId="+areaId+";
+        var params="?userId="+userId+"&areaId="+areaId;
         window.location.href=downloadUrl+params;
     }
     function getAreaId() {
