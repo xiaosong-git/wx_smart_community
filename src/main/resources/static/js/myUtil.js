@@ -32,7 +32,7 @@ var houseInforUrl=url+suffix+"houseInfor";
 var familyIndexUrl=url+suffix+"familyIndex";
 var addAdminUrl=url+suffix+"addAdmin";
 var adminInforUrl=url+suffix+"adminInfor";
-
+var downloadUrl=url+suffix+"area/reports";
 function setCookie(c_name,value,expiredays)
 {
     var exdate=new Date()
