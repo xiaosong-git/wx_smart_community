@@ -78,24 +78,10 @@
         //执行下载
         console.log("其他浏览器=============")
         document.getElementById('bo').style.display='none'
-        $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "/community/area/reports",
-            data: {
-               userId:"12",
-                areaId:"1"
-            },
-            success: function (result) {
-                console.log(result);
-
-            },
-            //请求失败，包含具体的错误信息
-            error: function (e) {
-
-            }
-        });
-
+        var userId= getCookie("userId");
+       /* var areaId=*/
+        var params="?userId=12&areaId=1"
+        window.location.href=downloadUrl+params;
     }
 
 </script>
