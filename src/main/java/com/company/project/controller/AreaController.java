@@ -95,6 +95,8 @@ public class AreaController {
     @GetMapping("/reports")
     public Result reports(@RequestParam() Long userId, @RequestParam() Long areaId,
     		HttpServletRequest req, HttpServletResponse resp) {
+
+    	System.out.println("userId:"+userId);
     	String userName = userservice.findById(userId).getName();
         List<Area> list = areaService.reports(areaId, userName);
         if(list!=null) {
