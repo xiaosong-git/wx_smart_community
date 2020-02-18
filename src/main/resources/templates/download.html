@@ -29,7 +29,7 @@
 </head>
 
 <body>
-<div class="divs">
+<div class="divs" style="display: block" id="bo">
     <div style="margin-top: 4%;margin-left: 65%">
         <img src="images/downIndex.png" >
     </div>
@@ -72,12 +72,30 @@
     if (is_weixin) {
         //是微信浏览器  显示返回按钮   （用户可以选择下载或者返回）
         console.log("微信浏览器=============")
-        alert("微信浏览器=============")
+        document.getElementById('bo').style.display='block'
     } else {
         //不是微信浏览器
         //执行下载
         console.log("其他浏览器=============")
-        alert("其他浏览器=============")
+        document.getElementById('bo').style.display='none'
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/area/reports",
+            data: {
+               userId:"12",
+                areaId:"1"
+            },
+            success: function (result) {
+                console.log(result);
+
+            },
+            //请求失败，包含具体的错误信息
+            error: function (e) {
+
+            }
+        });
+
     }
 
 </script>
