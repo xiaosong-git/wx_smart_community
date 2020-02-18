@@ -135,7 +135,10 @@ public class ThymeleafController {
     public String adminInfor() {
         return "adminInfor";
     }
-
+    @RequestMapping(value = "/download",method= RequestMethod.GET)
+    public String download() {
+        return "download";
+    }
     @RequestMapping(value = "/addAdmin",method= RequestMethod.GET)
     public String addAdmin() {
         return "addAdmin";
