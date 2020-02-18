@@ -127,7 +127,7 @@ public class AreaController {
 	        CellRangeAddress region1=new CellRangeAddress(1,1,0,1);
 	        xssfSheet.addMergedRegion(region1);
 	        
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS"); //制定输出格式
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //制定输出格式
 			String date = sdf.format( new Date()); //将日期转换为字符串且格式按照之前制定的
 	        
 	        row1.createCell(2).setCellValue("日期："+date);
@@ -144,43 +144,53 @@ public class AreaController {
 	        
 	        for(int i=3;i<list.size()+3;i++) {
 	        	int j = i-3;
-	        	 XSSFRow row = xssfSheet.createRow(j);
+	        	 XSSFRow row = xssfSheet.createRow(i);
 	        	 row.createCell(0).setCellValue(list.get(j).getUser().getName());
 	        	 row.createCell(1).setCellValue(encryptIdCard(list.get(j).getUser().getIdNo()));
-			        String managerType = list.get(j).getUser().getIsManager();
-			        switch (managerType) {
-					case "0":
-						managerType = "管理员";
-						break;
-					case "10" :
-						managerType = "工作人员";
-						break;
-					case "20" :
-						managerType = "普通用户";
-						break;
-					default:
-						break;
-					}
-			        row.createCell(2).setCellValue(managerType);
+			        if(list.get(j).getUser()!=null) {
+			        	String managerType = list.get(j).getUser().getIsManager();
+			        	switch (managerType) {
+						case "0":
+							managerType = "管理员";
+							break;
+						case "10" :
+							managerType = "工作人员";
+							break;
+						case "20" :
+							managerType = "普通用户";
+							break;
+						default:
+							break;
+						}
+			        	row.createCell(2).setCellValue(managerType);
+			        }else {
+			        	row.createCell(2).setCellValue("");
+			        }
 			        row.createCell(3).setCellValue(list.get(j).getRecord().getPassTime());
 			        
-			        String type = list.get(j).getRecord().getType();
-			        switch (type) {
-					case "in":
-						managerType = "进";
-						break;
-					case "out" :
-						managerType = "出";
-						break;
-					default:
-						break;
-					}
+			        if(list.get(j).getRecord()!=null) {
+			        	String type = list.get(j).getRecord().getType();
+			        	switch (type) {
+						case "in":
+							type = "进";
+							break;
+						case "out" :
+							type = "出";
+							break;
+						default:
+							break;
+						}
+			        	 row.createCell(4).setCellValue(type);
+			        }else {
+			        	row.createCell(4).setCellValue("");
+			        }
 			        
-			        row.createCell(4).setCellValue(type);
+			       
 	        }
 	      //通过流输出进行文件下载
             ServletOutputStream out = resp.getOutputStream();
             resp.setContentType("applicatioon/vnd.ms-excel");
+            resp.setContentType("text/html; charset=UTF-8");
             resp.setHeader("content-Disposition"
                     , "attachment;filename=人员进出报表.xlsx");
             workbook.write(out);
