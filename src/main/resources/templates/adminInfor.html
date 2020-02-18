@@ -53,7 +53,10 @@
 <script>
     var areaId;
     $(function () {
-        getAdmin();
+        if (! isLogin()){
+            getAdmin();
+        }
+
     })
 
     function getAdmin() {
@@ -62,7 +65,7 @@
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/user/findStaff",
-            data: {openId:"oFw0JwGlkNWM9DByJR8C76hSgYuc"},
+            data: {openId:getCookie("openId")},
             success: function (result) {
                 console.log(result)
                 if(result.code=="200"){

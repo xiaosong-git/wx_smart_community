@@ -162,12 +162,23 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         if (Householder==null){
             return user;
         }
+        User byStaff = hUserMapper.findByStaff(Householder.getId());
+        if (byStaff==null){
+            user.setWxOpenId("");
+            Householder.setWxOpenId(wxOpenId);
+            update(user);
+            update(Householder);
+            return Householder;
+        }
+        List<String> openIds=new LinkedList<>();
+        openIds.add(wxOpenId);
+        iService.batchMovingUserToNewTag(openIds,101);
         //修改绑定用户
         user.setWxOpenId("");
-        Householder.setWxOpenId(wxOpenId);
+        byStaff.setWxOpenId(wxOpenId);
         update(user);
-        update(Householder);
-        return Householder;
+        update(byStaff);
+        return byStaff;
     }
     @Override
     public Result uploadPhoto(String userId, String mediaId, String type) throws Exception {
