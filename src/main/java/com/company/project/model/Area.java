@@ -1,5 +1,6 @@
 package com.company.project.model;
 
+import javax.jws.soap.SOAPBinding.Use;
 import javax.persistence.*;
 
 @Table(name = "h_area")
@@ -81,6 +82,10 @@ public class Area {
     private Family family;
     @Transient
     private Hourse hourse;
+    @Transient
+    private User user;
+    @Transient
+    private Record record;
 
     /**
      * @return id
@@ -355,6 +360,22 @@ public class Area {
 
 	public void setHourse(Hourse hourse) {
 		this.hourse = hourse;
+	}
+
+	public Record getRecord() {
+		return record;
+	}
+
+	public void setRecord(Record record) {
+		this.record = record;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	
