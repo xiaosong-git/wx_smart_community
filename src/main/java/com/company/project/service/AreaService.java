@@ -6,6 +6,7 @@ import com.company.project.model.Area;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import com.company.project.model.User;
 import org.apache.ibatis.annotations.Param;
 
 
@@ -17,4 +18,5 @@ public interface AreaService extends Service<Area> {
 	List<Area> findAreaById(Long userId);
 	List<Area> findByAreaId(Long userId, Long areaId);
 	List<Area> reports(Long areaId, String userName);
+
 }

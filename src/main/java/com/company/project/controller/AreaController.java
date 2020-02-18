@@ -2,6 +2,7 @@ package com.company.project.controller;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.model.Area;
+import com.company.project.model.User;
 import com.company.project.service.AreaService;
 import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
@@ -240,4 +241,10 @@ public class AreaController {
   			return sourceStr;
   		}
   	}
+
+	@PostMapping("/findByOpenId")
+	public Result findByOpenId( @RequestParam() String openId) {
+
+		return userservice.findByOpenId(openId);
+	}
 }

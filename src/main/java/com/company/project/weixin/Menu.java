@@ -112,8 +112,13 @@ public class Menu {
         btn1_2.setName("添加管理员");
         //添加管理员菜单
         btn1_2.setUrl(URL+"adminInfor");
+        WxMenu.WxMenuButton btn1_3 = new WxMenu.WxMenuButton();
+        btn1_3.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn1_3.setName("下载通行记录");
+        //添加管理员菜单
+        btn1_3.setUrl(URL+"download");
         List<WxMenu.WxMenuButton> subList1 = new ArrayList<>();
-        subList1.addAll(Arrays.asList(btn1_1,btn1_2));
+        subList1.addAll(Arrays.asList(btn1_1,btn1_2,btn1_3));
         btn1.setSub_button(subList1);
         btnList.add(btn1);
         //默认按钮
@@ -219,16 +224,17 @@ public class Menu {
 
     public static void main(String[] args) throws WxErrorException {
 //        creatUserToTag();
-        creatMenu();
-        initManageMenu();
-        initMatchruleMenu();
-//        pushToTags();
-        checkMenu();
+//        creatMenu();
+//        initMatchruleMenu();
+//        initManageMenu();
+        pushToTags();
+//        check();
+//        checkMenu();
 //        int tags = getTags();
 //        System.out.println(tags);
 //        int tags = createTags();
 //        createTags();
-//        int tags = getTags("物业超管");
+//        int tags = getTags("物业管理");
 //        System.out.println(tags);
 //        pushToTags();
 //        check();
