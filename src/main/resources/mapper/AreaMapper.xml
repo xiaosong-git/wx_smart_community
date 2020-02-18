@@ -130,7 +130,7 @@
   </select>
   
   <!-- 查看小区下的人员通行记录 -->
-  <select id="record" resultMap="myResultMap" parameterType="string">
+  <select id="record" resultMap="myResultMap" parameterType="Long">
   	SELECT * from h_area ha
 	LEFT JOIN h_record hr on ha.id=hr.area_id
 	LEFT JOIN h_user hu on hr.user_id=hu.id
