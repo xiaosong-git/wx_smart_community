@@ -83,12 +83,25 @@
         console.log("其他浏览器=============")
         document.getElementById('bo').style.display='none'
         var userId= getCookie("userId");
+
         var areaId= getCookie("areaId");
        /* var areaId=*/
         var params="?userId="+userId+"&areaId="+areaId+";
         window.location.href=downloadUrl+params;
     }
-
+    function getAreaId() {
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/area/findByOpenId",
+            data: {openId: getCookie("openId")},
+            success: function (result) {
+              if (result.code=="200"){
+                  var areaId=result.data;
+              }
+            }
+        })
+    }
 </script>
 </body>
 </html>

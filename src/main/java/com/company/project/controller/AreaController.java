@@ -1,14 +1,13 @@
 package com.company.project.controller;
+
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.model.Area;
-import com.company.project.model.User;
 import com.company.project.service.AreaService;
 import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -20,8 +19,6 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
