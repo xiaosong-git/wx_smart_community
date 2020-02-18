@@ -14,10 +14,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -98,7 +95,7 @@ public class AreaController {
 	 * 某小区下人员通行报表 
 	 * 
 	 * */
-    @PostMapping("/reports")
+    @GetMapping("/reports")
     public Result reports(@RequestParam() Long userId, @RequestParam() Long areaId,
     		HttpServletRequest req, HttpServletResponse resp) {
     	String userName = userservice.findById(userId).getName();

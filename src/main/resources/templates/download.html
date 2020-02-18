@@ -42,6 +42,10 @@
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
+
+    $(function () {
+        isLogin();
+    }
     //从浏览器url地址中获取参数对应的值
     function GetRequest() {
         var url = location.search;//获取url中"?"符后的字符串
@@ -78,24 +82,11 @@
         //执行下载
         console.log("其他浏览器=============")
         document.getElementById('bo').style.display='none'
-        $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "/community/area/reports",
-            data: {
-               userId:"12",
-                areaId:"1"
-            },
-            success: function (result) {
-                console.log(result);
-
-            },
-            //请求失败，包含具体的错误信息
-            error: function (e) {
-
-            }
-        });
-
+        var userId= getCookie("userId");
+        var areaId= getCookie("areaId");
+       /* var areaId=*/
+        var params="?userId="+userId+"&areaId="+areaId+";
+        window.location.href=downloadUrl+params;
     }
 
 </script>
