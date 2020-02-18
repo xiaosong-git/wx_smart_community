@@ -56,16 +56,8 @@ public class ThymeleafController {
             wxUser.setOpenid(wxOAuth2AccessTokenResult.getOpenid());
             wxUser.setLang("zh_CN");
             WxUserList.WxUser wxUser1 = iService.oauth2ToGetUserInfo(wxOAuth2AccessTokenResult.getAccess_token(), wxUser);
-            Map<String,Object> user = userService.getUser(wxUser1.getOpenid());
-
-            model.addAttribute("user",user.get("user"));
-            if (user.get("areaId")!=null) {
-                model.addAttribute("areaId", user.get("areaId"));
-            }
-            System.out.println("--是否有房子：-"+user.get("hourse")+"---是否有家庭-----"+user.get("family"));
-//            System.out.println(user.toString());
-            model.addAttribute("hourse",user.get("hourse"));
-            model.addAttribute("family",user.get("family"));
+            userService.getUser(model,wxUser1.getOpenid());
+            model.addAttribute("openId",wxUser1.getOpenid());
 
             return "login";
         }

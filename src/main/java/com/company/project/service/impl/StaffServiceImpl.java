@@ -49,8 +49,13 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             user.setName(name);
             user.setIsManager("10");//普通物管
             userService.save(user);
+
+        }else {
+            user.setIsManager("10");
+            userService.update(user);
         }
         Long userId = user.getId();
+       //普通物管
         Staff staff = staffMapper.findbyAreaId(areaId, userId);
         if (staff==null){
             staff=new Staff();
@@ -59,6 +64,10 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             int save = save(staff);
             if (save>0){
                 System.out.println("添加员工成功");
+                //todo 添加微信菜单
+                if (user.getWxOpenId() != null & !"".equals(user.getWxOpenId())) {
+
+                }
                 return ResultGenerator.genSuccessResult("添加员工成功");
             }
             return ResultGenerator.genFailResult("存入失败");
@@ -69,6 +78,7 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             staff.setAreaId(areaId);
             int update = staffService.update(staff);
             if (update>0){
+                //todo 添加微信菜单
                 return ResultGenerator.genSuccessResult("添加员工成功");
             }
 

@@ -225,9 +225,9 @@ public class Menu {
 
     public static void main(String[] args) throws WxErrorException {
 //        creatUserToTag();
-//        creatMenu();
-//        initManageMenu();
-//        initMatchruleMenu();
+        creatMenu();
+        initManageMenu();
+        initMatchruleMenu();
 //        pushToTags();
 //        check();
         checkMenu();

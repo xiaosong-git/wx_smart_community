@@ -23,25 +23,15 @@
     <script src="js/myUtil.js"></script>
     <script>
         $(function() {
-            setCookie('openId', '[[${user.wxOpenId}]]', 365);
-            console.log('[[${user.wxOpenId}]]');
-            console.log('[[${user.phone}]]');
-            console.log('[[${user.name}]]');
-            console.log('[[${user.id}]]');
-            console.log('[[${user.isAuth}]]');
-            console.log('[[${family}]]');
-            console.log('[[${hourse}]]');
-            setCookie('phone', '[[${user.phone}]]', 365);
+            setCookie('openId', '[[${openId}]]', 365);
             setCookie('myName', '[[${user.name}]]', 365);
             setCookie('userId', '[[${user.id}]]', 365);
             setCookie('isAuth', '[[${user.isAuth}]]', 365);
             setCookie('family', '[[${family}]]', 365);
             setCookie('hourse', '[[${hourse}]]', 365);
-
             setCookie('areaId', '[[${areaId}]]', 365);
-
             $.toptip("验证成功", 'success');
-            window.history.go(-2);
+           history.back(-2);
         })
 
     </script>
