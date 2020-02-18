@@ -99,20 +99,23 @@ public class Menu {
         IService iService = new WxService();
         WxMenu menu = new WxMenu();
         List<WxMenu.WxMenuButton> btnList = new ArrayList<>();
+        WxMenu.WxMenuButton btn1=new WxMenu.WxMenuButton();
+        btn1.setName("物业管理");
         //个性化按钮
-        WxMenu.WxMenuButton btn1 = new WxMenu.WxMenuButton();
-        btn1.setName("通行验证");
-        btn1.setUrl(URL+MenuKey.PERSONINFOR);
-        btn1.setType(WxConsts.MENU_BUTTON_VIEW);
-
         WxMenu.WxMenuButton btn1_1 = new WxMenu.WxMenuButton();
+        btn1_1.setName("通行验证");
+        btn1_1.setUrl(URL+MenuKey.PERSONINFOR);
         btn1_1.setType(WxConsts.MENU_BUTTON_VIEW);
-        btn1_1.setName("添加管理员");
+
+        WxMenu.WxMenuButton btn1_2 = new WxMenu.WxMenuButton();
+        btn1_2.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn1_2.setName("添加管理员");
         //添加管理员菜单
-        btn1_1.setUrl(URL+"adminInfor");
-        btnList.add(btn1);
+        btn1_2.setUrl(URL+"adminInfor");
         List<WxMenu.WxMenuButton> subList1 = new ArrayList<>();
-        subList1.addAll(Arrays.asList(btn1_1,btn1));
+        subList1.addAll(Arrays.asList(btn1_1,btn1_2));
+        btn1.setSub_button(subList1);
+        btnList.add(btn1);
         //默认按钮
         setBtn(btnList);
         menu.setButton(btnList);
@@ -160,6 +163,7 @@ public class Menu {
         return manageResutl.getTag().getId();
 
     }
+    //修改标签名
     public static int updateUserTagName() throws WxErrorException {
 
         IService iService = new WxService();
@@ -215,16 +219,20 @@ public class Menu {
 
     public static void main(String[] args) throws WxErrorException {
 //        creatUserToTag();
-//        initMatchruleMenu();
+        creatMenu();
+        initManageMenu();
+        initMatchruleMenu();
+//        pushToTags();
+        checkMenu();
 //        int tags = getTags();
 //        System.out.println(tags);
 //        int tags = createTags();
-        createTags();
-        int tags = getTags("物业管理");
-        System.out.println(tags);
+//        createTags();
+//        int tags = getTags("物业超管");
+//        System.out.println(tags);
+//        pushToTags();
+//        check();
 //个性化菜单
-//        initMatchruleMenu();
-
 //        pushToTags();
 //        check();
 //        checkMenu();
