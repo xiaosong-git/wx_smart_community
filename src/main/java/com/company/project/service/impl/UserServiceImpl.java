@@ -242,13 +242,13 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
         //房子信息
        Hourse hourse= hourseMapper.getHouseFromOpenId(openId);
-
-        if (user==null){
-             user=new User();
-            user.setCreateTime(DateUtil.getSystemTime());
-            user.setWxOpenId(openId);
-            int save = this.save(user);
-        }
+//
+//        if (user==null){
+//             user=new User();
+//            user.setCreateTime(DateUtil.getSystemTime());
+//            user.setWxOpenId(openId);
+//            int save = this.save(user);
+//        }
         userInfo.put("user",user);
         //家庭信息
         Family family = familyMapper.getFamilyFromOpenId(openId);
