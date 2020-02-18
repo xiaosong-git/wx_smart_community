@@ -4,11 +4,14 @@ import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxConsts;
 import com.soecode.wxtools.api.WxService;
 import com.soecode.wxtools.bean.WxMenu;
+import com.soecode.wxtools.bean.result.WxError;
+import com.soecode.wxtools.bean.result.WxUserListResult;
 import com.soecode.wxtools.bean.result.WxUserTagResult;
 import com.soecode.wxtools.exception.WxErrorException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.company.project.weixin.MenuKey.URL;
@@ -91,6 +94,7 @@ public class Menu {
         btnList.add(btn3);
 
     }
+    //个性化菜单 超管
     public static void initMatchruleMenu() {
         IService iService = new WxService();
         WxMenu menu = new WxMenu();
@@ -100,7 +104,15 @@ public class Menu {
         btn1.setName("通行验证");
         btn1.setUrl(URL+MenuKey.PERSONINFOR);
         btn1.setType(WxConsts.MENU_BUTTON_VIEW);
+
+        WxMenu.WxMenuButton btn1_1 = new WxMenu.WxMenuButton();
+        btn1_1.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn1_1.setName("添加管理员");
+        //添加管理员菜单
+        btn1_1.setUrl(URL+"adminInfor");
         btnList.add(btn1);
+        List<WxMenu.WxMenuButton> subList1 = new ArrayList<>();
+        subList1.addAll(Arrays.asList(btn1_1,btn1));
         //默认按钮
         setBtn(btnList);
         menu.setButton(btnList);
@@ -116,6 +128,31 @@ public class Menu {
             e.printStackTrace();
         }
     }
+    //普通管理员
+    public static void initManageMenu() {
+        IService iService = new WxService();
+        WxMenu menu = new WxMenu();
+        List<WxMenu.WxMenuButton> btnList = new ArrayList<>();
+        //个性化按钮
+        WxMenu.WxMenuButton btn1 = new WxMenu.WxMenuButton();
+        btn1.setName("通行验证");
+        btn1.setUrl(URL+MenuKey.PERSONINFOR);
+        btn1.setType(WxConsts.MENU_BUTTON_VIEW);
+        //默认按钮
+        setBtn(btnList);
+        menu.setButton(btnList);
+        //配置个性化规则
+        WxMenu.WxMenuRule menuRule=new WxMenu.WxMenuRule();
+        //需要得知标签的id
+        menuRule.setTag_id("101");
+        menu.setMatchrule(menuRule);
+        try {
+            //参数1--menu  ，参数2--是否是个性化定制。如果是个性化菜单栏，需要设置MenuRule
+            iService.createMenu(menu, true);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+    }
     public static int createTags() throws WxErrorException {
         IService iService = new WxService();
         WxUserTagResult manageResutl = iService.createUserTag("物业管理");
@@ -123,36 +160,74 @@ public class Menu {
         return manageResutl.getTag().getId();
 
     }
-    public static int getTags() throws WxErrorException {
+    public static int updateUserTagName() throws WxErrorException {
+
+        IService iService = new WxService();
+        WxError wxError = iService.updateUserTagName(100, "物业超管");
+        System.out.println(wxError.toString());
+//        return manageResutl.getTag().getId();
+    return 0;
+    }
+
+    public static int getTags(String manage) throws WxErrorException {
         IService iService = new WxService();
         WxUserTagResult manageResutl = iService.queryAllUserTag();
         List<WxUserTagResult.WxUserTag> tags = manageResutl.getTags();
         for (WxUserTagResult.WxUserTag tag : tags) {
-            if(tag.getName().equals("物业管理")){
+            if(tag.getName().equals(manage)){
                 return tag.getId();
             }
         }
         return 0;
     }
-    public static void main(String[] args) throws WxErrorException {
-        creatMenu();
-        initMatchruleMenu();
-//        int tags = createTags();
+    //将用户加入标签
+    public static void pushToTags() throws WxErrorException {
+        IService iService = new WxService();
+        List<String> openIds=new LinkedList<>();
+        openIds.add("oFw0JwGlkNWM9DByJR8C76hSgYuc");
+        WxError wxError = iService.batchMovingUserToNewTag(openIds, 100);
 
+    }
+    //检查标签
+    public static void check() throws WxErrorException {
+        IService iService = new WxService();
+//        List<String> openIds=new LinkedList<>();
+//        openIds.add("oFw0JwGlkNWM9DByJR8C76hSgYuc");
+        WxUserListResult wxUserListResult = iService.queryAllUserUnderByTag(100, "");
+        wxUserListResult.getData();
+
+    }
+    //将用户加入标签
+    public static void checkMenu() throws WxErrorException {
+        IService iService = new WxService();
+        try {
+            WxUserTagResult wxUserTagResult = iService.queryAllUserTag();
+            List<WxUserTagResult.WxUserTag> tags = wxUserTagResult.getTags();
+            for (WxUserTagResult.WxUserTag tag : tags) {
+                System.out.println("-----tag_id:"+tag.getId());
+            }
+            String s = iService.menuTryMatch("oFw0JwGlkNWM9DByJR8C76hSgYuc");
+            System.out.println(s);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws WxErrorException {
+//        creatUserToTag();
+//        initMatchruleMenu();
+//        int tags = getTags();
+//        System.out.println(tags);
+//        int tags = createTags();
+        createTags();
+        int tags = getTags("物业管理");
+        System.out.println(tags);
 //个性化菜单
 //        initMatchruleMenu();
-        IService iService = new WxService();
-//        try {
-////            WxUserTagResult wxUserTagResult = iService.queryAllUserTag();
-////            List<WxUserTagResult.WxUserTag> tags = wxUserTagResult.getTags();
-////            for (WxUserTagResult.WxUserTag tag : tags) {
-////                System.out.println("-----tag_id:"+tag.getId());
-////            }
-////            String s = iService.menuTryMatch("otlyluFmKy3-oThjxdBYGQj2hzLI");
-////            System.out.println(s);
-//        } catch (WxErrorException e) {
-//            e.printStackTrace();
-//        }
+
+//        pushToTags();
+//        check();
+//        checkMenu();
     }
 
 

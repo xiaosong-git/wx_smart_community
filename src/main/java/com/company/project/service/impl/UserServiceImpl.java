@@ -5,19 +5,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.company.project.core.AbstractService;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
-import com.company.project.dao.FamilyMapper;
-import com.company.project.dao.HourseMapper;
-import com.company.project.dao.UserAuthMapper;
-import com.company.project.dao.UserMapper;
-import com.company.project.model.Family;
-import com.company.project.model.Hourse;
-import com.company.project.model.User;
-import com.company.project.model.UserAuth;
+import com.company.project.dao.*;
+import com.company.project.model.*;
+import com.company.project.service.AreaService;
 import com.company.project.service.ParamsService;
 import com.company.project.service.UserService;
 import com.company.project.util.*;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.soecode.wxtools.api.IService;
 import com.soecode.wxtools.api.WxService;
+import com.soecode.wxtools.bean.result.WxError;
 import com.soecode.wxtools.exception.WxErrorException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -38,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+
 /**
  * Created by CodeGenerator on 2020/02/11.
  */
@@ -56,7 +55,10 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Resource
     private FamilyMapper familyMapper;
     private IService iService = new WxService();
-
+    @Resource
+    private StaffMapper StaffMapper;
+    @Resource
+    private AreaService areaService;
     @Override
     public Result verify(long userId, String idNO, String name, String idHandleImgUrl,String localImgUrl) {
         try {
@@ -131,19 +133,20 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         //是否管理员
         User manage=hUserMapper.findByIdNo(idNoMW);
         if (manage==null){
+
             User user1 = bindHouseholder(userId, idNoMW, name);
             return user1;
         }
-
         //发送给微信贴上标签
         List<String> openIds=new LinkedList<>();
         openIds.add(wxOpenId);
-        iService.batchMovingUserToNewTag(openIds,100);//100 物业管理标签号
+        iService.batchMovingUserToNewTag(openIds,100);//100 物业超管标签号
         //修改绑定用户
         user.setWxOpenId("");
         manage.setWxOpenId(wxOpenId);
         update(user);
         update(manage);
+        logger.info("绑定超管成功,{},{}",user.getId(),manage.getId());
         return manage;
     }
 
@@ -153,21 +156,33 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public User bindHouseholder(Object userId,String idNoMW,String name) throws WxErrorException {
         User user = hUserMapper.getUserFromId(userId);
         String wxOpenId = user.getWxOpenId();
-        //是否管理员
+        //是否普通用户
         User Householder=hUserMapper.findByIdNoName(idNoMW,name);
+
         if (Householder==null){
             return user;
         }
+        User byStaff = hUserMapper.findByStaff(Householder.getId());
+        if (byStaff==null){
+            user.setWxOpenId("");
+            Householder.setWxOpenId(wxOpenId);
+            update(user);
+            update(Householder);
+            return Householder;
+        }
+        List<String> openIds=new LinkedList<>();
+        openIds.add(wxOpenId);
+        iService.batchMovingUserToNewTag(openIds,101);
         //修改绑定用户
         user.setWxOpenId("");
-        Householder.setWxOpenId(wxOpenId);
+        byStaff.setWxOpenId(wxOpenId);
         update(user);
-        update(Householder);
-        return Householder;
+        update(byStaff);
+        return byStaff;
     }
     @Override
-    public Result uploadPhoto(String userId, String mediaId, String type) {
-        String time = DateUtil.getSystemTimeFourteen();
+    public Result uploadPhoto(String userId, String mediaId, String type) throws Exception {
+//        String time = DateUtil.getSystemTimeFourteen();
         //临时图片地址
 //        String url="D:\\test\\community\\tempotos";
         String url="/project/weixin/community/tempotos";
@@ -178,18 +193,20 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
-        String fileName = newFile.getName();
+        String fileName = newFile.getAbsolutePath();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-        String newFileName = url+File.separator+userId+System.currentTimeMillis() + "."+suffix;
-        File newNameFile=new File(newFileName);
-        boolean b = newFile.renameTo(newNameFile);
-
-        String name = newNameFile.getAbsolutePath();
+        //获取文件
+        byte[] photo = FilesUtils.getPhoto(fileName);
+        //压缩
+        String newFileName = userId+System.currentTimeMillis() + "."+suffix;
+        File compressImg = FilesUtils.getFileFromBytes(FilesUtils.compressUnderSize(photo, 10240L), url+File.separator, newFileName);
+        String name = compressImg.getAbsolutePath();
+        logger.info(name);
         OkHttpUtil okHttpUtil=new OkHttpUtil();
-        Map<String,Object> map=new HashMap();
+        Map<String,Object> map=new HashMap<>();
         map.put("userId",userId);
         map.put("type",type);
-        map.put("file",newNameFile);
+        map.put("file",compressImg);
         String imageServerApiUrl = paramService.findValueByName("imageServerApiUrl");
         String s = okHttpUtil.postFile(imageServerApiUrl, map, "multipart/form-data");//上传图片
         JSONObject jsonObject=JSONObject.parseObject(s);
@@ -322,6 +339,101 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         List<User> list = hUserMapper.findUserList(name, idCard);
         return list;
     }
-    
-    
+    //通过openId查找用户的实人信息
+    @Override
+    public Result userAuthInfo(String openId) {
+
+        User userInfo = hUserMapper.getUserFromOpenId(openId);
+        if (userInfo!=null){
+            String workKey = "iB4drRzSrC";//生产的des密码
+            // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+            if (userInfo.getIdNo()!=null){
+                userInfo.setIdNo(DESUtil.decode(workKey,userInfo.getIdNo()));
+            }
+            return ResultGenerator.genSuccessResult(userInfo);
+        }
+        return ResultGenerator.genFailResult("未查询到实人信息");
+
+
+    }
+
+    //批量生成管理员个性化菜单
+    @Override
+    public Result creatUserToTag(int tagId) {
+        //由于tag每次只能生成50个openId
+        int count=0;
+        int size=50;
+        List<String> openIds=new LinkedList<>();
+
+        List<User> list = null;
+        if (tagId==100){
+
+        list=hUserMapper.findManager();
+        }else if (tagId==101){
+            list=hUserMapper.findStaff();
+        }
+        WxError wxError;
+        if (list!=null) {
+            for (User user : list) {
+                count++;
+                openIds.add(user.getWxOpenId());
+
+                if (count % size == 0) {
+                    try {
+                         wxError = iService.batchMovingUserToNewTag(openIds, 100);
+                        logger.info(wxError.getErrmsg());
+                    } catch (WxErrorException e) {
+                        logger.error("批量生成管理员菜单报错", e);
+                    }
+                    openIds.removeAll(list);
+                }
+            }
+        }
+
+        try {
+             wxError = iService.batchMovingUserToNewTag(openIds, 100);
+            logger.info(wxError.getErrmsg());
+        } catch (WxErrorException e) {
+            logger.error("批量生成管理员菜单报错", e);
+        }
+        return ResultGenerator.genSuccessResult(list);
+    }
+
+    @Override
+    public Result findStaff(String openId) {
+        User user = hUserMapper.getUserOpenId(openId);
+        if (user==null){
+            logger.info("查询管理员登入信息失败");
+            return ResultGenerator.genFailResult("查询管理员登入信息失败");
+        }
+        String ext1 = user.getExt1();
+        if (ext1 == null || "".equals(ext1)) {
+            logger.info("查询管理员小区信息失败");
+            return ResultGenerator.genFailResult("查询管理员小区信息失败");
+        }
+        List<User> staffs = hUserMapper.selectStaffUserByArea(ext1);
+        if (staffs!=null){
+            for (User staff : staffs) {
+                if (!"".equals(staff.getIdNo())&&staff.getIdNo()!=null){
+
+                    staff.setIdNo(DESUtil.decode("iB4drRzSrC",staff.getIdNo()));
+
+                }
+            }
+        }
+        Map<String,Object> map=new HashMap<>();
+
+        Area area = areaService.findBy("id", Long.valueOf(ext1));
+        if (area!=null){
+            map.put("areaName",area.getAreaName());
+        }
+            map.put("areaId",ext1);
+        map.put("staff",staffs);
+        logger.info("查询成功");
+        return ResultGenerator.genSuccessResult(map);
+    }
+
+
+
+
 }

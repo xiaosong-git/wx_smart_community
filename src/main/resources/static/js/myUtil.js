@@ -1,4 +1,4 @@
-var IS_DEVELOP=true;//是否生产环境
+var IS_DEVELOP=false;//是否生产环境
 var uri;
 var url;
 var loginUrl;
@@ -9,8 +9,8 @@ if (IS_DEVELOP){//生产环境
     //重定向地址
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 } else{
-    appId="wx2a1951f46acc4371";
-    uri="sxy75e.natappfree.cc";
+    appId="wx73d294462904125c";
+    uri="j7h3rk.natappfree.cc";
     url= "http://"+uri+"/";
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 }
@@ -30,6 +30,8 @@ var familyInforUrl=url+suffix+"familyInfor";
 var addPersonUrl=url+suffix+"addPerson";
 var houseInforUrl=url+suffix+"houseInfor";
 var familyIndexUrl=url+suffix+"familyIndex";
+var addAdminUrl=url+suffix+"addAdmin";
+var adminInforUrl=url+suffix+"adminInfor";
 
 function setCookie(c_name,value,expiredays)
 {
@@ -57,7 +59,7 @@ function getCookie(c_name)
 }
 function isLogin() {
     console.log(getCookie('openId'));
-    if (getCookie('openId')===''){
+    if (getCookie('openId')==""){
         window.location.href=loginUrl;
         return true;
     }

@@ -124,10 +124,23 @@ public class ThymeleafController {
     public String areaInfor() {
         return "areaInfor";
     }
+
+
     @RequestMapping(value = "/clear",method= RequestMethod.GET)
     public String clear() {
         return "clear";
     }
+
+    @RequestMapping(value = "/adminInfor",method= RequestMethod.GET)
+    public String adminInfor() {
+        return "adminInfor";
+    }
+
+    @RequestMapping(value = "/addAdmin",method= RequestMethod.GET)
+    public String addAdmin() {
+        return "addAdmin";
+    }
+
 
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
     public String personInfor(Model model) {

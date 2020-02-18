@@ -38,4 +38,19 @@ public interface UserMapper extends Mapper<User> {
     //查询管理员的小区
     @Select("select * from "+ TableList.USER+" where wx_open_id=#{opreWxId} limit 1")
     User selectByopreWxId(String opreWxId);
+    //查询管理员信息
+    @Select("select DISTINCT wx_open_id from "+TableList.USER+" where is_manager=0 and wx_open_id is not null and wx_open_id<>''")
+    List<User> findManager();
+    //查询员工信息
+    @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s " +
+            "on s.user_id=u.id  where s.area_id=#{ext1}  and s.status<>'delete' ")
+    List <User> selectStaffUserByArea(String ext1);
+    //根据姓名手机号查找用户
+    @Select("select * from "+ TableList.USER+ " where name=#{name} and phone=#{phone} limit 1")
+    User findByNamePhone(String name, String phone);
+    //查找二级管理员信息
+    @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where  wx_open_id is not null")
+    List<User> findStaff();
+    @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where user_id=#{id} and s.status<>delete")
+    User findByStaff(Long id);
 }

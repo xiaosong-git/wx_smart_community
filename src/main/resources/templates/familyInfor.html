@@ -11,13 +11,15 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
     <style type="text/css">
         @import url("css/comon.css");
-        .blue-btn{
+
+        .blue-btn {
             background-color: #5cadff;
-            color:#fff;
+            color: #fff;
         }
-        .backgroud{
-          background-image: url("images/household.png");
-            background-size: auto;
+
+        .backgroud {
+            background-image: url("images/household.png");
+            background-size: cover;
         }
     </style>
 
@@ -33,17 +35,16 @@
 </div>
 <div class="weui-cells weui-cells_form" style="font-family:宋体;">
     <div class="weui-cell weui-btn weui-btn_plain-default backgroud" onclick="editHouseholder()">
-        <div class="weui-cell__hd" ></div>
+        <div class="weui-cell__hd"></div>
         <div class="weui-cell__bd" align="center">
-           <strong><p  id="householder" ></p></strong>
+            <strong><p id="householder"></p></strong>
         </div>
     </div>
-</div>
-
-<div id="familyPerson"></div>
-<br>
-<br>
-<button class="weui-btn blue-btn" onclick="verify()" style="display: none" id="btn"><font size="5">⊕</font> 新增家庭成员</button>
+    <div id="familyPerson"></div>
+    <br>
+    <br>
+    <button class="weui-btn blue-btn" onclick="verify()" style="display: none" id="btn"><font size="5">⊕</font> 新增家庭成员
+    </button>
 </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
@@ -54,37 +55,38 @@
     $(function () {
         var addr = window.localStorage.getItem("findHouseName");
         houseId = window.localStorage.getItem("findHouseId");
-        document.getElementById('addr').innerText=addr;
+        document.getElementById('addr').innerText = addr;
         getHouses();
         console.log(getCookie(addr))
     })
+
     function getHouses() {
 
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/family/findFamilyUser",
-            data: { hourseId: houseId },
+            data: {hourseId: houseId},
             success: function (result) {
                 console.log(result)
                 var list = result.data
-                for(var i in list){
-                    if(list[i].ext1 == "T"){
+                for (var i in list) {
+                    if (list[i].ext1 == "T") {
                         document.getElementById('householder').innerText = list[i].name
-                        $("#householder").attr("userId",list[i].id)
-                        $("#householder").attr("idNo",list[i].idNo)
+                        $("#householder").attr("userId", list[i].id)
+                        $("#householder").attr("idNo", list[i].idNo)
 
                         //是户主身份显示新增成员按钮
-                        if(getCookie("userId")==list[i].id){
-                            document.getElementById('btn').style.display='block';
+                        if (getCookie("userId") == list[i].id) {
+                            document.getElementById('btn').style.display = 'block';
                         }
-                    }else{
+                    } else {
                         $("#familyPerson").append("<div class=\"weui-cells weui-cells_form\">\n" +
-                            "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"editPerson('"+encodeURI(JSON.stringify(list[i]))+"')\">\n" +
+                            "    <div class=\"weui-cell weui-btn weui-btn_plain-default\" onclick=\"editPerson('" + encodeURI(JSON.stringify(list[i])) + "')\">\n" +
                             "\n" +
                             "        <div class=\"weui-cell__hd\"><img src=\"\"></div>\n" +
                             "        <div class=\"weui-cell__bd\" align=\"center\">\n" +
-                            "            <p>"+list[i].name+"</p>\n" +
+                            "            <p>" + list[i].name + "</p>\n" +
                             "        </div>\n" +
                             "        <div class=\"weui-cell__ft\"></div>\n" +
                             "    </div>\n" +
@@ -94,14 +96,15 @@
             }
         })
     }
+
     function editHouseholder() {
 
         var userName = escape(document.getElementById('householder').innerText);
         var userId = $("#householder").attr("userId")
         var idNo = $("#householder").attr("idNo")
-        var params = "?index=householder&userName="+userName+"&userId="+userId+"&idNo="+idNo;
-        console.log(userName+"==="+userId+"===="+idNo);
-        window.location.href=addPersonUrl+params;
+        var params = "?index=householder&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo;
+        console.log(userName + "===" + userId + "====" + idNo);
+        window.location.href = addPersonUrl + params;
     }
 
     function editPerson(list) {
@@ -110,13 +113,14 @@
         var userId = jsonData.id;
         var idNo = jsonData.idNo;
         var isAuth = jsonData.isAuth
-        var params = "?index=person&userName="+userName+"&userId="+userId+"&idNo="+idNo +"&isAuth="+isAuth;
-        console.log(userName+"==="+userId+"===="+idNo);
-        window.location.href=addPersonUrl+params;
+        var params = "?index=person&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo + "&isAuth=" + isAuth;
+        console.log(userName + "===" + userId + "====" + idNo);
+        window.location.href = addPersonUrl + params;
     }
+
     function verify() {
         console.log(houseId)
-        window.location.href=addPersonUrl+"?houseId="+houseId;
+        window.location.href = addPersonUrl + "?houseId=" + houseId;
     }
 </script>
 </body>

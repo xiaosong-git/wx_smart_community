@@ -57,7 +57,25 @@ public class BuildingController {
     
     @PostMapping("/buildingList")
     public Result buildingList(@RequestParam() String areaId) {
-        List<Building> list = buildingService.findBuilding(areaId);
-        return ResultGenerator.genSuccessResult(list);
+        try {
+            List<Building> list = buildingService.findBuilding(areaId);
+            return ResultGenerator.genSuccessResult(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
     }
+
+    @PostMapping("/building")
+    public Result building(@RequestParam() Long buildingId) {
+        try {
+            Building building= buildingService.findBuildingById(buildingId);
+            return ResultGenerator.genSuccessResult(building);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+
+    }
+
 }

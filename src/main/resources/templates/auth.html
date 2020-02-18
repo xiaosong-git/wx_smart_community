@@ -53,7 +53,7 @@
             <label style="margin-left: 15px">身份证号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" id="idNo" placeholder="请输入您的身份证号" type="text" value="">
+            <input class="weui-input" id="idNo" placeholder="请输入您的身份证号" type="text" value="" onblur="checkIdNo()">
         </div>
 
     </div>
@@ -93,6 +93,7 @@
 
     $(function(){
 
+        getAuthInfo();
         //解决表单控件不能回弹 只有微信ios有这个问题
         $("input,select,textarea").blur(function(){
             setTimeout(() => {
@@ -175,50 +176,52 @@
             $.toptip("请输入身份证号！");
         } else if (isEmpty($("#photoDiv").val())){
             $.toptip("请选择人脸图片！");
-        }else {
-            $.showLoading();
-            $.ajax({
-                //请求方式
-                type : "POST",
-                //请求的媒体类型
-                contentType: "application/x-www-form-urlencoded",
-                //请求地址
-                url : "user/verify",
-                //数据，json字符串
-                data : {userId:getCookie("userId"),
-                    // token:getCookie(("token")),
-                    idHandleImgUrl: $("#uploaderFiles").val(),
-                    idNO:$("#idNo").val(),
-                    realName:$("#realName").val(),
-                    localImgUrl:$("#photoDiv").val()
-                },
-                //请求成功
-                success : function(result) {
-                    if (result.code==400){
-                        $.toptip(result.message);
-                        alert(result.message);
-                        $.hideLoading();
-                    }else {
-                        $.hideLoading();
-                        $.toptip("认证成功！",'success');
+        }else if(checkIdNo()!=true) {
+            return;
+        }else{
+                $.showLoading();
+                $.ajax({
+                    //请求方式
+                    type : "POST",
+                    //请求的媒体类型
+                    contentType: "application/x-www-form-urlencoded",
+                    //请求地址
+                    url : "user/verify",
+                    //数据，json字符串
+                    data : {userId:getCookie("userId"),
+                        // token:getCookie(("token")),
+                        idHandleImgUrl: $("#uploaderFiles").val(),
+                        idNO:$("#idNo").val(),
+                        realName:$("#realName").val(),
+                        localImgUrl:$("#photoDiv").val()
+                    },
+                    //请求成功
+                    success : function(result) {
+                        if (result.code==400){
+                            $.toptip(result.message);
+                            alert(result.message);
+                            $.hideLoading();
+                        }else {
+                            $.hideLoading();
+                            $.toptip("认证成功！",'success');
 
-                        var data = result.data;
-                        setCookie("userId",data.userId);
-                        setCookie("isAuth",data.isAuth);
-                        // alert(data.userId);
-                        // alert(getCookie("userId"));
-                        alert("认证成功！");
-                        // alert(getCookie("isAuth"));
-                        window.history.back();
-                        // quit();
-                        // quit();
+                            var data = result.data;
+                            setCookie("userId",data.userId);
+                            setCookie("isAuth",data.isAuth);
+                            // alert(data.userId);
+                            // alert(getCookie("userId"));
+                            alert("认证成功！");
+                            // alert(getCookie("isAuth"));
+                            window.history.back();
+                            // quit();
+                            // quit();
+                        }
+                    },
+                    error:function (e) {
+                        $.toptip("网络错误!");
                     }
-                },
-                error:function (e) {
-                    $.toptip("网络错误!");
-                }
-            });
-        }
+                });
+            }
 
     }
     function test(){
@@ -264,7 +267,39 @@
             }
         });
     }
+    function getAuthInfo() {
+        $.ajax({
+            //请求方式
+            type: "POST",
+            //请求的媒体类型
+            contentType: "application/x-www-form-urlencoded",
+            //请求地址
+            url: "/community/user/userAuthInfo",
+            //数据，json字符串
+            data: {
+                openId:getCookie("openId")
+            },
+            //请求成功
+            success: function (result) {
+               if(result.code=="200"){
+                   document.getElementById("realName").value=result.data.name
+                   document.getElementById("idNo").value=result.data.idNo
+               }
+            }
+        })
 
+    }
+    function checkIdNo() {
+        var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        var idNo = $("#idCard").val();
+        if(!regIdNo.test(idNo)){
+            $.toptip('身份证输入错误，请检查');
+            return false;
+        }else{
+            $.toptip('身份证合法',"success");
+            return true;
+        }
+    }
 </script>
 
 </html>

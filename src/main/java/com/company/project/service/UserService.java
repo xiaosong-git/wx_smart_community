@@ -15,7 +15,7 @@ public interface UserService extends Service<User> {
 
     Result verify(long userId, String idNO, String name, String idHandleImgUrl, String localImgUrl);
 
-    Result uploadPhoto(String userId, String mediaId, String type);
+    Result uploadPhoto(String userId, String mediaId, String type) throws Exception;
 
     Map<String,Object> getUser(String openid);
 
@@ -24,4 +24,11 @@ public interface UserService extends Service<User> {
     List<User> findList(String name, String phone);
 
     List<User> finUserList(String name, String idCard);
+
+    Result userAuthInfo(String openId);
+
+    //根据管理员查询员工
+    Result findStaff(String openId);
+
+    Result creatUserToTag(int tagId);
 }
