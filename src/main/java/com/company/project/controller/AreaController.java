@@ -143,10 +143,11 @@ public class AreaController {
 	        row2.createCell(4).setCellValue("列别（进或出）");
 	        
 	        for(int i=3;i<list.size()+3;i++) {
-	        	 XSSFRow row = xssfSheet.createRow(i);
-	        	 row.createCell(0).setCellValue(list.get(i).getUser().getName());
-	        	 row.createCell(1).setCellValue(encryptIdCard(list.get(i).getUser().getIdNo()));
-			        String managerType = list.get(i).getUser().getIsManager();
+	        	int j = i-3;
+	        	 XSSFRow row = xssfSheet.createRow(j);
+	        	 row.createCell(0).setCellValue(list.get(j).getUser().getName());
+	        	 row.createCell(1).setCellValue(encryptIdCard(list.get(j).getUser().getIdNo()));
+			        String managerType = list.get(j).getUser().getIsManager();
 			        switch (managerType) {
 					case "0":
 						managerType = "管理员";
@@ -161,9 +162,9 @@ public class AreaController {
 						break;
 					}
 			        row.createCell(2).setCellValue(managerType);
-			        row.createCell(3).setCellValue(list.get(i).getRecord().getPassTime());
+			        row.createCell(3).setCellValue(list.get(j).getRecord().getPassTime());
 			        
-			        String type = list.get(i).getRecord().getType();
+			        String type = list.get(j).getRecord().getType();
 			        switch (type) {
 					case "in":
 						managerType = "进";
