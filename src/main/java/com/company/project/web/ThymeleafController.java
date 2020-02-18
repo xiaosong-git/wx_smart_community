@@ -63,7 +63,7 @@ public class ThymeleafController {
                 model.addAttribute("areaId", user.get("areaId"));
             }
             System.out.println("--是否有房子：-"+user.get("hourse")+"---是否有家庭-----"+user.get("family"));
-            System.out.println(user.toString());
+//            System.out.println(user.toString());
             model.addAttribute("hourse",user.get("hourse"));
             model.addAttribute("family",user.get("family"));
 

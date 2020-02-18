@@ -141,7 +141,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         List<String> openIds=new LinkedList<>();
         openIds.add(wxOpenId);
         iService.batchMovingUserToNewTag(openIds,100);//100 物业超管标签号
-        //修改绑定用户
+        //todo 删除修改绑定用户
         user.setWxOpenId("");
         manage.setWxOpenId(wxOpenId);
         update(user);
@@ -167,6 +167,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         if (byStaff==null){
             user.setWxOpenId("");
             Householder.setWxOpenId(wxOpenId);
+            //todo 删除这段
             update(user);
             update(Householder);
             return Householder;
@@ -176,6 +177,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         iService.batchMovingUserToNewTag(openIds,101);
         //修改绑定用户
 //        if ()
+        //todo 删除这段
         user.setWxOpenId("");
         byStaff.setWxOpenId(wxOpenId);
         update(user);
@@ -242,7 +244,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
         //房子信息
        Hourse hourse= hourseMapper.getHouseFromOpenId(openId);
-//
+        //todo 需要删除这段，不要先创建账号
         if (user==null){
              user=new User();
             user.setCreateTime(DateUtil.getSystemTime());
