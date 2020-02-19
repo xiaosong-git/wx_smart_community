@@ -50,17 +50,17 @@
   	SELECT hu.*,hf.*  from h_hourse hu
   	left join h_family hf on hf.house_id=hu.id
 	LEFT JOIN h_user u on hu.user_id = u.id
-	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and hu.is_rent='F'
+	where u.`name`=#{name} and u.phone=#{phone} and hu.is_rent='F'
 	union
 	SELECT hu.*,hf.* from h_hourse hu
 	left join h_family hf on hf.house_id=hu.id
 	LEFT JOIN h_user u on hu.rent_id = u.id
-	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and hu.is_rent='T'
+	where u.`name`=#{name} and u.phone=#{phone} and hu.is_rent='T'
   </select>
   <select id="authFamily" resultMap="myResultMap" parameterType="string">
 		SELECT hh.*,hf.id fid from h_hourse hh
 		left JOIN h_family hf on hh.id = hf.house_id
 		LEFT JOIN h_user hu on hu.id = hf.user_id
-		where hu.`name` LIKE CONCAT('%',#{name},'%') and hu.id_no=#{idCard} and hf.`status`='0'
+		where hu.`name`=#{name} and hu.id_no=#{idCard} and hf.`status`='0'
   </select>
 </mapper>

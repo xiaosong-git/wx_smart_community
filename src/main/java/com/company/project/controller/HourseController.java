@@ -85,7 +85,7 @@ public class HourseController {
         String isAuth = "F";
         for(Hourse h:list) {
         	if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
-        		return ResultGenerator.genFailResult("该户主已经认证过");
+        		return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
         	}
         }
         if(list!=null) {
@@ -113,6 +113,8 @@ public class HourseController {
                     System.out.println("是否生成家庭成功？"+save);
                 }
             }
+        }else {
+        	return ResultGenerator.genFailResult("认证失败，请填写正确的身份信息（包括：姓名、身份证号，手机号）");
         }
         if(flag) {
             String workKey = "iB4drRzSrC";//生产的des密码
@@ -126,8 +128,9 @@ public class HourseController {
             map.put("isAuth", isAuth);
             map.put("userId", userList.get(0).getId().toString());
             return ResultGenerator.genSuccessResult(map);
+        }else {
+        	return ResultGenerator.genFailResult("认证失败，请核对正确的住址信息（包括：省、市、区、楼栋、小区的）");
         }
-        return ResultGenerator.genFailResult("认证失败");
     }
     @PostMapping("/authJoinFamily")
     public Result authJoinFamily( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
@@ -152,6 +155,8 @@ public class HourseController {
                     flag = true;
                 }
             }
+        }else {
+        	return ResultGenerator.genFailResult("认证失败，请填写正确的身份信息（包括：姓名、身份证号）");
         }
         if(flag ) {
             User user = new User();
@@ -161,8 +166,9 @@ public class HourseController {
             map.put("isJoin", isJoin);
             map.put("userId", userList.get(0).getId().toString());
             return ResultGenerator.genSuccessResult(map);
+        }else {
+        	return ResultGenerator.genFailResult("认证失败，请核对正确的住址信息（包括：省、市、区、楼栋、小区的）");
         }
 
-        return ResultGenerator.genFailResult("认证失败");
     }
 }
