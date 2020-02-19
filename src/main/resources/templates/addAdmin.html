@@ -51,7 +51,7 @@
             <label class="weui-label">手机号码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="number" id="phone" value="" onBlur="checkPhone()" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+            <input class="weui-input" placeholder="请输入" type="number" id="phone" value="" onBlur="checkPhone()" minlength="11" maxlength="11">
         </div>
     </div>
     <br>
@@ -92,6 +92,7 @@
     $(function () {
         areaId = getQueryString('areaId');
         isAuth = getQueryString('isAuth');
+        console.log("isAuth:"+isAuth)
         name = unescape(getQueryString('name'));
         idNo = getQueryString('idNo');
         phone = getQueryString('phone');
@@ -169,12 +170,12 @@
             },
             success: function (result) {
                 console.log(result)
-                /*if(result.code=="200"){
+                if(result.code=="200"){
                     $.toptip(result.data,"success");
                     window.location.href = adminInforUrl;
                 }else{
                     $.toptip(result.data);
-                }*/
+                }
             }
         })
     }
