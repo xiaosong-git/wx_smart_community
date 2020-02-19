@@ -9,8 +9,8 @@ if (IS_DEVELOP){//生产环境
     //重定向地址
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 } else{
-    appId="wx2a1951f46acc4371";
-    uri="tqqtue.natappfree.cc";
+    appId="wx73d294462904125c";
+    uri="hvrnv6.natappfree.cc";
     url= "http://"+uri+"/";
     loginUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http%3A%2F%2F"+uri+"%2Fcommunity%2Flogin&response_type=code&scope=snsapi_userinfo&state=233#wechat_redirect";
 }
@@ -88,4 +88,23 @@ function isEmpty(v) {
             return true;
     }
     return false;
+}
+function checkPhone() {
+    var tel = $('#phone').val();
+    if (!tel || !/1[3|4|5|7|8]\d{9}/.test(tel)) {
+        $.toptip('手机号输入错误，请检查');
+        return false;
+    }else{
+        return true;
+    }
+}
+function checkIdNo() {
+    var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    var idNo = $("#idCard").val();
+    if(!regIdNo.test(idNo)){
+        $.toptip('身份证输入错误，请检查');
+        return false;
+    }else{
+        return true;
+    }
 }

@@ -191,6 +191,12 @@
         $("#paltaddr").append(html); //渲染*/
     })
    function next() {
+
+       sessionStorage.setItem("addr",$("#addr").val())
+       sessionStorage.setItem("communityaddr",$("#adcommunityaddrdr").val())
+       sessionStorage.setItem("houseaddr",$("#houseaddr").val())
+       sessionStorage.setItem("floor",$("#floor").val())
+       sessionStorage.setItem("paltaddr",$("#paltaddr").val())
 	   var addr =  $("#addr").attr("data-code");
 	   var communityaddr = $("#communityaddr option:selected").val();
 	   var houseaddr = $("#houseaddr option:selected").val();

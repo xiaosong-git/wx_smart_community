@@ -81,8 +81,6 @@
         var index = getQueryString('index');
         editUserId = getQueryString('userId');
         editUserName = unescape(getQueryString('userName'));
-
-
         var idNo = getQueryString('idNo');
         //户主信息
         if (index == "householder") {
@@ -114,32 +112,32 @@
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
-        }
-        if(isEmpty(idNo)){
+        }else if(isEmpty(idNo)){
             $.toptip('身份证不可为空');
             return;
-        }
-        if(checkIdNo()!=true){
+        }else if(checkIdNo()!=true){
             return;
-        }
-        $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "/community/family/editFamilyUser",
-            data: {
-                userId: editUserId,
-                idNo:idNo,
-                userName:name
-            },
-            success: function (result) {
-                if(result.code==200){
-                    $.toptip('修改成功','success');
-                    window.location.href = familyInforUrl;
-                }else{
-                    $.toptip('删除失败');
+        }else{
+            $.ajax({
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded",
+                url: "/community/family/editFamilyUser",
+                data: {
+                    userId: editUserId,
+                    idNo:idNo,
+                    userName:name
+                },
+                success: function (result) {
+                    if(result.code==200){
+                        $.toptip('修改成功','success');
+                        window.location.href = familyInforUrl;
+                    }else{
+                        $.toptip('删除失败');
+                    }
                 }
-            }
-        })
+            })
+        }
+
     }
     function delPerson() {
         console.log(houseId + "==" + editUserId)
@@ -167,33 +165,33 @@
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
-        }
-        if(isEmpty(idNo)){
+        }else if(isEmpty(idNo)){
             $.toptip('身份证不可为空');
             return;
-        }
-        if(checkIdNo()!=true){
+        }else if(checkIdNo()!=true){
             return;
-        }
-       $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "/community/family/addFamilyNameIdNo",
-            data: {
-                hourseId: houseId,
-                userId: getCookie("userId"),
-                idNo:idNo,
-                userName:name
-            },
-            success: function (result) {
-                if(result.code==200){
-                    $.toptip('新增成功','success');
-                    window.location.href = familyInforUrl;
-                }else{
-                    $.toptip('新增失败');
+        }else{
+            $.ajax({
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded",
+                url: "/community/family/addFamilyNameIdNo",
+                data: {
+                    hourseId: houseId,
+                    userId: getCookie("userId"),
+                    idNo:idNo,
+                    userName:name
+                },
+                success: function (result) {
+                    if(result.code==200){
+                        $.toptip('新增成功','success');
+                        window.location.href = familyInforUrl;
+                    }else{
+                        $.toptip('新增失败');
+                    }
                 }
-            }
-        })
+            })
+        }
+
     }
 
     function checkIdNo() {
@@ -203,7 +201,6 @@
             $.toptip('身份证输入错误，请检查');
             return false;
         }else{
-            $.toptip('身份证合法',"success");
             return true;
         }
     }
