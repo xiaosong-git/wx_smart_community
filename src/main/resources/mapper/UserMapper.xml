@@ -122,11 +122,11 @@ where h.id=#{hourseId}
     </select>
     
     <select id="findList" parameterType="String" resultMap="BaseResultMap" >
-    	select * from h_user where `name` LIKE CONCAT('%',#{name},'%') and phone=#{phone}
+    	select * from h_user where `name`=#{name} and phone=#{phone}
     </select>
     
      <select id="findUserList" parameterType="String" resultMap="BaseResultMap" >
-    	select * from h_user where `name` LIKE CONCAT('%',#{name},'%') and id_no=#{idCard}
+    	select * from h_user where `name`=#{name} and id_no=#{idCard}
     </select>
     
 </mapper>
