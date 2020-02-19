@@ -84,14 +84,14 @@ public class HourseController {
         boolean flag = false;
         String isAuth = "F";
         
-        for(Hourse h:list) {
-        	if(h.getFamily()!=null) {
-        		if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
-            		return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
-            	}
-        	}
-        }
         if(list!=null) {
+        	for(Hourse h:list) {
+            	if(h.getFamily()!=null) {
+            		if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
+                		return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
+                	}
+            	}
+            }
             for(Hourse h:list) {
                 //楼栋的id以及楼栋
                 if(h.getBuildingId().equals(houseaddr) &&h.getNum().equals(paltaddr)) {
