@@ -83,9 +83,12 @@ public class HourseController {
         List<User> userList = userservice.findList(name, phone);
         boolean flag = false;
         String isAuth = "F";
+        
         for(Hourse h:list) {
-        	if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
-        		return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
+        	if(h.getFamily()!=null) {
+        		if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
+            		return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
+            	}
         	}
         }
         if(list!=null) {
