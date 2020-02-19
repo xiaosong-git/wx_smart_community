@@ -54,7 +54,7 @@ public class UserController {
     /**
      * 实名认证
      *
-     * @param userId         用户Id
+     * @param openId         用户微信号id
      * @param idNO           身份证
      * @param realName       真实姓名
      * @param idHandleImgUrl 远程图片地址
@@ -63,10 +63,10 @@ public class UserController {
      */
     @RequestMapping("/verify")
     @ResponseBody
-    public Result verify(@RequestParam long userId, @RequestParam String idNO,
+    public Result verify(@RequestParam String openId, @RequestParam String idNO,
                          @RequestParam String realName, @RequestParam String idHandleImgUrl, @RequestParam String localImgUrl) {
         try {
-            return userService.verify(userId, idNO, realName, idHandleImgUrl, localImgUrl);
+            return userService.verify(openId, idNO, realName, idHandleImgUrl, localImgUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,20 +76,20 @@ public class UserController {
     /**
      * 实人认证图片上传
      *
-     * @param userId  用户id
+     * @param openId  用户id
      * @param mediaId 微信临时图片
      * @param type    状态
      * @return
      */
     @RequestMapping("/uploadVerify")
     @ResponseBody
-    public Result uploadPhoto(@RequestParam String userId, @RequestParam() String mediaId, @RequestParam() String type) {
+    public Result uploadPhoto(@RequestParam String openId, @RequestParam() String mediaId, @RequestParam() String type) {
 
         try {
-            System.out.println(userId);
+            System.out.println(openId);
             System.out.println(mediaId);
             System.out.println(type);
-            return userService.uploadPhoto(userId, mediaId, type);
+            return userService.uploadPhoto(openId, mediaId, type);
         } catch (Exception e) {
             e.printStackTrace();
         }

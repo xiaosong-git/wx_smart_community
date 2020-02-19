@@ -1,5 +1,6 @@
 package com.company.project.service.impl;
 
+import com.company.project.core.AbstractService;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.dao.StaffMapper;
@@ -7,16 +8,19 @@ import com.company.project.dao.UserMapper;
 import com.company.project.model.Staff;
 import com.company.project.model.User;
 import com.company.project.service.StaffService;
-import com.company.project.core.AbstractService;
 import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
+import com.soecode.wxtools.api.IService;
+import com.soecode.wxtools.api.WxService;
+import com.soecode.wxtools.exception.WxErrorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -34,7 +38,8 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
 
     @Resource
     private UserService userService;
-
+    private IService iService = new WxService();
+    Logger logger = LoggerFactory.getLogger(StaffServiceImpl.class);
     @Resource
     private StaffService staffService;
     @Override
@@ -49,8 +54,13 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             user.setName(name);
             user.setIsManager("10");//普通物管
             userService.save(user);
+
+        }else {
+            user.setIsManager("10");
+            userService.update(user);
         }
         Long userId = user.getId();
+       //普通物管
         Staff staff = staffMapper.findbyAreaId(areaId, userId);
         if (staff==null){
             staff=new Staff();
@@ -59,6 +69,18 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             int save = save(staff);
             if (save>0){
                 System.out.println("添加员工成功");
+
+                if (user.getWxOpenId() != null & !"".equals(user.getWxOpenId())) {
+                    //todo 添加微信菜单
+                    List<String> openIds = new LinkedList<>();
+                    openIds.add(user.getWxOpenId());
+
+                    try {
+                       iService.batchMovingUserToNewTag(openIds, 101);
+                    } catch (WxErrorException e) {
+                        logger.error("发送微信物管菜单错误{}",user.getWxOpenId());
+                    }
+                }
                 return ResultGenerator.genSuccessResult("添加员工成功");
             }
             return ResultGenerator.genFailResult("存入失败");
@@ -69,6 +91,15 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             staff.setAreaId(areaId);
             int update = staffService.update(staff);
             if (update>0){
+                //todo 添加微信菜单
+                List<String> openIds = new LinkedList<>();
+                openIds.add(user.getWxOpenId());
+
+                try {
+                    iService.batchMovingUserToNewTag(openIds, 101);
+                } catch (WxErrorException e) {
+                    logger.error("发送微信物管菜单错误{}",user.getWxOpenId());
+                }
                 return ResultGenerator.genSuccessResult("添加员工成功");
             }
 

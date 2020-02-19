@@ -65,6 +65,16 @@ public class HourseController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    /**
+     * 认证户主
+     * @param houseaddr buidingid
+     * @param paltaddr num
+     * @param openId 微信号
+     * @param name 姓名
+     * @param idCard 身份证
+     * @param phone 电话
+     * @return
+     */
     @PostMapping("/identityHouse")
     public Result identityHouse( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
                                  @RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
@@ -80,6 +90,7 @@ public class HourseController {
         }
         if(list!=null) {
             for(Hourse h:list) {
+                //楼栋的id以及楼栋
                 if(h.getBuildingId().equals(houseaddr) &&h.getNum().equals(paltaddr)) {
                     Hourse hourse = new Hourse();
                     hourse.setIsAuth("T");

@@ -17,6 +17,12 @@ import javax.annotation.Resource;
 public class FamilyController {
     @Resource
     private FamilyService familyService;
+
+    /**
+     * 根据房子找到家庭用户
+     * @param hourseId 房子id
+     * @return List<user> 用户列表
+     */
     @PostMapping("/findFamilyUser")
     public Result findFamilyUser(@RequestParam Long hourseId ) {
         try {
@@ -28,6 +34,14 @@ public class FamilyController {
 
     }
 
+    /**
+     * 根据房间名字身份证号用户id添加家庭用户
+     * @param hourseId
+     * @param userName
+     * @param idNo
+     * @param userId
+     * @return
+     */
     @PostMapping("/addFamilyNameIdNo")
     public Result addFamilyNameIdNo(@RequestParam Long hourseId, @RequestParam String userName, @RequestParam String idNo, Long userId ) {
         try {

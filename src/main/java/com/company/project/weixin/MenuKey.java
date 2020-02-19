@@ -21,7 +21,7 @@ public class MenuKey {
     public static final String SHARE_RECORD = "btn_share_record";
 
     //本地测试
-    public static final String URL = "http://5vxdjj.natappfree.cc/community/";
+   public static final String URL = "http://tqqtue.natappfree.cc/community/";
     //智慧小区
    // public static final String URL = "http://f.pyblkj.cn/community/";
 

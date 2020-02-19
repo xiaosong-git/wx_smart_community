@@ -113,13 +113,11 @@ left join h_hourse h on h.id=f.house_id
 where h.id=#{hourseId}
     </select>
   <select id="getUserByRecordId" parameterType="Long" resultType="map" >
-   select u.img_url imgUrl,u.name,CONCAT(b.name,h.num) hourseNum,hu.phone,r.user_id userId
-    from h_record r left join h_user u  on r.user_id=u.id
-    left join  h_hourse h on u.id=h.user_id
-    left join h_building  b on h.building_id =b.id
-    left join h_family f on f.user_id=u.id
-    left join h_hourse hh on h.id=f.house_id
-    left join h_user hu on hu.id =f.user_id
+   select u.img_url imgUrl,u.name,CONCAT(b.name,h.num) hourseNum,u.phone,r.user_id userId
+  from h_record r left join h_user u on r.user_id=u.id
+  left join h_family f on f.user_id=u.id
+  left join h_hourse h on f.house_id=h.id
+  left join h_building b on h.building_id =b.id
     where r.id=#{id} limit 1
     </select>
     

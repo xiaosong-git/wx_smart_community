@@ -113,7 +113,7 @@
   
     <!-- 查看所有得小区 -->
   <select id="findAreaById" resultMap="myResultMap" parameterType="Long">
-	select ha.* from h select ha.*,house.id hid from h_area ha
+	select ha.*,house.id hid from h_area ha
  LEFT JOIN h_building hu on ha.id = hu.area_id
  LEFT JOIN h_hourse house on hu.id = house.building_id
  LEFT JOIN h_family hf on house.id = hf.house_id
@@ -131,7 +131,7 @@
   
   <!-- 查看小区下的人员通行记录 -->
   <select id="record" resultMap="myResultMap" parameterType="Long">
-  	SELECT *,hr.type recordType from h_record hr
+  	SELECT *,hr.type recordType,hu.name username from h_record hr
 	LEFT JOIN h_area ha on ha.id=hr.area_id
 	LEFT JOIN h_building hb on hr.id=hb.area_id
 	LEFT JOIN h_hourse hh on hr.id=hh.building_id

@@ -51,6 +51,6 @@ public interface UserMapper extends Mapper<User> {
     //查找二级管理员信息
     @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where  wx_open_id is not null")
     List<User> findStaff();
-    @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where user_id=#{id} and s.status<>'delete'")
-    User findByStaff(Long id);
+    @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where u.name=#{name} and u.id_no=#{idNow} and s.status<>'delete' limit 1")
+    User findByStaff(String name,String idNow);
 }

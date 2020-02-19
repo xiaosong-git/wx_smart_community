@@ -11,5 +11,4 @@ public interface AreaMapper extends Mapper<Area> {
 	List<Area> findAreaById(@Param("userId") Long userId);
 	List<Area> findByAreaId(@Param("userId") Long userId, @Param("areaId") Long areaId);
 	List<Area> record(@Param("areaId") Long areaId);
-
 }

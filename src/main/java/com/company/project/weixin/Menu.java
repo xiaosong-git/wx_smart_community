@@ -109,11 +109,16 @@ public class Menu {
 
         WxMenu.WxMenuButton btn1_2 = new WxMenu.WxMenuButton();
         btn1_2.setType(WxConsts.MENU_BUTTON_VIEW);
-        btn1_2.setName("添加管理员");
+        btn1_2.setName("添加工作人员");
         //添加管理员菜单
         btn1_2.setUrl(URL+"adminInfor");
+        WxMenu.WxMenuButton btn1_3 = new WxMenu.WxMenuButton();
+        btn1_3.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn1_3.setName("下载通行记录");
+        //添加管理员菜单
+        btn1_3.setUrl(URL+"download");
         List<WxMenu.WxMenuButton> subList1 = new ArrayList<>();
-        subList1.addAll(Arrays.asList(btn1_1,btn1_2));
+        subList1.addAll(Arrays.asList(btn1_1,btn1_2,btn1_3));
         btn1.setSub_button(subList1);
         btnList.add(btn1);
         //默认按钮
@@ -142,6 +147,7 @@ public class Menu {
         btn1.setUrl(URL+MenuKey.PERSONINFOR);
         btn1.setType(WxConsts.MENU_BUTTON_VIEW);
         //默认按钮
+        btnList.add(btn1);
         setBtn(btnList);
         menu.setButton(btnList);
         //配置个性化规则
@@ -197,7 +203,7 @@ public class Menu {
         IService iService = new WxService();
 //        List<String> openIds=new LinkedList<>();
 //        openIds.add("oFw0JwGlkNWM9DByJR8C76hSgYuc");
-        WxUserListResult wxUserListResult = iService.queryAllUserUnderByTag(100, "");
+        WxUserListResult wxUserListResult = iService.queryAllUserUnderByTag(101, "");
         wxUserListResult.getData();
 
     }
@@ -210,7 +216,7 @@ public class Menu {
             for (WxUserTagResult.WxUserTag tag : tags) {
                 System.out.println("-----tag_id:"+tag.getId());
             }
-            String s = iService.menuTryMatch("oFw0JwGlkNWM9DByJR8C76hSgYuc");
+            String s = iService.menuTryMatch("oPs1Hs8B9XBE8_PH2SrOi5fRdgMo");
             System.out.println(s);
         } catch (WxErrorException e) {
             e.printStackTrace();
@@ -223,12 +229,13 @@ public class Menu {
         initManageMenu();
         initMatchruleMenu();
 //        pushToTags();
+//        check();
         checkMenu();
 //        int tags = getTags();
 //        System.out.println(tags);
 //        int tags = createTags();
 //        createTags();
-//        int tags = getTags("物业超管");
+//        int tags = getTags("物业管理");
 //        System.out.println(tags);
 //        pushToTags();
 //        check();

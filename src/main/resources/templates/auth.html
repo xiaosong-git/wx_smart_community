@@ -134,7 +134,7 @@
                             //请求地址
                             url : "user/uploadVerify",
                             //数据，json字符串
-                            data : {userId:getCookie("userId"),
+                            data : {openId:getCookie("openId"),
                                 // token:getCookie(("token")),
                                 mediaId:serverId,
                                 type:3
@@ -188,7 +188,7 @@
                     //请求地址
                     url : "user/verify",
                     //数据，json字符串
-                    data : {userId:getCookie("userId"),
+                    data : {openId:getCookie("openId"),
                         // token:getCookie(("token")),
                         idHandleImgUrl: $("#uploaderFiles").val(),
                         idNO:$("#idNo").val(),
@@ -210,10 +210,10 @@
                             setCookie("isAuth",data.isAuth);
                             // alert(data.userId);
                             // alert(getCookie("isAuth"));
-                            window.history.back();
+                            // window.history.back();
                             // alert(getCookie("userId"));
                             // alert("认证成功！");
-                            // quit();
+                            quit();
                             // quit();
                         }
                     },
@@ -233,7 +233,7 @@
             //请求地址
             url : "user/verify",
             //数据，json字符串
-            data : {userId:getCookie("userId"),
+            data : {openId:getCookie("openId"),
                 // token:getCookie(("token")),
                 idHandleImgUrl: "test",
                 idNO:"test",
@@ -257,8 +257,8 @@
                     alert(getCookie("userId"));
                     alert("认证成功！");
                     // alert(getCookie("isAuth"));
-                    window.history.back();
-                    // quit();
+                    // window.history.back();
+                    window.location.href = qrcodeUrl;
                     // quit();
                 }
             },
@@ -282,6 +282,11 @@
             //请求成功
             success: function (result) {
                if(result.code=="200"){
+                   if (result.data.isAuth=="T"){
+                       setCookie("isAuth","T",365);
+                       $.toptip("您已经实名！","success");
+                       window.location.href = qrcodeUrl;
+                   }
                    document.getElementById("realName").value=result.data.name
                    document.getElementById("idNo").value=result.data.idNo
                }

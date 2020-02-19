@@ -3,6 +3,7 @@ package com.company.project.service;
 import com.company.project.core.Result;
 import com.company.project.core.Service;
 import com.company.project.model.User;
+import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.Map;
@@ -13,11 +14,11 @@ import java.util.Map;
  */
 public interface UserService extends Service<User> {
 
-    Result verify(long userId, String idNO, String name, String idHandleImgUrl, String localImgUrl);
+    Result verify(String openId, String idNO, String name, String idHandleImgUrl, String localImgUrl);
 
     Result uploadPhoto(String userId, String mediaId, String type) throws Exception;
 
-    Map<String,Object> getUser(String openid);
+    Model getUser(Model model, String openid);
 
     Result userHourseInfo(Long userId);
     
@@ -31,4 +32,6 @@ public interface UserService extends Service<User> {
     Result findStaff(String openId);
 
     Result creatUserToTag(int tagId);
+
+    Result findByOpenId(String openId);
 }

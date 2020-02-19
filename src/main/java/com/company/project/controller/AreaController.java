@@ -1,4 +1,5 @@
 package com.company.project.controller;
+
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.model.Area;
@@ -7,23 +8,17 @@ import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -97,9 +92,11 @@ public class AreaController {
 	 * 某小区下人员通行报表 
 	 * 
 	 * */
-    @PostMapping("/reports")
+    @GetMapping("/reports")
     public Result reports(@RequestParam() Long userId, @RequestParam() Long areaId,
     		HttpServletRequest req, HttpServletResponse resp) {
+
+    	System.out.println("userId:"+userId);
     	String userName = userservice.findById(userId).getName();
         List<Area> list = areaService.reports(areaId, userName);
         if(list!=null) {
@@ -240,4 +237,10 @@ public class AreaController {
   			return sourceStr;
   		}
   	}
+
+	@PostMapping("/findByOpenId")
+	public Result findByOpenId( @RequestParam() String openId) {
+
+		return userservice.findByOpenId(openId);
+	}
 }
