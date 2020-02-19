@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>添加工作人员</title>
+    <title id="title">添加工作人员</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -51,7 +51,7 @@
             <label class="weui-label">手机号码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="number" id="phone" value="" onBlur="checkPhone()" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+            <input class="weui-input" placeholder="请输入" type="number" id="phone" value="" onBlur="checkPhone()" minlength="11" maxlength="11">
         </div>
     </div>
     <br>
@@ -92,13 +92,16 @@
     $(function () {
         areaId = getQueryString('areaId');
         isAuth = getQueryString('isAuth');
+        console.log("isAuth:"+isAuth)
         name = unescape(getQueryString('name'));
         idNo = getQueryString('idNo');
+        console.log("idNo:"+idNo)
         phone = getQueryString('phone');
         userId = getQueryString('userId');
         var index = getQueryString('index');
         if(index =="edit"){
             console.log("isAuth:"+isAuth)
+            document.getElementById("title").innerText="编辑工作人员"
             if(isAuth!="T"){
                 document.getElementById("btn2").style.display = 'block';
             }else{
@@ -108,6 +111,7 @@
             document.getElementById('idNo').value=idNo;
             document.getElementById('phone').value=phone;
         }else{
+            document.getElementById("title").innerText="新增工作人员"
             document.getElementById('btn1').style.display = 'block';
         }
     })
@@ -169,12 +173,12 @@
             },
             success: function (result) {
                 console.log(result)
-                /*if(result.code=="200"){
+                if(result.code=="200"){
                     $.toptip(result.data,"success");
                     window.location.href = adminInforUrl;
                 }else{
                     $.toptip(result.data);
-                }*/
+                }
             }
         })
     }

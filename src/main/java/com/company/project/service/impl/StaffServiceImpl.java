@@ -124,7 +124,7 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
         user.setName(name);
         user.setPhone(phone);
         //如果有修改身份证号
-        if ("".equals(idNO)) {
+        if (!"".equals(idNO)) {
             String idNow = DESUtil.encode("iB4drRzSrC", idNO);
             user.setIdNo(idNow);
         }
