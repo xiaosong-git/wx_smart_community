@@ -76,23 +76,44 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         String recordId = new String(Base64.decode(idStr),"UTF-8");
         //todo 判断是否为该小区用户
         System.out.println("操作者微信："+opreWxId);
-        User operUser = userMapper.selectByopreWxId(opreWxId);
+        User operUser = userMapper.selectByopreWxId(opreWxId);//操作者
         String ext1 = operUser.getExt1();
         Long areaId =0L;
         boolean isArea=false;
         if (ext1 !=null&&!"".equals(ext1)) {
             areaId=  Long.valueOf(ext1);
         }
-        //查找用户信息
+          //查找进出用户信息
             Map<String,Object> userMap = userMapper.getUserByRecordId(Long.valueOf(recordId));
-        //增加查询对方是否有该小区的次数
-        
             Map<String,Object> map=new HashMap<>();
-            if (userMap != null) {
-                if (userMap.get("userId")!=null){
-                    List<Area> areaById = areaMapper.findAreaById((long)userMap.get("userId"));
+        if (userMap != null) {
+            Object userId = userMap.get("userId");
+            if (userId !=null){
+                    List<Area> areaById = areaMapper.findAreaById((long) userId);
                     for (Area area : areaById) {
+                        //增加查询对方是否有该小区的次数
                         if(area.getId().equals(areaId)){
+                            //查询小区进出剩余次数
+                            Map<String, Object> time = areaMapper.areaTime(userId, area.getId());
+                            if (time!=null){
+                                BigDecimal day=new BigDecimal("1");
+                                int count;//剩余次数
+                                        BigDecimal areaDay=new BigDecimal(area.getFrequency());
+                                        if(areaDay.compareTo(day) <= 0){
+                                            // todo 查询 days天内 有多少通行记录
+                                            //注意这里传参不同
+                                            count = recordMapper.findCount(area.getId(), (long)userId, time.get("days"));
+                                            if (count<=0){
+                                                count=0;
+                                            }
+                                        }else{//注意这里传的是频率
+                                            count = recordMapper.findCountElse(area.getId(), (long)userId, time.get("frequency"));
+                                        }
+                                        if (count<=0){
+                                        return ResultGenerator.genFailResult("该用户在本小区进出次数已用尽");
+                                        }
+                                    }
+                                }
                             System.out.println("对比用户小区："+area.getId()+" 管理员小区"+areaId);
                             isArea=true;
                             break;
@@ -107,15 +128,11 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
                     userMap.put("imgUrl",imageServerUrl + File.separator+userMap.get("imgUrl"));
                 }
                 List<Record> records=new LinkedList<>();
-                if (userMap.get("userId")!=null) {
+                if (userMap.get("userId") !=null) {
                     records = hRecordMapper.selectByUserId(userMap.get("userId").toString());
                 }
-
                 map.put("user",userMap);
                 map.put("records",records);
-
-            }
-
             return ResultGenerator.genSuccessResult(map);
 
     }
@@ -147,9 +164,6 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     }
     //查询用户进出记录
     public boolean selectRecord(Long userId) {
-        //目前还未考虑多小区的问题
-
-        //todo 查询用户所有小区的次数
 
         //查询用户是否有小区
         List<Map<String,Object>> areas = areaMapper.areaTimes(userId);
@@ -157,7 +171,6 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         int total=0;
         int count=0;
         for (Map<String, Object> area : areas) {
-            if(area.get("frequency").equals("1")){
                 BigDecimal areaDay=new BigDecimal(area.get("frequency").toString());
                 if(areaDay.compareTo(day) <= 0){
                     // todo 查询 days天内 有多少通行记录
@@ -169,20 +182,10 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
                     total+=count;
                 }else{//注意这里传的是频率
                     count = recordMapper.findCountElse(area.get("id"), userId, area.get("frequency"));
+                    total+=count;
                 }
             }
-
-
-
-
-        }
-        int times = hRecordMapper.selectTimes(userId);
-
-        if (times>0){
-            return true;
-        }else{
-            return false;
-        }
+        return total > 0;
 
     }
 

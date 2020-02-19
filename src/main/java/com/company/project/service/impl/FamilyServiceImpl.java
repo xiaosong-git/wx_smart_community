@@ -51,8 +51,7 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
         String workKey = "iB4drRzSrC";//生产的des密码
         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
         String idNoMW = DESUtil.encode(workKey,idNo);
-        User user = userMapper.findUserIdNo(userName, idNoMW);
-        long hisUserId;
+        User user = userMapper.findByPhoneName(phone, userName);
         //todo 可能得更改
         if (user==null){
             user=new User();
@@ -60,13 +59,15 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
             user.setIdNo(idNoMW);
             user.setPhone(phone);
             userService.save(user);
-
+        }else{
+            Family familyUser = hFamilyMapper.findFamilyUser(hourseId, user.getId());
+            if (familyUser!=null){
+                return ResultGenerator.genFailResult("该用户已加入家庭，请勿重复添加！");
+            }
         }
-
-        hisUserId=user.getId();
         Family family=new Family();
         family.setHouseId(hourseId);
-        family.setUserId(hisUserId);
+        family.setUserId(user.getId());
         int save = save(family);
         if (save>0){
             return ResultGenerator.genSuccessResult();

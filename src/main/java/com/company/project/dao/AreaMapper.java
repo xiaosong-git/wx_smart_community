@@ -14,4 +14,5 @@ public interface AreaMapper extends Mapper<Area> {
 	List<Area> record(@Param("areaId") Long areaId);
 
 	List<Map<String,Object>>  areaTimes(Long userId);
+	Map<String,Object>  areaTime(Object userId,Long areaId);
 }

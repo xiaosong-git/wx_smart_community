@@ -89,8 +89,14 @@ public class HourseController {
         }
         boolean flag = false;
         String isAuth = "F";
+
+
+
         if(list!=null) {
             for(Hourse h:list) {
+                if(h.getFamily().getHouseId().equals(h.getId()) &&h.getFamily().getIsJoin().equals("T")) {
+                    return ResultGenerator.genFailResult("该户主已经认证过");
+                }
                 //楼栋的id以及楼栋
                 if(h.getBuildingId().equals(houseaddr) &&h.getNum().equals(paltaddr)) {
                     Hourse hourse = new Hourse();
