@@ -11,14 +11,11 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
     <style type="text/css">
         @import url("css/comon.css");
-
         .blue-btn {
             background-color: #5cadff;
             color: #fff;
         }
-
     </style>
-
 </head>
 
 <body ontouchstart>
@@ -34,7 +31,9 @@
         <div class="weui-cell__bd">
             <input class="weui-input" placeholder="请输入" type="text" id="name" value="" style="text-underline: #3d4145">
         </div>
-
+        <div class="weui-cell__ft">
+            <img src="">
+        </div>
     </div>
     <br>
     <div class="weui-cell">
@@ -47,8 +46,8 @@
         <div class="weui-cell__ft">
             <img src="images/scan.png" style="width: 26px;height: 26px">
         </div>
-
     </div>
+    <br>
     <div class="weui-cell">
         <div class="weui-cell__hd">
             <label class="weui-label">手机号码</label>
@@ -57,9 +56,8 @@
             <input class="weui-input" placeholder="请输入" type="text" id="phone" value="" onBlur="checkPhone()">
         </div>
         <div class="weui-cell__ft">
-            <img src="images/scan.png" style="width: 26px;height: 26px">
+            <img src="">
         </div>
-
     </div>
     <br>
     <br>
@@ -94,12 +92,13 @@
         editUserId = getQueryString('userId');
         editUserName = unescape(getQueryString('userName'));
         var idNo = getQueryString('idNo');
+        var phone = getQueryString('phone');
         //户主信息
         if (index == "householder") {
             document.getElementById("title").innerText="户主信息"
-            //document.getElementById('btn4').style.display = 'block';
             document.getElementById('name').value = editUserName;
-            document.getElementById('idNo').value = idNo
+            document.getElementById('idNo').value = idNo;
+            document.getElementById('phone').value = phone;
         } else if (index == "person") {
             document.getElementById("title").innerText="编辑成员信息"
             if (getQueryString('isAuth') != "T") {
@@ -107,6 +106,7 @@
             } else {
                 document.getElementById('btn3').style.display = 'block'
             }
+            document.getElementById('phone').value = phone;
             document.getElementById('name').value = editUserName;
             document.getElementById('idNo').value = idNo
         } else {
@@ -124,13 +124,17 @@
     function editPerson() {
         var name = $("#name").val();
         var idNo = $("#idNo").val();
+        var phone = $("#phone").val();
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
         }else if(isEmpty(idNo)){
             $.toptip('身份证不可为空');
             return;
-        }else if(checkIdNo()!=true){
+        }else if(isEmpty(phone)){
+            $.toptip('手机号不可为空');
+            return;
+        } else if(checkIdNo()!=true){
             return;
         }else{
             $.ajax({
@@ -140,7 +144,8 @@
                 data: {
                     userId: editUserId,
                     idNo:idNo,
-                    userName:name
+                    userName:name,
+                    phone:phone
                 },
                 success: function (result) {
                     if(result.code==200){
@@ -181,37 +186,39 @@
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
-        }
-        if(isEmpty(idNo)){
+        }else if(isEmpty(idNo)){
             $.toptip('身份证不可为空');
             return;
-        }
-        if(!checkIdNo()){
+        }else if(isEmpty(phone)){
+            $.toptip('手机号不可为空');
             return;
-        }if(!checkPhone()){
+        } else if(!checkIdNo()){
             return;
-            //test
-        }
-       $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "/community/family/addFamilyNameIdNo",
-            data: {
-                hourseId: houseId,
-                userId: getCookie("userId"),
-                idNo:idNo,
-                userName:name,
-                phone:phone
-            },
-            success: function (result) {
-                if(result.code==200){
-                    $.toptip('新增成功','success');
-                    window.location.href = familyInforUrl;
-                }else{
-                    $.toptip('新增失败');
+        }else if(!checkPhone()){
+            return;
+        }else{
+            $.ajax({
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded",
+                url: "/community/family/addFamilyNameIdNo",
+                data: {
+                    hourseId: houseId,
+                    userId: getCookie("userId"),
+                    idNo:idNo,
+                    userName:name,
+                    phone:phone
+                },
+                success: function (result) {
+                    if(result.code==200){
+                        $.toptip('新增成功','success');
+                        window.location.href = familyInforUrl;
+                    }else{
+                        $.toptip('新增失败');
+                    }
                 }
-            }
-        })
+            })
+        }
+
     }
 
     function checkIdNo() {
