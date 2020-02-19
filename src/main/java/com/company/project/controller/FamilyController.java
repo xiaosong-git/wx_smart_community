@@ -43,9 +43,13 @@ public class FamilyController {
      * @return
      */
     @PostMapping("/addFamilyNameIdNo")
-    public Result addFamilyNameIdNo(@RequestParam Long hourseId, @RequestParam String userName, @RequestParam String idNo, Long userId ) {
+    public Result addFamilyNameIdNo(@RequestParam Long hourseId,
+                                    @RequestParam String userName,
+                                    @RequestParam String idNo,
+                                    @RequestParam Long userId,
+                                    @RequestParam String phone) {
         try {
-            return  familyService.addFamilyNameIdNo(hourseId,userName,idNo,userId);
+            return  familyService.addFamilyNameIdNo(hourseId,userName,idNo,userId,phone);
         } catch (Exception e) {
             e.printStackTrace();
         }

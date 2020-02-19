@@ -67,6 +67,7 @@
 <script src="js/myUtil.js"></script>
 </body>
 <script>
+
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: '[[${config.appid}]]', // 必填，公众号的唯一标识
@@ -87,6 +88,7 @@
         console.log(res);
     });
     $(function(){
+        findareaId();
         // jssdkScan();
         $("input,select,textarea").blur(function(){
             setTimeout(() => {
@@ -95,7 +97,7 @@
         }, 100);
             //解决表单控件不能回弹 只有微信ios有这个问题
         })
-        // setTimeout(function(){jssdkScan();},800);
+        findareaId();
 
     });
     function quit(){
@@ -168,7 +170,8 @@
             data: { opreId: getCookie("userId"),
                 // idStr:result,
                 idStr:idStr,
-                type:inOut
+                type:inOut,
+                areaId:getCookie("areaId"),
             },
             success: function (result) {
                 console.log(result);
@@ -188,6 +191,26 @@
         n.src = url;
         n.play();
     }
+    //查找管理员的小区
+    function findareaId(){
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/user/findUserArea",
+            data: { openId: getCookie("openId")
+            },
+            success: function (result) {
+                console.log(result);
+                var data = result.data;
+
+                if(result.code == 200){
+                    setCookie("areaId",data.ext1);
+                }else{
+                    quit();
+                }
+            }
+        })
+    };
 </script>
 
 

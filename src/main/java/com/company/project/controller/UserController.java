@@ -153,4 +153,15 @@ public class UserController {
         }
         return ResultGenerator.genFailResult("系统异常", "");
     }
+    @RequestMapping("/findUserArea")
+    @ResponseBody
+    public Result findUserArea(@RequestParam String openId) {
+        try {
+            return userService.findUserArea(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+    }
+
 }

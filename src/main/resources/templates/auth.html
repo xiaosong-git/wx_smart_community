@@ -289,7 +289,8 @@
             },
             //请求成功
             success: function (result) {
-               if(result.code=="200"){
+                console.log(result);
+               if(result.code==200){
                    if (result.data.isAuth=="T"){
                        setCookie("isAuth","T",365);
                        $.toptip("您已经实名！","success");
@@ -298,6 +299,7 @@
                    document.getElementById("realName").value=result.data.name
                    document.getElementById("idNo").value=result.data.idNo
                }
+
             }
         })
 

@@ -21,10 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 /**
@@ -61,6 +63,14 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         return ResultGenerator.genSuccessResult(encode);
     }
 
+    /**
+     * 扫描当前管理员小区的二维码
+     * @param opreWxId 管理员openId
+     * @param idStr recordId
+     * @param type 进出类型
+     * @return 成功
+     * @throws Exception
+     */
     @Override
     public Result scanning(String opreWxId, String idStr, String type) throws Exception {
         String recordId = new String(Base64.decode(idStr),"UTF-8");
@@ -110,13 +120,17 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     }
 
     @Override
-    public Result inOut(Long opreId, String idStr, String type) throws Exception {
-        String s = new String(Base64.decode(idStr),"UTF-8");
+    public Result inOut(Long opreId, String idStr, String type,String areaId) throws Exception {
+        String recordId = new String(Base64.decode(idStr),"UTF-8");
 
-        Record record =new Record();
-        record.setId(Long.valueOf(s));
+        Record record = findById(recordId);
+        if (record==null){
+            return ResultGenerator.genFailResult("二维码已失效！");
+        }
         record.setType(type);
-        //判
+        //判断是否已使用
+        record.setAreaId(areaId);
+        //判断用户二维码
         String systemTime = DateUtil.getSystemTime();
         record.setPassTime(systemTime);
         record.setUpdateTime(systemTime);
@@ -128,12 +142,37 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         }
         return ResultGenerator.genFailResult("操作失败！");
     }
-
+    //查询用户进出记录
     public boolean selectRecord(Long userId) {
         //目前还未考虑多小区的问题
-        //查询用户所有小区的次数
+
+        //todo 查询用户所有小区的次数
 
         //查询用户是否有小区
+        List<Map<String,Object>> areas = areaMapper.areaTimes(userId);
+        BigDecimal day=new BigDecimal("1");
+        int total=0;
+        int count=0;
+        for (Map<String, Object> area : areas) {
+            if(area.get("frequency").equals("1")){
+                BigDecimal areaDay=new BigDecimal(area.get("frequency").toString());
+                if(areaDay.compareTo(day) <= 0){
+                    // todo 查询 days天内 有多少通行记录
+                    //注意这里传参不同
+                     count = recordMapper.findCount(area.get("id"), userId, area.get("days"));
+                    if (count<=0){
+                        count=0;
+                    }
+                    total+=count;
+                }else{//注意这里传的是频率
+                    count = recordMapper.findCountElse(area.get("id"), userId, area.get("frequency"));
+                }
+            }
+
+
+
+
+        }
         int times = hRecordMapper.selectTimes(userId);
 
         if (times>0){
@@ -143,4 +182,9 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         }
 
     }
+
+
+
 }
+
+

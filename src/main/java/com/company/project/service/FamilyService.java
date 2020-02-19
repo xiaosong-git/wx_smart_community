@@ -16,7 +16,7 @@ public interface FamilyService extends Service<Family> {
     Result findFamilyUser(Long hourseId);
 
 
-    Result addFamilyNameIdNo(Long hourseId, String userName, String idNo, Long userId);
+    Result addFamilyNameIdNo(Long hourseId, String userName, String idNo, Long userId,String phone);
 
     Result deleteFamilyUser(Long hourseId, Long userId);
 

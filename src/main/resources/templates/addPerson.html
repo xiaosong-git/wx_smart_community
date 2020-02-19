@@ -49,6 +49,18 @@
         </div>
 
     </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">手机号码</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入" type="text" id="phone" value="" onBlur="checkPhone()">
+        </div>
+        <div class="weui-cell__ft">
+            <img src="images/scan.png" style="width: 26px;height: 26px">
+        </div>
+
+    </div>
     <br>
     <br>
     <br>
@@ -81,12 +93,14 @@
         var index = getQueryString('index');
         editUserId = getQueryString('userId');
         editUserName = unescape(getQueryString('userName'));
+
+
         var idNo = getQueryString('idNo');
         //户主信息
         if (index == "householder") {
             //document.getElementById('btn4').style.display = 'block';
             document.getElementById('name').value = editUserName;
-            document.getElementById('idNo').value = idNo
+            document.getElementById('idCard').value = idNo
         } else if (index == "person") {
             if (getQueryString('isAuth') != "T") {
                 document.getElementById('btn2').style.display = 'block'
@@ -94,7 +108,7 @@
                 document.getElementById('btn3').style.display = 'block'
             }
             document.getElementById('name').value = editUserName;
-            document.getElementById('idNo').value = idNo
+            document.getElementById('idCard').value = idNo
         } else {
             houseId = getQueryString('houseId');
             document.getElementById('btn1').style.display = 'block'
@@ -108,36 +122,36 @@
     }
     function editPerson() {
         var name = $("#name").val();
-        var idNo = $("#idNo").val();
+        var idNo = $("#idCard").val();
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
-        }else if(isEmpty(idNo)){
+        }
+        if(isEmpty(idNo)){
             $.toptip('身份证不可为空');
             return;
-        }else if(checkIdNo()!=true){
-            return;
-        }else{
-            $.ajax({
-                type: 'POST',
-                contentType: "application/x-www-form-urlencoded",
-                url: "/community/family/editFamilyUser",
-                data: {
-                    userId: editUserId,
-                    idNo:idNo,
-                    userName:name
-                },
-                success: function (result) {
-                    if(result.code==200){
-                        $.toptip('修改成功','success');
-                        window.location.href = familyInforUrl;
-                    }else{
-                        $.toptip('删除失败');
-                    }
-                }
-            })
         }
-
+        if(checkIdNo()!=true){
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/family/editFamilyUser",
+            data: {
+                userId: editUserId,
+                idNo:idNo,
+                userName:name
+            },
+            success: function (result) {
+                if(result.code==200){
+                    $.toptip('修改成功','success');
+                    window.location.href = familyInforUrl;
+                }else{
+                    $.toptip('删除失败');
+                }
+            }
+        })
     }
     function delPerson() {
         console.log(houseId + "==" + editUserId)
@@ -161,46 +175,51 @@
     }
     function addNewPerson() {
         var name = $("#name").val();
-        var idNo = $("#idNo").val();
+        var idNo = $("#idCard").val();
+        var phone = $("#phone").val();
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
-        }else if(isEmpty(idNo)){
+        }
+        if(isEmpty(idNo)){
             $.toptip('身份证不可为空');
             return;
-        }else if(checkIdNo()!=true){
-            return;
-        }else{
-            $.ajax({
-                type: 'POST',
-                contentType: "application/x-www-form-urlencoded",
-                url: "/community/family/addFamilyNameIdNo",
-                data: {
-                    hourseId: houseId,
-                    userId: getCookie("userId"),
-                    idNo:idNo,
-                    userName:name
-                },
-                success: function (result) {
-                    if(result.code==200){
-                        $.toptip('新增成功','success');
-                        window.location.href = familyInforUrl;
-                    }else{
-                        $.toptip('新增失败');
-                    }
-                }
-            })
         }
-
+        if(checkIdNo()!=true){
+            return;
+        }if(!checkPhone()){
+            return;
+        }
+       $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/family/addFamilyNameIdNo",
+            data: {
+                hourseId: houseId,
+                userId: getCookie("userId"),
+                idNo:idNo,
+                userName:name,
+                phone:phone
+            },
+            success: function (result) {
+                if(result.code==200){
+                    $.toptip('新增成功','success');
+                    window.location.href = familyInforUrl;
+                }else{
+                    $.toptip('新增失败');
+                }
+            }
+        })
     }
 
     function checkIdNo() {
         var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        var idNo = $("#idNo").val();
+        var idNo = $("#idCard").val();
         if(!regIdNo.test(idNo)){
             $.toptip('身份证输入错误，请检查');
             return false;
         }else{
+            $.toptip('身份证合法',"success");
             return true;
         }
     }

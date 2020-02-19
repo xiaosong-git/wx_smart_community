@@ -53,10 +53,12 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             user.setPhone(phone);
             user.setName(name);
             user.setIsManager("10");//普通物管
+            user.setExt1(areaId);
             userService.save(user);
 
         }else {
             user.setIsManager("10");
+            user.setExt1(areaId);
             userService.update(user);
         }
         Long userId = user.getId();
