@@ -64,11 +64,10 @@
             <label  style="margin-left: 15px">手机号码</label>
         </div>
         <div >
-            <input class="weui-input" id="phone" placeholder="请输入您的手机号"  type="number">
+            <input class="weui-input" id="phone" placeholder="请输入您的手机号"  type="number" onblur="checkPhone()">
         </div>
     </div>
 </div>
-<br>
 <br>
 <button class="weui-btn blue-btn" onclick="upload()">认证</button>
 </body>
@@ -102,7 +101,6 @@
     });
 
     $(function(){
-/*
 
         getAuthInfo();
         //解决表单控件不能回弹 只有微信ios有这个问题
@@ -112,7 +110,6 @@
             window.scrollTo(0, Math.max(scrollHeight - 1, 0));
         }, 100);
         })
-*/
 
     });
     function removeimg(obj){
@@ -121,7 +118,6 @@
             $("#choose").val('');
             $("#photoDiv").show();
         });
-
     }
     function jssdkimg(obj){
         wx.chooseImage({
@@ -305,17 +301,6 @@
             }
         })
 
-    }
-    function checkIdNo() {
-        var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        var idNo = $("#idNo").val();
-        if(!regIdNo.test(idNo)){
-            $.toptip('身份证输入错误，请检查');
-            return false;
-        }else{
-            $.toptip('身份证合法',"success");
-            return true;
-        }
     }
 </script>
 

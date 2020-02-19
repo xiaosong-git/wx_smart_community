@@ -89,3 +89,22 @@ function isEmpty(v) {
     }
     return false;
 }
+function checkPhone() {
+    var tel = $('#phone').val();
+    if (!tel || !/1[3|4|5|7|8]\d{9}/.test(tel)) {
+        $.toptip('手机号输入错误，请检查');
+        return false;
+    }else{
+        return true;
+    }
+}
+function checkIdNo() {
+    var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    var idNo = $("#idCard").val();
+    if(!regIdNo.test(idNo)){
+        $.toptip('身份证输入错误，请检查');
+        return false;
+    }else{
+        return true;
+    }
+}
