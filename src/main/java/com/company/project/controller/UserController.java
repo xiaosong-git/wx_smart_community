@@ -64,9 +64,10 @@ public class UserController {
     @RequestMapping("/verify")
     @ResponseBody
     public Result verify(@RequestParam String openId, @RequestParam String idNO,
-                         @RequestParam String realName, @RequestParam String idHandleImgUrl, @RequestParam String localImgUrl) {
+                         @RequestParam String realName, @RequestParam String idHandleImgUrl, @RequestParam String localImgUrl
+                        ,@RequestParam String phone  ) {
         try {
-            return userService.verify(openId, idNO, realName, idHandleImgUrl, localImgUrl);
+            return userService.verify(openId, idNO, realName, idHandleImgUrl, localImgUrl,phone);
         } catch (Exception e) {
             e.printStackTrace();
         }
