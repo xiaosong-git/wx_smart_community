@@ -134,10 +134,13 @@ public class HourseController {
     @PostMapping("/authJoinFamily")
     public Result authJoinFamily( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
                                   @RequestParam() String name, @RequestParam() String idCard) {
-        List<User> userList = userservice.finUserList(name, idCard);
         String workKey = "iB4drRzSrC";//生产的des密码
-         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
-         idCard = DESUtil.encode(workKey,idCard);
+        // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+        idCard = DESUtil.encode(workKey,idCard);
+        User user = userMapper.findUserIdNo(name, idCard);
+        if (user==null){
+            return ResultGenerator.genFailResult("未找到家庭信息，请正确信息，或找户主添加家庭成员！");
+        }
         List<Hourse> list = hourseService.authFamily(name, idCard);
 
         Map<String, String> map = new HashMap<String, String>();
@@ -158,12 +161,10 @@ public class HourseController {
         	return ResultGenerator.genFailResult("认证失败，请填写正确的身份信息（包括：姓名、身份证号）");
         }
         if(flag ) {
-            User user = new User();
             user.setWxOpenId(openId);
-            user.setId(userList.get(0).getId());
             userservice.update(user);
             map.put("isJoin", isJoin);
-            map.put("userId", userList.get(0).getId().toString());
+            map.put("userId", user.getId().toString());
             return ResultGenerator.genSuccessResult(map);
         }else {
         	return ResultGenerator.genFailResult("认证失败，请核对正确的住址信息（包括：省、市、区、楼栋、小区的）");
