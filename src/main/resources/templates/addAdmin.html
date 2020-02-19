@@ -42,7 +42,7 @@
             <label class="weui-label">身份证号码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="idCard" value="" onBlur="checkIdNo()">
+            <input class="weui-input" placeholder="请输入" type="text" id="idNo" value="" onBlur="checkIdNo()">
         </div>
     </div>
     <br>
@@ -51,7 +51,7 @@
             <label class="weui-label">手机号码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="phone" value="" onBlur="checkPhone()" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+            <input class="weui-input" placeholder="请输入" type="number" id="phone" value="" onBlur="checkPhone()" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
         </div>
     </div>
     <br>
@@ -105,7 +105,7 @@
                 document.getElementById('btn3').style.display = 'block';
             }
             document.getElementById('name').value=name;
-            document.getElementById('idCard').value=idNo;
+            document.getElementById('idNo').value=idNo;
             document.getElementById('phone').value=phone;
         }else{
             document.getElementById('btn1').style.display = 'block';
@@ -119,7 +119,7 @@
     }
     function editAdminInfo() {
         var name = $("#name").val();
-        var idNo = $("#idCard").val();
+        var idNo = $("#idNo").val();
         var phone = $("#phone").val();
         if(isEmpty(name)){
             $.toptip('名字不可为空');
@@ -181,7 +181,7 @@
     function addNewAdmin() {
 
         var name = $("#name").val();
-        var idNo = $("#idCard").val();
+        var idNo = $("#idNo").val();
         var phone = $("#phone").val();
         if(isEmpty(name)){
             $.toptip('名字不可为空');

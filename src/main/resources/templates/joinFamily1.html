@@ -94,9 +94,27 @@
 <script>
     $(function() {
         FastClick.attach(document.body);
+
+        if( sessionStorage.getItem("jback")=="T"){
+            $("#addr").val(sessionStorage.getItem("jaddr"));
+            $("#addr").attr("data-code",sessionStorage.getItem("jaddrcode"));
+            $("#communityaddr option").remove();
+            $("#communityaddr").append(sessionStorage.getItem("jcommunityaddrhtml"))
+            $("#communityaddr").val(sessionStorage.getItem("jcommunityaddr"));
+
+            $("#houseaddr option").remove();
+            $("#houseaddr").append(sessionStorage.getItem("jhouseaddrhtml"))
+            $("#houseaddr").val(sessionStorage.getItem("jhouseaddr"));
+
+            $("#floor option").remove();
+            $("#floor").append(sessionStorage.getItem("jfloorhtml"))
+            $("#floor").val(sessionStorage.getItem("jfloor"));
+
+            $("#paltaddr option").remove();
+            $("#paltaddr").append(sessionStorage.getItem("jpaltaddrhtml"))
+            $("#paltaddr").val(sessionStorage.getItem("jpaltaddr"));
+        }
     });
-</script>
-<script>
 
     $("#addr").cityPicker({
         title: "请选择",
@@ -123,6 +141,7 @@
                 for (var e in _data) {
                     html += '<option value="' + _data[e].id + '">' + _data[e].areaName + '</option>'
                 }
+                sessionStorage.setItem("jcommunityaddrhtml",html);
                 $("#communityaddr").append(html); //渲染
             }
         });
@@ -145,6 +164,7 @@
                 for (var e in _data) {
                     html += '<option value="' + _data[e].id + '">' + _data[e].name + '</option>'
                 }
+                sessionStorage.setItem("jhouseaddrhtml",html);
                 $("#houseaddr").append(html); //渲染
             }
         });
@@ -170,6 +190,7 @@
                 for(var i=1;i<=_data.totalFloor;i++){
                     html += '<option value="' +i + '">' + i + '</option>'
                 }
+                sessionStorage.setItem("jfloorhtml",html);
                 $("#floor").append(html); //渲染*/
             }
         });
@@ -187,14 +208,37 @@
             }
             html += '<option value="' +num + '">' + num + '</option>'
         }
+        sessionStorage.setItem("jpaltaddrhtml",html);
         $("#paltaddr").append(html); //渲染*/
     })
    function next() {
+
        var addr =  $("#addr").attr("data-code");
        var communityaddr = $("#communityaddr option:selected").val();
-	   var houseaddr = $("#houseaddr option:selected").val();
-	   var paltaddr = $("#paltaddr option:selected").val();
-       window.location.href="joinFamily2?&houseaddr="+houseaddr+"&paltaddr="+paltaddr;
+       var houseaddr = $("#houseaddr option:selected").val();
+       var floor = $("#floor option:selected").val();
+       var paltaddr = $("#paltaddr option:selected").val();
+
+       if(isEmpty(addr)){
+           $.toptip("请选择家庭住址！");
+       }else if(isEmpty(communityaddr)){
+           $.toptip("请选择小区！");
+       }else if(isEmpty(houseaddr)){
+           $.toptip("请选择楼号！");
+       }else if(isEmpty(floor)){
+           $.toptip("请选择楼层！");
+       }else if(isEmpty(paltaddr)){
+           $.toptip("请选择门牌号！");
+       }else {
+           sessionStorage.setItem("jback","T");
+           sessionStorage.setItem("jaddr",$("#addr").val());
+           sessionStorage.setItem("jaddrcode",$("#addr").attr("data-code"));
+           sessionStorage.setItem("jcommunityaddr",$("#communityaddr").val());
+           sessionStorage.setItem("jhouseaddr",$("#houseaddr").val());
+           sessionStorage.setItem("jfloor",$("#floor").val());
+           sessionStorage.setItem("jpaltaddr",$("#paltaddr").val());
+           window.location.href = "joinFamily2?&houseaddr=" + houseaddr + "&paltaddr=" + paltaddr;
+       }
    }
 </script>
 </body>
