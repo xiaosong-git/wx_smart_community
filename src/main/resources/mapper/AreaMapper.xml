@@ -138,5 +138,13 @@
 	LEFT JOIN h_user hu on hr.user_id=hu.id
 	WHERE ha.id=#{areaId} ORDER BY hb.total_floor,hh.num
   </select>
+  <!-- 查看小区下的人员通行记录 -->
+  <select id="areaTimes" resultType="map" parameterType="Long">
+  	SELECT round(1/frequency) days,frequency,ha.id from h_area ha
+  LEFT JOIN h_building hu on ha.id = hu.area_id
+  LEFT JOIN h_hourse house on hu.id = house.building_id
+  LEFT JOIN h_family hf on house.id = hf.house_id
+   where hf.user_id=#{userId} and hf.`status`='0' and frequency is not null
+  </select>
 </mapper>
 

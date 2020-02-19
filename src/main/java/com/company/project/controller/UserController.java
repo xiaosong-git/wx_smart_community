@@ -64,9 +64,10 @@ public class UserController {
     @RequestMapping("/verify")
     @ResponseBody
     public Result verify(@RequestParam String openId, @RequestParam String idNO,
-                         @RequestParam String realName, @RequestParam String idHandleImgUrl, @RequestParam String localImgUrl) {
+                         @RequestParam String realName, @RequestParam String idHandleImgUrl, @RequestParam String localImgUrl
+                        ,@RequestParam String phone  ) {
         try {
-            return userService.verify(openId, idNO, realName, idHandleImgUrl, localImgUrl);
+            return userService.verify(openId, idNO, realName, idHandleImgUrl, localImgUrl,phone);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,4 +153,15 @@ public class UserController {
         }
         return ResultGenerator.genFailResult("系统异常", "");
     }
+    @RequestMapping("/findUserArea")
+    @ResponseBody
+    public Result findUserArea(@RequestParam String openId) {
+        try {
+            return userService.findUserArea(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常", "");
+    }
+
 }

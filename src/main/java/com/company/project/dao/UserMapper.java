@@ -26,11 +26,11 @@ public interface UserMapper extends Mapper<User> {
 
     List<User> findUserList(@Param("name") String name,@Param("idCard") String idCard);
 
-    @Select("select * from "+ TableList.USER +" where id_no=#{idNoMW} and is_manager=0 limit 1")
-    User findByIdNo(String idNoMW);
+    @Select("select * from "+ TableList.USER +" where phone=#{phone} and is_manager=0 limit 1")
+    User findByPhone(String phone);
 
-    @Select("select * from "+ TableList.USER +" where id_no=#{idNoMW} and name=#{name} limit 1")
-    User findByIdNoName(String idNoMW,String name);
+    @Select("select * from "+ TableList.USER +" where phone=#{phone} and name=#{name} limit 1")
+    User findByPhoneName(String phone,String name);
     @Select("select * from "+ TableList.USER +" where wx_open_id=#{openId} limit 1")
     User getUserOpenId(String openId);
     @Select("select * from "+ TableList.USER +" where name=#{userName} and id_no=#{idNo} limit 1")
@@ -51,6 +51,6 @@ public interface UserMapper extends Mapper<User> {
     //查找二级管理员信息
     @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where  wx_open_id is not null")
     List<User> findStaff();
-    @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where u.name=#{name} and u.id_no=#{idNow} and s.status<>'delete' limit 1")
-    User findByStaff(String name,String idNow);
+    @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where u.phone=#{phone}  and u.name=#{name} and s.status<>'delete' limit 1")
+    User findByStaff(String phone,String name);
 }

@@ -36,7 +36,7 @@ public class RecordController {
         return ResultGenerator.genFailResult("系统异常","");
     }
     /**
-     * 传入用户id生成通行记录二维码
+     * 扫一扫获得用户信息
      * @param
      * @return 通行记录的id
      */
@@ -51,15 +51,15 @@ public class RecordController {
         return ResultGenerator.genFailResult("系统异常","");
     }
     /**
-     * 传入用户id生成通行记录二维码
+     * 操作record将状态改为进出
      * @param
      * @return 通行记录的id
      */
     @RequestMapping("/inOut")
     @ResponseBody
-    public Result inOut(@RequestParam Long opreId, @RequestParam String idStr, @RequestParam String type){
+    public Result inOut(@RequestParam Long opreId, @RequestParam String idStr, @RequestParam String type,@RequestParam String areaId ){
         try {
-            return recordService.inOut(opreId,idStr,type);
+            return recordService.inOut(opreId,idStr,type,areaId);
         }catch (Exception e){
             e.printStackTrace();
         }

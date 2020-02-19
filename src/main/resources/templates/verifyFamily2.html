@@ -120,6 +120,9 @@
                         window.location.href=areaInforUrl;
                     }else{
                         alert(data.message);
+                        setCookie("idNo",idNo,365);
+                        setCookie("testPhone",phone,365);
+                        setCookie("testName",name,365);
                     }
 
                 }
@@ -142,8 +145,14 @@
             //请求成功
             success: function (result) {
                 if(result.code=="200"){
-                    document.getElementById("name").value=result.data.name
-                    document.getElementById("idNo").value=result.data.idNo
+                    console.log(result);
+                    $("#name").val(result.data.name);
+                    $("#idNo").val(result.data.idNo);
+                    $("#phone").val(result.data.phone);
+                }else{
+                    $("#idNo").val(getCookie("idNO"));
+                    $("#phone").val(getCookie("testPhone"));
+                    $("#name").val(getCookie("testName"));
                 }
             }
         })
