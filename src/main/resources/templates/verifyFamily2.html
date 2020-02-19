@@ -117,13 +117,14 @@
                         console.log(getCookie("family"));
                         setCookie('family', 'T', 365);
                         alert('认证成功');
+                        window.location.href=areaInforUrl;
                     }else{
-                        alert('认证失败，请确认房间号是否选择正确!');
+                        alert(data.message);
                         setCookie("idNo",idNo,365);
                         setCookie("testPhone",phone,365);
                         setCookie("testName",name,365);
                     }
-                    window.history.back();
+
                 }
             });
         }
