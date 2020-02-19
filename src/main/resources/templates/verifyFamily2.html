@@ -117,10 +117,11 @@
                         console.log(getCookie("family"));
                         setCookie('family', 'T', 365);
                         alert('认证成功');
+                        window.location.href=areaInforUrl;
                     }else{
                         alert(data.message);
                     }
-                    window.location.href=areaInforUrl;
+
                 }
             });
         }
