@@ -116,7 +116,7 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
     public Result editStaff(Long userId,String name, String idNO, String phone) {
         User user = userService.findById(userId);
         if (user==null){
-            return ResultGenerator.genFailResult("未查询到改用户");
+            return ResultGenerator.genFailResult("未查询到该用户");
         }
         if("T".equals(user.getIsAuth())){
             return ResultGenerator.genSuccessResult("用户已实名，无法修改");
