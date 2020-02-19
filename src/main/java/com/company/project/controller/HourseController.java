@@ -73,6 +73,11 @@ public class HourseController {
         List<User> userList = userservice.findList(name, phone);
         boolean flag = false;
         String isAuth = "F";
+        for(Hourse h:list) {
+        	if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
+        		return ResultGenerator.genFailResult("该户主已经认证过");
+        	}
+        }
         if(list!=null) {
             for(Hourse h:list) {
                 if(h.getBuildingId().equals(houseaddr) &&h.getNum().equals(paltaddr)) {

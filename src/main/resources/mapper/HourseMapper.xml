@@ -46,12 +46,14 @@
       <result column="ext3" jdbcType="VARCHAR" property="ext3" />
     </collection>
   </resultMap>
-  <select id="findHouse" resultMap="BaseResultMap" parameterType="string">
-  	SELECT hu.* from h_hourse hu
+  <select id="findHouse" resultMap="myResultMap" parameterType="string">
+  	SELECT hu.*,hf.*  from h_hourse hu
+  	left join h_family hf on hf.house_id=hu.id
 	LEFT JOIN h_user u on hu.user_id = u.id
 	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and hu.is_rent='F'
 	union
-	SELECT hu.* from h_hourse hu
+	SELECT hu.*,hf.* from h_hourse hu
+	left join h_family hf on hf.house_id=hu.id
 	LEFT JOIN h_user u on hu.rent_id = u.id
 	where u.`name` LIKE CONCAT('%',#{name},'%') and u.phone=#{phone} and hu.is_rent='T'
   </select>
