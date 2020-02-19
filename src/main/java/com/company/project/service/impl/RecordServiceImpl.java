@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -149,13 +150,25 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
 
         //查询用户是否有小区
         List<Map<String,Object>> areas = areaMapper.areaTimes(userId);
-
+        BigDecimal day=new BigDecimal("1");
+        int total=0;
+        int count=0;
         for (Map<String, Object> area : areas) {
             if(area.get("frequency").equals("1")){
-
-            }else if (area.get("frequency").equals("2")){
-
+                BigDecimal areaDay=new BigDecimal(area.get("frequency").toString());
+                if(areaDay.compareTo(day) <= 0){
+                    // todo 查询 days天内 有多少通行记录
+                    //注意这里传参不同
+                     count = recordMapper.findCount(area.get("id"), userId, area.get("days"));
+                    if (count<=0){
+                        count=0;
+                    }
+                    total+=count;
+                }else{//注意这里传的是频率
+                    count = recordMapper.findCountElse(area.get("id"), userId, area.get("frequency"));
+                }
             }
+
 
 
 

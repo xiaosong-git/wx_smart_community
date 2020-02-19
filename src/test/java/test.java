@@ -15,5 +15,11 @@ public class test {
         String str1="2.30";
         BigDecimal bd=new BigDecimal(str1);
         System.out.println(bd);
+        String str2="2.5";
+        BigDecimal b2=new BigDecimal(str2);
+        System.out.println(b2);
+        int i = bd.compareTo(b2);
+        System.out.println(i);
+
     }
 }

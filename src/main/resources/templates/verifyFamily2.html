@@ -42,10 +42,10 @@
     </div>
     <div class="weui-cell">
         <div class="weui-cell__hd">
-            <label class="weui-label">身份证号码</label>
+            <label class="weui-label">身份证号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="idCard" value="" onblur="checkIdNo()">
+            <input class="weui-input" placeholder="请输入" type="text" id="idNo" value="" onblur="checkIdNo()">
         </div>
     </div>
     <div class="weui-cell">
@@ -53,13 +53,13 @@
             <label class="weui-label">手机号码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="phone" value="" onblur="checkPhone()">
+            <input class="weui-input" placeholder="请输入" type="number" id="phone" value="" onblur="checkPhone()">
         </div>
     </div>
     <br>
     <br>
     <div>
-        <a class="weui-btn weui-btn_default blue-btn" href="javascript: " onclick="back()">上一步</a>
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript: " onclick="back();">上一步</a>
         <a class="weui-btn weui-btn_default blue-btn" href="javascript: " id="finish" onclick="finish();">认证</a>
     </div>
 </div>
@@ -73,18 +73,18 @@
         getAuthInfo();
     });
     function back() {
-        window.history.back();
+        window.history.go(-1);
     }
      function finish(){
     	var openId = getCookie("openId");
     	var houseaddr = getQueryString("houseaddr");
     	var paltaddr = getQueryString("paltaddr");
     	var name = $("#name").val();
-    	var idCard = $("#idCard").val();
+    	var idNo = $("#idNo").val();
     	var phone = $("#phone").val();
     	if(isEmpty(name)){
             $.toptip('请输入姓名');
-        }else if(isEmpty(idCard)){
+        }else if(isEmpty(idNo)){
             $.toptip('请输入身份证');
         }else if(isEmpty(phone)){
              $.toptip('请输入手机号');
@@ -93,6 +93,7 @@
         }else if(checkPhone()!=true){
     	    return;
         }else{
+            sessionStorage.clear();
             $.ajax({
                 url: "hourse/identityHouse",
                 type: "post",
@@ -103,10 +104,11 @@
                     paltaddr:paltaddr,
                     openId:openId,
                     name:name,
-                    idCard:idCard,
+                    idCard:idNo,
                     phone:phone
                 },
                 success: function(data) {
+                    sessionStorage.clear();
                     console.log(data);
                     if(data.message=='SUCCESS'){
                         setCookie('userId', data.data.userId, 365);
@@ -140,7 +142,7 @@
             success: function (result) {
                 if(result.code=="200"){
                     document.getElementById("name").value=result.data.name
-                    document.getElementById("idCard").value=result.data.idNo
+                    document.getElementById("idNo").value=result.data.idNo
                 }
             }
         })
@@ -154,28 +156,6 @@
             return unescape(r[2]);
         }
         return null;
-    }
-
-    //身份证验证
-    function checkIdNo() {
-        var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        var idNo = $("#idCard").val();
-        if(!regIdNo.test(idNo)){
-            $.toptip('身份证输入错误，请检查');
-            return false;
-        }else{
-            $.toptip('身份证合法',"success");
-            return true;
-        }
-    }
-    function checkPhone() {
-        var tel = $('#phone').val();
-        if (!tel || !/1[3|4|5|7|8]\d{9}/.test(tel)) {
-            $.toptip('手机号输入错误，请检查');
-            return false;
-        }else{
-            return true;
-        }
     }
 </script>
 </body>

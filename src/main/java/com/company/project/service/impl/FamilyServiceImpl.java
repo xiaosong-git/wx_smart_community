@@ -52,7 +52,6 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
         String idNoMW = DESUtil.encode(workKey,idNo);
         User user = userMapper.findUserIdNo(userName, idNoMW);
-
         long hisUserId;
         //todo 可能得更改
         if (user==null){

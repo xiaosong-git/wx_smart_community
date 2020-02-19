@@ -42,7 +42,19 @@
             <label class="weui-label">身份证号码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="idCard" value="" onBlur="checkIdNo()">
+            <input class="weui-input" placeholder="请输入" type="text" id="idNo" value="" onBlur="checkIdNo()">
+        </div>
+        <div class="weui-cell__ft">
+            <img src="images/scan.png" style="width: 26px;height: 26px">
+        </div>
+
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">手机号码</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入" type="text" id="phone" value="" onBlur="checkPhone()">
         </div>
         <div class="weui-cell__ft">
             <img src="images/scan.png" style="width: 26px;height: 26px">
@@ -164,6 +176,7 @@
     function addNewPerson() {
         var name = $("#name").val();
         var idNo = $("#idCard").val();
+        var phone = $("#phone").val();
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
@@ -173,6 +186,8 @@
             return;
         }
         if(checkIdNo()!=true){
+            return;
+        }if(!checkPhone()){
             return;
         }
        $.ajax({
@@ -184,7 +199,7 @@
                 userId: getCookie("userId"),
                 idNo:idNo,
                 userName:name,
-
+                phone:phone
             },
             success: function (result) {
                 if(result.code==200){
