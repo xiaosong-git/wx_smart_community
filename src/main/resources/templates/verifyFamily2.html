@@ -71,6 +71,7 @@
 
     $(function(){
         getAuthInfo();
+
     });
     function back() {
         window.history.go(-1);
@@ -118,9 +119,12 @@
                         setCookie('family', 'T', 365);
                         alert('认证成功');
                     }else{
-                        alert('认证失败');
+                        alert('认证失败，请确认房间号是否选择正确!');
+                        setCookie("idNo",idNo,365);
+                        setCookie("testPhone",phone,365);
+                        setCookie("testName",name,365);
                     }
-                    window.location.href=areaInforUrl;
+                    window.history.back();
                 }
             });
         }
@@ -141,8 +145,14 @@
             //请求成功
             success: function (result) {
                 if(result.code=="200"){
-                    document.getElementById("name").value=result.data.name
-                    document.getElementById("idNo").value=result.data.idNo
+                    console.log(result);
+                    $("#name").val(result.data.name);
+                    $("#idNo").val(result.data.idNo);
+                    $("#phone").val(result.data.phone);
+                }else{
+                    $("#idNo").val(getCookie("idNO"));
+                    $("#phone").val(getCookie("testPhone"));
+                    $("#name").val(getCookie("testName"));
                 }
             }
         })
