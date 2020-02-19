@@ -91,7 +91,9 @@ public class HourseController {
         String isAuth = "F";
         if(list!=null) {
             for(Hourse h:list) {
-                if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
+                if(h.getFamily()!=null){
+
+                if( h.getFamily().getHouseId().equals(h.getId()) &&h.getFamily().getIsJoin().equals("T")) {
                     return ResultGenerator.genFailResult("该户主已经认证过");
                 }
                 //楼栋的id以及楼栋
@@ -116,6 +118,7 @@ public class HourseController {
 
                     System.out.println("是否生成家庭成功？"+save);
                 }
+            }
             }
         }else {
         	return ResultGenerator.genFailResult("认证失败，请填写正确的身份信息（包括：姓名、身份证号，手机号）");
