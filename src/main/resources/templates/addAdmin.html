@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>添加工作人员</title>
+    <title id="title">添加工作人员</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -101,6 +101,7 @@
         var index = getQueryString('index');
         if(index =="edit"){
             console.log("isAuth:"+isAuth)
+            document.getElementById("title").innerText="编辑工作人员"
             if(isAuth!="T"){
                 document.getElementById("btn2").style.display = 'block';
             }else{
@@ -110,6 +111,7 @@
             document.getElementById('idNo').value=idNo;
             document.getElementById('phone').value=phone;
         }else{
+            document.getElementById("title").innerText="新增工作人员"
             document.getElementById('btn1').style.display = 'block';
         }
     })

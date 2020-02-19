@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>添加成员</title>
+    <title id="title">添加成员</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -84,10 +84,12 @@
         var idNo = getQueryString('idNo');
         //户主信息
         if (index == "householder") {
+            document.getElementById("title").innerText="户主信息"
             //document.getElementById('btn4').style.display = 'block';
             document.getElementById('name').value = editUserName;
             document.getElementById('idNo').value = idNo
         } else if (index == "person") {
+            document.getElementById("title").innerText="编辑成员信息"
             if (getQueryString('isAuth') != "T") {
                 document.getElementById('btn2').style.display = 'block'
             } else {
@@ -96,6 +98,7 @@
             document.getElementById('name').value = editUserName;
             document.getElementById('idNo').value = idNo
         } else {
+            document.getElementById("title").innerText="新增家庭成员"
             houseId = getQueryString('houseId');
             document.getElementById('btn1').style.display = 'block'
         }
@@ -191,7 +194,6 @@
                 }
             })
         }
-
     }
 
     function checkIdNo() {
