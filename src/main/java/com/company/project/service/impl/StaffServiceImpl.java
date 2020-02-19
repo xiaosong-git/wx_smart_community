@@ -11,6 +11,7 @@ import com.company.project.service.StaffService;
 import com.company.project.service.UserService;
 import com.company.project.util.DESUtil;
 import com.soecode.wxtools.api.IService;
+import com.soecode.wxtools.api.WxService;
 import com.soecode.wxtools.exception.WxErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +38,7 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
 
     @Resource
     private UserService userService;
-    @Resource
-    private IService iService;
+    private IService iService = new WxService();
     Logger logger = LoggerFactory.getLogger(StaffServiceImpl.class);
     @Resource
     private StaffService staffService;
