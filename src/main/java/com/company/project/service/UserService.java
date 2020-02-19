@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public interface UserService extends Service<User> {
 
-    Result verify(String openId, String idNO, String name, String idHandleImgUrl, String localImgUrl);
+    Result verify(String openId, String idNO, String name, String idHandleImgUrl, String localImgUrl,String phone);
 
     Result uploadPhoto(String userId, String mediaId, String type) throws Exception;
 
