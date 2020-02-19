@@ -57,9 +57,10 @@ public class FamilyController {
 
     }
     @PostMapping("/editFamilyUser")
-    public Result editFamilyUser(@RequestParam String userName,@RequestParam String idNo,Long userId ) {
+    public Result editFamilyUser(@RequestParam String userName,@RequestParam String idNo,
+                                 @RequestParam Long userId,@RequestParam  String phone) {
         try {
-            return  familyService.editFamilyUser(userName,idNo,userId);
+            return  familyService.editFamilyUser(userName,idNo,userId, phone);
         } catch (Exception e) {
             e.printStackTrace();
         }

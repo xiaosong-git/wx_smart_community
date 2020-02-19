@@ -76,13 +76,14 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
     }
 
     @Override
-    public Result editFamilyUser(String userName, String idNo, Long userId) {
+    public Result editFamilyUser(String userName, String idNo, Long userId,String phone) {
         //查找用户是否存在idNo加密
         String workKey = "iB4drRzSrC";//生产的des密码
         String idNoMW = DESUtil.encode(workKey,idNo);
         User user=new User();
         user.setName(userName);
         user.setIdNo(idNoMW);
+        user.setPhone(phone);
         user.setId(userId);
         int update = userService.update(user);
         if (update>0){

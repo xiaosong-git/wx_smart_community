@@ -20,7 +20,7 @@ public interface FamilyService extends Service<Family> {
 
     Result deleteFamilyUser(Long hourseId, Long userId);
 
-    Result editFamilyUser(String userName, String idNo, Long userId);
+    Result editFamilyUser(String userName, String idNo, Long userId,String phone);
 
     List<Family> findByUser(String name, String idCard);
 }
