@@ -209,7 +209,6 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     /**
      * 通过openid获取用户信息
      *
-     *
      * @param model
      * @param openId
      * @return
@@ -227,27 +226,28 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             Hourse hourse = hourseMapper.getHouseFromOpenId(openId);
             if (hourse != null) {
                 System.out.println("---有房子---");
-                 model.addAttribute("hourse", "T");
+                model.addAttribute("hourse", "T");
             } else {
-                 model.addAttribute("hourse", "F");
+                model.addAttribute("hourse", "F");
             }
             //家庭信息
             Family family = familyMapper.getFamilyFromOpenId(openId);
             if (family != null) {
                 System.out.println("---有家庭---");
-                 model.addAttribute("family", "T");
+                model.addAttribute("family", "T");
             } else {
-                 model.addAttribute("family", "F");
+                model.addAttribute("family", "F");
             }
+        } else {
+            user = new User();
+            user.setIsAuth("");
+            user.setId(0L);
+            user.setName("");
+            model.addAttribute("areaId", "");
+            model.addAttribute("family", "");
+            model.addAttribute("hourse", "");
+            model.addAttribute("user", user);
         }
-        user=new User();
-        user.setIsAuth("");
-        user.setId(0L);
-        user.setName("");
-        model.addAttribute("areaId","");
-        model.addAttribute("family", "");
-        model.addAttribute("hourse", "");
-        model.addAttribute("user", user);
         return model;
     }
 

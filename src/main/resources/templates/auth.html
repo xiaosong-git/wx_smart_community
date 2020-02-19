@@ -16,7 +16,7 @@
 </head>
 <body ontouchstart>
 <div class="weui-cells weui-cells_form">
-    <div >认证身份信息与小区信息后才能使用二维码哦！</div>
+    <div align="center"><font size="3"><strong>认证身份信息与小区信息后才能使用二维码哦！</strong></font></div>
     <div class="weui-cell">
         <div class="weui-uploader" style="margin-right: auto; margin-left:auto;">
             <div class="weui-uploader__bd" >
@@ -40,7 +40,7 @@
 <div class="weui-cells weui-cells_form">
     <div class="weui-cell">
         <div >
-            <label  style="margin-left: 15px">姓名</label>
+            <label  style="margin-left: 15px">真实姓名</label>
         </div>
         <div >
             <input class="weui-input" id="realName" placeholder="请输入您的真实姓名"  type="text" value="">
@@ -55,12 +55,22 @@
         <div class="weui-cell__bd">
             <input class="weui-input" id="idNo" placeholder="请输入您的身份证号" type="text" value="" onblur="checkIdNo()">
         </div>
-
     </div>
-    <br>
-    <button class="weui-btn blue-btn" onclick="upload()">认证</button>
-</div>
 
+</div>
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div >
+            <label  style="margin-left: 15px">手机号码</label>
+        </div>
+        <div >
+            <input class="weui-input" id="phone" placeholder="请输入您的手机号"  type="number">
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<button class="weui-btn blue-btn" onclick="upload()">认证</button>
 </body>
 
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
@@ -92,15 +102,17 @@
     });
 
     $(function(){
+/*
 
-      /*  getAuthInfo();
+        getAuthInfo();
         //解决表单控件不能回弹 只有微信ios有这个问题
         $("input,select,textarea").blur(function(){
             setTimeout(() => {
                 const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
             window.scrollTo(0, Math.max(scrollHeight - 1, 0));
         }, 100);
-        })*/
+        })
+*/
 
     });
     function removeimg(obj){

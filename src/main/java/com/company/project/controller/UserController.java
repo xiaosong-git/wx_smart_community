@@ -76,7 +76,7 @@ public class UserController {
     /**
      * 实人认证图片上传
      *
-     * @param userId  用户id
+     * @param openId  用户id
      * @param mediaId 微信临时图片
      * @param type    状态
      * @return
