@@ -42,7 +42,7 @@
             <label class="weui-label">身份证号码</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="idCard" value="" onBlur="checkIdNo()">
+            <input class="weui-input" placeholder="请输入" type="text" id="idNo" value="" onBlur="checkIdNo()">
         </div>
         <div class="weui-cell__ft">
             <img src="images/scan.png" style="width: 26px;height: 26px">
@@ -86,7 +86,7 @@
         if (index == "householder") {
             //document.getElementById('btn4').style.display = 'block';
             document.getElementById('name').value = editUserName;
-            document.getElementById('idCard').value = idNo
+            document.getElementById('idNo').value = idNo
         } else if (index == "person") {
             if (getQueryString('isAuth') != "T") {
                 document.getElementById('btn2').style.display = 'block'
@@ -94,7 +94,7 @@
                 document.getElementById('btn3').style.display = 'block'
             }
             document.getElementById('name').value = editUserName;
-            document.getElementById('idCard').value = idNo
+            document.getElementById('idNo').value = idNo
         } else {
             houseId = getQueryString('houseId');
             document.getElementById('btn1').style.display = 'block'
@@ -108,7 +108,7 @@
     }
     function editPerson() {
         var name = $("#name").val();
-        var idNo = $("#idCard").val();
+        var idNo = $("#idNo").val();
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
@@ -161,7 +161,7 @@
     }
     function addNewPerson() {
         var name = $("#name").val();
-        var idNo = $("#idCard").val();
+        var idNo = $("#idNo").val();
         if(isEmpty(name)){
             $.toptip('名字不可为空');
             return;
@@ -196,7 +196,7 @@
 
     function checkIdNo() {
         var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        var idNo = $("#idCard").val();
+        var idNo = $("#idNo").val();
         if(!regIdNo.test(idNo)){
             $.toptip('身份证输入错误，请检查');
             return false;

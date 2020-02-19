@@ -42,10 +42,10 @@
     </div>
     <div class="weui-cell">
         <div class="weui-cell__hd">
-            <label class="weui-label">身份证号码</label>
+            <label class="weui-label">身份证号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入" type="text" id="idCard" value="" onblur="checkIdNo()">
+            <input class="weui-input" placeholder="请输入" type="text" id="idNo" value="" onblur="checkIdNo()">
         </div>
     </div>
     <br>
@@ -72,10 +72,10 @@
     	var paltaddr = getQueryString("paltaddr");
     	var openId = getCookie("openId");
     	var name = $("#name").val();
-    	var idCard = $("#idCard").val();
+    	var idNo = $("#idNo").val();
     	if(isEmpty(name)){
             $.toptip('请输入姓名');
-        }else if(isEmpty(idCard)){
+        }else if(isEmpty(idNo)){
             $.toptip('请输入身份证');
         }else if(checkIdNo()!=true){
     	    return;
@@ -89,10 +89,11 @@
                     houseaddr:houseaddr,
                     paltaddr:paltaddr,
                     name:name,
-                    idCard:idCard,
+                    idCard:idNo,
                     openId:openId
                 },
                 success: function(data) {
+                    sessionStorage.clear();
                     console.log(data);
                     if(data.message=='SUCCESS'){
                         setCookie('family', data.data.isJoin, 365);
@@ -115,18 +116,6 @@
         }
         return null;
     }
-    //身份证验证
-    function checkIdNo() {
-        var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        var idNo = $("#idCard").val();
-        if(!regIdNo.test(idNo)){
-            $.toptip('身份证输入错误，请检查');
-            return false;
-        }else{
-            $.toptip('身份证合法',"success");
-            return true;
-        }
-    }
 
     function getAuthInfo() {
         $.ajax({
@@ -145,7 +134,7 @@
                 console.log(result)
                 if(result.code=="200"){
                     document.getElementById("name").value=result.data.name
-                    document.getElementById("idCard").value=result.data.idNo
+                    document.getElementById("idNo").value=result.data.idNo
                 }
             }
         })
