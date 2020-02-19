@@ -1,5 +1,5 @@
 package com.company.project.web;
-import com.company.project.model.User;
+
 import com.company.project.service.UserService;
 import com.company.project.weixin.MenuKey;
 import com.company.project.weixin.WxController;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 /**

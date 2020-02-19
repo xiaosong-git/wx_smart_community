@@ -116,7 +116,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         Record record =new Record();
         record.setId(Long.valueOf(s));
         record.setType(type);
-        //判
+        //判断用户二维码
         String systemTime = DateUtil.getSystemTime();
         record.setPassTime(systemTime);
         record.setUpdateTime(systemTime);
@@ -131,9 +131,12 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
 
     public boolean selectRecord(Long userId) {
         //目前还未考虑多小区的问题
-        //查询用户所有小区的次数
+
+        //todo 查询用户所有小区的次数
 
         //查询用户是否有小区
+        List<Area> area = areaMapper.findAreaById(userId);
+
         int times = hRecordMapper.selectTimes(userId);
 
         if (times>0){
