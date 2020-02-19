@@ -85,7 +85,8 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         }
         //查找用户信息
             Map<String,Object> userMap = userMapper.getUserByRecordId(Long.valueOf(recordId));
-
+        //增加查询对方是否有该小区的次数
+        
             Map<String,Object> map=new HashMap<>();
             if (userMap != null) {
                 if (userMap.get("userId")!=null){
@@ -125,11 +126,14 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
 
         Record record = findById(recordId);
         if (record==null){
-            return ResultGenerator.genFailResult("二维码已失效！");
+            return ResultGenerator.genFailResult("二维码不存在！");
         }
         record.setType(type);
         //判断是否已使用
         record.setAreaId(areaId);
+        if(record.getAreaId()!=null&&!"".equals(record.getAreaId())){
+            return ResultGenerator.genFailResult("二维码已失效！");
+        }
         //判断用户二维码
         String systemTime = DateUtil.getSystemTime();
         record.setPassTime(systemTime);
@@ -137,7 +141,6 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         record.setIsPass("0");
         int update = update(record);
         if (update>0){
-
             return ResultGenerator.genSuccessResult();
         }
         return ResultGenerator.genFailResult("操作失败！");

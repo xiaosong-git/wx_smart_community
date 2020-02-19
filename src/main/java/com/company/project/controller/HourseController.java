@@ -2,6 +2,7 @@ package com.company.project.controller;
 
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.dao.UserMapper;
 import com.company.project.model.Family;
 import com.company.project.model.Hourse;
 import com.company.project.model.User;
@@ -33,6 +34,8 @@ public class HourseController {
     private UserService userservice;
     @Resource
     private FamilyService familyservice;
+    @Resource
+    private UserMapper userMapper;
     @PostMapping("/add")
     public Result add(Hourse hourse) {
         hourseService.save(hourse);
@@ -80,14 +83,12 @@ public class HourseController {
                                  @RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
         Map<String, String> map = new HashMap<String, String>();
         List<Hourse> list = hourseService.findHouse(name, phone);
-        List<User> userList = userservice.findList(name, phone);
+        User user = userMapper.findByPhoneName( phone,name);
+        if (user==null){
+            return ResultGenerator.genFailResult("未找到户主信息，请正确填写户主信息，或找物业确认！");
+        }
         boolean flag = false;
         String isAuth = "F";
-        for(Hourse h:list) {
-        	if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
-        		return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
-        	}
-        }
         if(list!=null) {
             for(Hourse h:list) {
                 //楼栋的id以及楼栋
@@ -120,13 +121,11 @@ public class HourseController {
             String workKey = "iB4drRzSrC";//生产的des密码
             // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
             idCard = DESUtil.encode(workKey,idCard);
-            User user = new User();
             user.setIdNo(idCard);
             user.setWxOpenId(openId);
-            user.setId(list.get(0).getId());
             userservice.update(user);
             map.put("isAuth", isAuth);
-            map.put("userId", userList.get(0).getId().toString());
+            map.put("userId", user.getId().toString());
             return ResultGenerator.genSuccessResult(map);
         }else {
         	return ResultGenerator.genFailResult("认证失败，请核对正确的住址信息（包括：省、市、区、楼栋、小区的）");
