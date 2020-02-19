@@ -109,7 +109,7 @@ public class Menu {
 
         WxMenu.WxMenuButton btn1_2 = new WxMenu.WxMenuButton();
         btn1_2.setType(WxConsts.MENU_BUTTON_VIEW);
-        btn1_2.setName("添加管理员");
+        btn1_2.setName("添加工作人员");
         //添加管理员菜单
         btn1_2.setUrl(URL+"adminInfor");
         WxMenu.WxMenuButton btn1_3 = new WxMenu.WxMenuButton();
