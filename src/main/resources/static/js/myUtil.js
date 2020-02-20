@@ -1,4 +1,4 @@
-var IS_DEVELOP = true;//是否生产环境
+var IS_DEVELOP = false;//是否生产环境
 var uri;
 var url;
 var appId = "wx960de9db7158a03b";
@@ -7,7 +7,7 @@ if (IS_DEVELOP) {//生产环境
     url = "http://" + uri + "/";
 } else {
     appId = "wx2a1951f46acc4371";
-    uri = "c3tnav.natappfree.cc/";
+    uri = "2h29ip.natappfree.cc/";
     url = "http://" + uri + "/";
 }
 
@@ -38,7 +38,8 @@ var houseInforUrl = url + suffix + "houseInfor";
 var familyIndexUrl = url + suffix + "familyIndex";
 var addAdminUrl = url + suffix + "addAdmin";
 var adminInforUrl = url + suffix + "adminInfor";
-var downloadUrl = url + suffix + "area/reports";
+var downloadUrl = url + suffix + "download";
+var reportUrl=url+suffix+"area/reports";
 
 function setCookie(c_name, value, expiredays) {
     var exdate = new Date()
