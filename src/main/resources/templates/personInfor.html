@@ -174,13 +174,12 @@
                 areaId:getCookie("areaId"),
             },
             success: function (result) {
-                console.log(result);
                 $(obj).removeClass("weui-btn_loading");
                 var list = result.data
                 if(result.code == 200){
                     $.toptip("放行成功！","success");
                 }else{
-                    $.toptip("放行失败，系统错误！");
+                    $.toptip(result.message);
                 }
             }
         })

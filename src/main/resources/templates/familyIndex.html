@@ -42,7 +42,7 @@
 <script>
     //todo 判断登入,跳转授权界面
     $(function (){
-        if (!isLogin()){
+        if (!isLogin("familyIndex")){
             FastClick.attach(document.body);
         }
         console.log(unescape(getCookie("qq")))

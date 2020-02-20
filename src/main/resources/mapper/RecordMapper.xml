@@ -37,10 +37,10 @@
     from h_record
     where area_id=#{areaId}
     and user_id =#{userId}
-    and DATEDIFF(now(),pass_time) &lt;= #{days} and is_pass=0
+    and DATEDIFF(now(),pass_time) &lt;= ${days} and is_pass=0
   </select>
     <select id="findCountElse" parameterType="Long" resultType="int">
-    select 2*#{frequency}- if(count(*) is null,0,count(*)) c
+    select 2*${frequency}- if(count(*) is null,0,count(*)) c
     from h_record
     where area_id=#{areaId}
     and user_id =#{userId}

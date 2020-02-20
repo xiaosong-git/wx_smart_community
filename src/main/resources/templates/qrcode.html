@@ -35,7 +35,7 @@
 <script src="js/qrcode.js"></script>
 <script>
     $(function () {
-        if (!isLogin()) {
+        if (!isLogin("qrcode")) {
             FastClick.attach(document.body);
             if (getCookie("isAuth") != "T") {
                 window.location.href = authUrl;

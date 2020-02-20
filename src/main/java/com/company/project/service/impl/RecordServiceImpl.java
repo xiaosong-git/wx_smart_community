@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 
 /**
@@ -140,17 +139,17 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     @Override
     public Result inOut(Long opreId, String idStr, String type,String areaId) throws Exception {
         String recordId = new String(Base64.decode(idStr),"UTF-8");
-
-        Record record = findById(recordId);
+        Record record = findById(Long.valueOf(recordId));
         if (record==null){
             return ResultGenerator.genFailResult("二维码不存在！");
         }
         record.setType(type);
         //判断是否已使用
-        record.setAreaId(areaId);
+
         if(record.getAreaId()!=null&&!"".equals(record.getAreaId())){
             return ResultGenerator.genFailResult("二维码已失效！");
         }
+        record.setAreaId(areaId);
         //判断用户二维码
         String systemTime = DateUtil.getSystemTime();
         record.setPassTime(systemTime);
@@ -185,6 +184,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
                     total+=count;
                 }
             }
+        logger.info("总二维码次数:{},用户id：{}",total,userId);
         return total > 0;
 
     }

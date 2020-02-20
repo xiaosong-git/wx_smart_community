@@ -2,6 +2,7 @@ package com.company.project.dao;
 
 import com.company.project.core.Mapper;
 import com.company.project.model.Record;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -14,6 +15,6 @@ public interface RecordMapper extends Mapper<Record> {
     @Select("select * from h_record where user_id =#{id} and is_pass=0 order by pass_time desc limit 4")
     List<Record> selectByUserId(String id);
 
-    int findCount(Object areaId, Long userId, Object days);
+    int findCount(Object areaId, Long userId, @Param("days") Object days);
     int findCountElse(Object areaId, Long userId, Object frequency);
 }

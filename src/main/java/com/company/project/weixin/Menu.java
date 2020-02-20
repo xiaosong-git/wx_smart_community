@@ -228,9 +228,9 @@ public class Menu {
         creatMenu();
         initManageMenu();
         initMatchruleMenu();
-//        pushToTags();
-//        check();
         checkMenu();
+        pushToTags();
+//        check();
 //        int tags = getTags();
 //        System.out.println(tags);
 //        int tags = createTags();
