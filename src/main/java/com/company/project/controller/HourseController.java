@@ -94,7 +94,7 @@ public class HourseController {
         if(list!=null) {
         	for(Hourse h:list) {
             	if(h.getFamily()!=null) {
-            		if(h.getFamily().getIsJoin()!=""&&h.getFamily().getIsJoin()!=null) {
+            		if(!h.getFamily().getIsJoin().equals("")&&h.getFamily().getIsJoin()!=null) {
             			if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
             				 if (h.getBuildingId().equals(houseaddr) && h.getNum().equals(paltaddr)) {
             					 return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
