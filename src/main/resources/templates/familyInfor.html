@@ -79,6 +79,7 @@
                         //是户主身份显示新增成员按钮
                         if (getCookie("userId") == list[i].id) {
                             document.getElementById('btn').style.display = 'block';
+                            window.localStorage.setItem("househandleId",list[i].id)
                         }
                     } else {
                         $("#familyPerson").append("<div class=\"weui-cells weui-cells_form\">\n" +

@@ -93,27 +93,35 @@
         editUserName = unescape(getQueryString('userName'));
         var idNo = getQueryString('idNo');
         var phone = getQueryString('phone');
-        //户主信息
-        if (index == "householder") {
-            document.getElementById("title").innerText="户主信息"
+        if(window.localStorage.getItem("househandleId")==getCookie("userId")){
+            //户主信息
+            if (index == "householder") {
+                document.getElementById("title").innerText="户主信息"
+                document.getElementById('name').value = editUserName;
+                document.getElementById('idNo').value = idNo;
+                document.getElementById('phone').value = phone;
+            } else if (index == "person") {
+                document.getElementById("title").innerText="编辑成员信息"
+                if (getQueryString('isAuth') != "T") {
+                    document.getElementById('btn2').style.display = 'block'
+                } else {
+                    document.getElementById('btn3').style.display = 'block'
+                }
+                document.getElementById('phone').value = phone;
+                document.getElementById('name').value = editUserName;
+                document.getElementById('idNo').value = idNo
+            } else {
+                document.getElementById("title").innerText="新增家庭成员"
+                houseId = getQueryString('houseId');
+                document.getElementById('btn1').style.display = 'block'
+            }
+        }else{
+            document.getElementById("title").innerText="成员信息"
             document.getElementById('name').value = editUserName;
             document.getElementById('idNo').value = idNo;
             document.getElementById('phone').value = phone;
-        } else if (index == "person") {
-            document.getElementById("title").innerText="编辑成员信息"
-            if (getQueryString('isAuth') != "T") {
-                document.getElementById('btn2').style.display = 'block'
-            } else {
-                document.getElementById('btn3').style.display = 'block'
-            }
-            document.getElementById('phone').value = phone;
-            document.getElementById('name').value = editUserName;
-            document.getElementById('idNo').value = idNo
-        } else {
-            document.getElementById("title").innerText="新增家庭成员"
-            houseId = getQueryString('houseId');
-            document.getElementById('btn1').style.display = 'block'
         }
+
     })
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
