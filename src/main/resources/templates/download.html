@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>报表</title>
+    <title>报表下载</title>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
@@ -40,12 +40,13 @@
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
+<script src="https://cdn.bootcss.com/jquery.fileDownload/1.4.2/jquery.fileDownload.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
 
     $(function () {
         if(is_weixin){
-            isLogin();
+            isLogin("download");
         }
     });
     //从浏览器url地址中获取参数对应的值
@@ -64,7 +65,6 @@
 
         return theRequest;
     }
-
     //判断是否是微信浏览器
     function is_weixin() {
         var ua = window.navigator.userAgent.toLowerCase();
@@ -76,27 +76,33 @@
             return false;
         }
     }
-
+    var object;
     var is_weixin = is_weixin();
     if (is_weixin) {
         //是微信浏览器  显示返回按钮   （用户可以选择下载或者返回）
+         object = GetRequest();
+         //
+         // alert(object.userId+","+object.areaId);
+         // alert(getCookie("userId")+","+getCookie("areaId"));
         console.log("微信浏览器=============")
         document.getElementById('bo').style.display='block'
-        var userId= getCookie("userId");
-        var areaId= getCookie("areaId");
-        var params="?userId="+userId+"&areaId="+areaId;
-        location.hash=params;
+        // alert("is_weixin");
+        if (typeof(object.userId)=="undefined"&&typeof(object.areaId)=="undefined"){
+            $.showLoading();
+            window.location.href=downloadUrl+"?userId="+getCookie("userId")+"&areaId="+getCookie("areaId");
+        }
+        if (object.userId==""&&object.areaId=="") {
+            $.showLoading();
+            window.location.href=downloadUrl+"?userId="+getCookie("userId")+"&areaId="+getCookie("areaId");
+        }
+
+        // alert(downloadUrl+"?userId="+getCookie("userId")+"&areaId="+getCookie("areaId"));
 
     } else {
         //不是微信浏览器
         //执行下载
-        console.log("其他浏览器=============")
-        document.getElementById('bo').style.display='none'
-        //这里去执行获取hash值
-        var userId = GetRequest().userId;
-        var areaId = GetRequest().areaId;
-        var params="?userId="+userId+"&areaId="+areaId;
-        window.location.href= downloadUrl+params;
+        $.hideLoading();
+        getReport();
     }
     function getAreaId() {
         $.ajax({
@@ -110,6 +116,36 @@
                 }
             }
         })
+    }
+    function getReport() {
+        object = GetRequest();
+        if(typeof(object.userId)=="undefined"&&typeof(object.areaId)=="undefined"){
+            alert("获取报表错误！");
+        }
+        window.location.href=reportUrl+"?userId="+object.userId+"&areaId="+object.areaId;
+        // var url="/community/area/reports";
+        // $.fileDownload(url,{
+        //     httpMethod: 'POST',
+        //     data: {userId: object.userId,
+        //     areaId: object.areaId
+        //     },
+        //     prepareCallback:function(url){
+        //        $.showLoading();
+        //     },
+        //     abortCallback:function(url){
+        //         $.hideLoading();
+        //         // 异常终止
+        //       alert("文件下载异常");
+        //     },
+        //     successCallback:function(url){
+        //         $.hideLoading();
+        //         alert("文件下载成功！！");
+        //     },
+        //     failCallback: function (html, url) {
+        //         $.hideLoading();
+        //         alert("文件下载失败！！");
+        //     }
+        // });
     }
 </script>
 </body>

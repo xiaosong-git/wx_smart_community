@@ -19,4 +19,6 @@ public interface FamilyMapper extends Mapper<Family> {
     @Select("select * from "+TableList.FAMILY+ " f left join "+TableList.USER+" u" +
              " on f.user_id=u.id where u.wx_open_id=#{openId} limit 1")
     Family getFamilyFromOpenId(String openId);
+    @Select("select * from "+TableList.FAMILY+ " where house_id=#{hourseId} and user_id=#{id} limit 1")
+    Family findFamilyUser(Long hourseId, Long id);
 }

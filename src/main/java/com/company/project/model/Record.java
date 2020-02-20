@@ -25,6 +25,8 @@ public class Record {
      */
     @Column(name = "is_pass")
     private String isPass;
+    @Column(name = "area_id")
+    private String areaId;
 
     /**
      * 更新时间
@@ -159,5 +161,12 @@ public class Record {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getAreaId() {
+        return areaId;
+    }
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
     }
 }

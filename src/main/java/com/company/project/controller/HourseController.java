@@ -2,6 +2,7 @@ package com.company.project.controller;
 
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.dao.UserMapper;
 import com.company.project.model.Family;
 import com.company.project.model.Hourse;
 import com.company.project.model.User;
@@ -22,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* Created by CodeGenerator on 2020/02/11.
-*/
+ * Created by CodeGenerator on 2020/02/11.
+ */
 @RestController
 @RequestMapping("/hourse")
 public class HourseController {
@@ -33,6 +34,9 @@ public class HourseController {
     private UserService userservice;
     @Resource
     private FamilyService familyservice;
+    @Resource
+    private UserMapper userMapper;
+
     @PostMapping("/add")
     public Result add(Hourse hourse) {
         hourseService.save(hourse);
@@ -67,34 +71,41 @@ public class HourseController {
 
     /**
      * 认证户主
+     *
      * @param houseaddr buidingid
-     * @param paltaddr num
-     * @param openId 微信号
-     * @param name 姓名
-     * @param idCard 身份证
-     * @param phone 电话
+     * @param paltaddr  num
+     * @param openId    微信号
+     * @param name      姓名
+     * @param idCard    身份证
+     * @param phone     电话
      * @return
      */
     @PostMapping("/identityHouse")
-    public Result identityHouse( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
-                                 @RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
+    public Result identityHouse(@RequestParam() Long houseaddr, @RequestParam() String paltaddr, @RequestParam() String openId,
+                                @RequestParam() String name, @RequestParam() String idCard, @RequestParam() String phone) {
         Map<String, String> map = new HashMap<String, String>();
         List<Hourse> list = hourseService.findHouse(name, phone);
-        List<User> userList = userservice.findList(name, phone);
+        User user = userMapper.findByPhoneName(phone, name);
+        if (user == null) {
+            return ResultGenerator.genFailResult("未找到户主信息，请正确填写户主信息，或找物业确认！");
+        }
         boolean flag = false;
         String isAuth = "F";
-        
         if(list!=null) {
         	for(Hourse h:list) {
             	if(h.getFamily()!=null) {
-            		if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
-                		return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
-                	}
+            		if(h.getFamily().getIsJoin()!=""&&h.getFamily().getIsJoin()!=null) {
+            			if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
+            				 if (h.getBuildingId().equals(houseaddr) && h.getNum().equals(paltaddr)) {
+            					 return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
+            				 }
+                    	}
+            		}
             	}
             }
             for(Hourse h:list) {
                 //楼栋的id以及楼栋
-                if(h.getBuildingId().equals(houseaddr) &&h.getNum().equals(paltaddr)) {
+                if (h.getBuildingId().equals(houseaddr) && h.getNum().equals(paltaddr)) {
                     Hourse hourse = new Hourse();
                     hourse.setIsAuth("T");
                     hourse.setId(h.getId());
@@ -103,53 +114,56 @@ public class HourseController {
                     flag = true;
                     Family family = new Family();
                     family.setHouseId(h.getId());
-                    if(h.getIsRent().equals("F")) {
-                         family.setUserId(Long.parseLong(h.getUserId()));
-                    }else {
-                    	 family.setUserId(Long.parseLong(h.getRentId()));
+                    if (h.getIsRent().equals("F")) {
+                        family.setUserId(Long.parseLong(h.getUserId()));
+                    } else {
+                        family.setUserId(Long.parseLong(h.getRentId()));
                     }
-                   
+
                     family.setIsJoin("T");
                     family.setStatus("0");
                     int save = familyservice.save(family);
 
-                    System.out.println("是否生成家庭成功？"+save);
+                    System.out.println("是否生成家庭成功？" + save);
                 }
             }
-        }else {
-        	return ResultGenerator.genFailResult("认证失败，请填写正确的身份信息（包括：姓名、身份证号，手机号）");
+
+        } else {
+            return ResultGenerator.genFailResult("认证失败，请填写正确的身份信息（包括：姓名、身份证号，手机号）");
         }
-        if(flag) {
+        if (flag) {
             String workKey = "iB4drRzSrC";//生产的des密码
             // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
-            idCard = DESUtil.encode(workKey,idCard);
-            User user = new User();
+            idCard = DESUtil.encode(workKey, idCard);
             user.setIdNo(idCard);
             user.setWxOpenId(openId);
-            user.setId(list.get(0).getId());
             userservice.update(user);
             map.put("isAuth", isAuth);
-            map.put("userId", userList.get(0).getId().toString());
+            map.put("userId", user.getId().toString());
             return ResultGenerator.genSuccessResult(map);
-        }else {
-        	return ResultGenerator.genFailResult("认证失败，请核对正确的住址信息（包括：省、市、区、楼栋、小区的）");
+        } else {
+            return ResultGenerator.genFailResult("认证失败，请核对正确的住址信息（包括：省、市、区、楼栋、小区的）");
         }
     }
+
     @PostMapping("/authJoinFamily")
-    public Result authJoinFamily( @RequestParam() Long houseaddr, @RequestParam() String paltaddr,@RequestParam() String openId,
-                                  @RequestParam() String name, @RequestParam() String idCard) {
-        List<User> userList = userservice.finUserList(name, idCard);
+    public Result authJoinFamily(@RequestParam() Long houseaddr, @RequestParam() String paltaddr, @RequestParam() String openId,
+                                 @RequestParam() String name, @RequestParam() String idCard) {
         String workKey = "iB4drRzSrC";//生产的des密码
-         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
-         idCard = DESUtil.encode(workKey,idCard);
+        // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+        idCard = DESUtil.encode(workKey, idCard);
+        User user = userMapper.findUserIdNo(name, idCard);
+        if (user == null) {
+            return ResultGenerator.genFailResult("未找到家庭信息，请正确信息，或找户主添加家庭成员！");
+        }
         List<Hourse> list = hourseService.authFamily(name, idCard);
 
         Map<String, String> map = new HashMap<String, String>();
         boolean flag = false;
         String isJoin = "F";
-        if(list!=null) {
-            for(Hourse h:list) {
-                if(h.getBuildingId().equals(houseaddr) &&h.getNum().equals(paltaddr)) {
+        if (list != null) {
+            for (Hourse h : list) {
+                if (h.getBuildingId().equals(houseaddr) && h.getNum().equals(paltaddr)) {
                     Family family = new Family();
                     family.setIsJoin("T");
                     family.setId(h.getFamily().getId());
@@ -158,19 +172,17 @@ public class HourseController {
                     flag = true;
                 }
             }
-        }else {
-        	return ResultGenerator.genFailResult("认证失败，请填写正确的身份信息（包括：姓名、身份证号）");
+        } else {
+            return ResultGenerator.genFailResult("认证失败，请填写正确的身份信息（包括：姓名、身份证号）");
         }
-        if(flag ) {
-            User user = new User();
+        if (flag) {
             user.setWxOpenId(openId);
-            user.setId(userList.get(0).getId());
             userservice.update(user);
             map.put("isJoin", isJoin);
-            map.put("userId", userList.get(0).getId().toString());
+            map.put("userId", user.getId().toString());
             return ResultGenerator.genSuccessResult(map);
-        }else {
-        	return ResultGenerator.genFailResult("认证失败，请核对正确的住址信息（包括：省、市、区、楼栋、小区的）");
+        } else {
+            return ResultGenerator.genFailResult("认证失败，请核对正确的住址信息（包括：省、市、区、楼栋、小区的）");
         }
 
     }

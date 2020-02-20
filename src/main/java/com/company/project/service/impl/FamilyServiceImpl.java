@@ -46,25 +46,28 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
     }
 
     @Override
-    public Result addFamilyNameIdNo(Long hourseId, String userName, String idNo, Long userId) {
+    public Result addFamilyNameIdNo(Long hourseId, String userName, String idNo, Long userId,String phone) {
         //查找用户是否存在idNo加密
         String workKey = "iB4drRzSrC";//生产的des密码
         // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
         String idNoMW = DESUtil.encode(workKey,idNo);
-        User user = userMapper.findUserIdNo(userName, idNoMW);
-
-        long hisUserId;
+        User user = userMapper.findByPhoneName(phone, userName);
         //todo 可能得更改
         if (user==null){
             user=new User();
             user.setName(userName);
             user.setIdNo(idNoMW);
+            user.setPhone(phone);
+            userService.save(user);
+        }else{
+            Family familyUser = hFamilyMapper.findFamilyUser(hourseId, user.getId());
+            if (familyUser!=null){
+                return ResultGenerator.genFailResult("该用户已加入家庭，请勿重复添加！");
+            }
         }
-
-        hisUserId=user.getId();
         Family family=new Family();
         family.setHouseId(hourseId);
-        family.setUserId(hisUserId);
+        family.setUserId(user.getId());
         int save = save(family);
         if (save>0){
             return ResultGenerator.genSuccessResult();
@@ -74,13 +77,14 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
     }
 
     @Override
-    public Result editFamilyUser(String userName, String idNo, Long userId) {
+    public Result editFamilyUser(String userName, String idNo, Long userId,String phone) {
         //查找用户是否存在idNo加密
         String workKey = "iB4drRzSrC";//生产的des密码
         String idNoMW = DESUtil.encode(workKey,idNo);
         User user=new User();
         user.setName(userName);
         user.setIdNo(idNoMW);
+        user.setPhone(phone);
         user.setId(userId);
         int update = userService.update(user);
         if (update>0){

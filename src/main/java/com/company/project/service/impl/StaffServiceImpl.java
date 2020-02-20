@@ -53,10 +53,12 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
             user.setPhone(phone);
             user.setName(name);
             user.setIsManager("10");//普通物管
+            user.setExt1(areaId);
             userService.save(user);
 
         }else {
             user.setIsManager("10");
+            user.setExt1(areaId);
             userService.update(user);
         }
         Long userId = user.getId();
@@ -114,7 +116,7 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
     public Result editStaff(Long userId,String name, String idNO, String phone) {
         User user = userService.findById(userId);
         if (user==null){
-            return ResultGenerator.genFailResult("未查询到改用户");
+            return ResultGenerator.genFailResult("未查询到该用户");
         }
         if("T".equals(user.getIsAuth())){
             return ResultGenerator.genSuccessResult("用户已实名，无法修改");
@@ -122,7 +124,7 @@ public class StaffServiceImpl extends AbstractService<Staff> implements StaffSer
         user.setName(name);
         user.setPhone(phone);
         //如果有修改身份证号
-        if ("".equals(idNO)) {
+        if (!"".equals(idNO)) {
             String idNow = DESUtil.encode("iB4drRzSrC", idNO);
             user.setIdNo(idNow);
         }

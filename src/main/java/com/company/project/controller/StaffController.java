@@ -53,6 +53,7 @@ public class StaffController {
     @PostMapping("/editStaff")
     public Result editStaff( @RequestParam Long userId, @RequestParam String name,
                         @RequestParam(defaultValue = "") String idNO, String phone) {
+        System.out.println("idNO："+idNO);
         try {
             return  staffService.editStaff(userId, name, idNO,  phone);
         } catch (Exception e) {

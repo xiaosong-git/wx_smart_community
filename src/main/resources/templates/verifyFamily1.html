@@ -94,6 +94,26 @@
 <script>
     $(function() {
         FastClick.attach(document.body);
+
+        if( sessionStorage.getItem("back")=="T"){
+            $("#addr").val(sessionStorage.getItem("addr"));
+            $("#addr").attr("data-code",sessionStorage.getItem("addrcode"));
+            $("#communityaddr option").remove();
+            $("#communityaddr").append(sessionStorage.getItem("communityaddrhtml"))
+            $("#communityaddr").val(sessionStorage.getItem("communityaddr"));
+
+            $("#houseaddr option").remove();
+            $("#houseaddr").append(sessionStorage.getItem("houseaddrhtml"))
+            $("#houseaddr").val(sessionStorage.getItem("houseaddr"));
+
+            $("#floor option").remove();
+            $("#floor").append(sessionStorage.getItem("floorhtml"))
+            $("#floor").val(sessionStorage.getItem("floor"));
+
+            $("#paltaddr option").remove();
+            $("#paltaddr").append(sessionStorage.getItem("paltaddrhtml"))
+            $("#paltaddr").val(sessionStorage.getItem("paltaddr"));
+        }
     });
 </script>
 <script>
@@ -123,6 +143,7 @@
                 for (var e in _data) {
                     html += '<option value="' + _data[e].id + '">' + _data[e].areaName + '</option>'
                 }
+                sessionStorage.setItem("communityaddrhtml",html);
                 $("#communityaddr").append(html); //渲染
             }
         });
@@ -146,6 +167,7 @@
                 for (var e in _data) {
                     html += '<option value="' + _data[e].id + '">' + _data[e].name + '</option>'
                 }
+                sessionStorage.setItem("houseaddrhtml",html);
                 $("#houseaddr").append(html); //渲染
             }
         });
@@ -171,6 +193,7 @@
                  for(var i=1;i<=_data.totalFloor;i++){
                      html += '<option value="' +i + '">' + i + '</option>'
                  }
+                 sessionStorage.setItem("floorhtml",html);
                  $("#floor").append(html); //渲染*/
             }
         });
@@ -187,15 +210,38 @@
                 num=floorNum+""+i
             }
             html += '<option value="' +num + '">' + num + '</option>'
+            sessionStorage.setItem("paltaddrhtml",html);
         }
         $("#paltaddr").append(html); //渲染*/
     })
    function next() {
+
 	   var addr =  $("#addr").attr("data-code");
-	   var communityaddr = $("#communityaddr option:selected").val();
+       var communityaddr = $("#communityaddr option:selected").val();
 	   var houseaddr = $("#houseaddr option:selected").val();
+       var floor = $("#floor option:selected").val();
 	   var paltaddr = $("#paltaddr option:selected").val();
-       window.location.href="verifyFamily2?&houseaddr="+houseaddr+"&paltaddr="+paltaddr;
+	   if(isEmpty(addr)){
+           $.toptip("请选择家庭住址！");
+       }else if(isEmpty(communityaddr)){
+           $.toptip("请选择小区！");
+       }else if(isEmpty(houseaddr)){
+           $.toptip("请选择楼号！");
+       }else if(isEmpty(floor)){
+           $.toptip("请选择楼层！");
+       }else if(isEmpty(paltaddr)){
+           $.toptip("请选择门牌号！");
+       }else{
+           sessionStorage.setItem("back","T");
+           sessionStorage.setItem("addr",$("#addr").val());
+           sessionStorage.setItem("addrcode",$("#addr").attr("data-code"));
+           sessionStorage.setItem("communityaddr",$("#communityaddr").val());
+           sessionStorage.setItem("houseaddr",$("#houseaddr").val());
+           sessionStorage.setItem("floor",$("#floor").val());
+           sessionStorage.setItem("paltaddr",$("#paltaddr").val());
+           window.location.href="verifyFamily2?&houseaddr="+houseaddr+"&paltaddr="+paltaddr;
+       }
+
    }
 </script>
 </body>

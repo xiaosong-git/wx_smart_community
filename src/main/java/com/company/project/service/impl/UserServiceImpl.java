@@ -59,9 +59,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     private AreaService areaService;
 
     @Override
-    public Result verify(String openId, String idNO, String name, String idHandleImgUrl, String localImgUrl) {
+    public Result verify(String openId, String idNO, String name, String idHandleImgUrl, String localImgUrl,String phone) {
         try {
-            if (isVerify(idNO, name)) {
+            if (isVerify(phone, name)) {
                 return ResultGenerator.genFailResult("已经实名认证过", "fail");
             }
             String realName = URLDecoder.decode(name, "UTF-8");
@@ -99,7 +99,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             }
             Date date = new Date();
             String authDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-            User verifyUser = bindManage(openId, idNoMW, name);
+            User verifyUser = bindManage(openId, phone, name);
             if (verifyUser == null) {
                 return ResultGenerator.genFailResult("您还未被物业添加为户主或还未被户主添加入家庭！");
             }
@@ -129,11 +129,11 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     /**
      * 绑定管理员,或者户主
      */
-    public User bindManage(String openId, String idNoMW, String name) throws WxErrorException {
+    public User bindManage(String openId, String phone, String name) throws WxErrorException {
         //根据身份证查询是否管理员
-        User manage = hUserMapper.findByIdNo(idNoMW);
+        User manage = hUserMapper.findByPhone(phone);
         if (manage == null) {
-            return bindHouseholder(openId, idNoMW, name);
+            return bindHouseholder(openId, phone, name);
         }
         //绑定个性化菜单
         List<String> openIds = new LinkedList<>();
@@ -146,12 +146,12 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     /**
      * 绑定户主
      */
-    public User bindHouseholder(String openId, String idNoMW, String name) throws WxErrorException {
+    public User bindHouseholder(String openId, String phone, String name) throws WxErrorException {
         //查询是否管理员
-        User staff = hUserMapper.findByStaff(name, idNoMW);
+        User staff = hUserMapper.findByStaff(phone, name);
         if (staff == null) {
             //是否普通用户
-            return hUserMapper.findByIdNoName(idNoMW, name);
+            return hUserMapper.findByPhoneName(phone, name);
         }
         //绑定个性化菜单
         List<String> openIds = new LinkedList<>();
@@ -164,8 +164,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public Result uploadPhoto(String openId, String mediaId, String type) throws Exception {
 //        String time = DateUtil.getSystemTimeFourteen();
         //临时图片地址
-        String url = "D:\\test\\community\\tempotos";
-//        String url="/project/weixin/community/tempotos";
+//        String url = "D:\\test\\community\\tempotos";
+        String url="/project/weixin/community/tempotos";
         File file = new File(url);
         File newFile = null;
         try {
@@ -303,10 +303,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return newSign;
     }
 
-    private boolean isVerify(String name, String idNO) {
+    private boolean isVerify(String phone, String name) {
 
-        String idNoMW = DESUtil.encode("iB4drRzSrC", idNO);
-        User userFromOpenId = hUserMapper.findByIdNoName(name, idNoMW);
+        User userFromOpenId = hUserMapper.findByPhoneName(phone, name);
         if (userFromOpenId == null || userFromOpenId.getIsAuth() == null || "F".equals(userFromOpenId.getIsAuth())) {
             return false;
         }
@@ -400,6 +399,12 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             }
         }
         return ResultGenerator.genFailResult("查询失败");
+    }
+
+    @Override
+    public Result findUserArea(String openId) {
+        User user= hUserMapper.getUserFromOpenId(openId);
+        return ResultGenerator.genSuccessResult(user);
     }
 
     @Override

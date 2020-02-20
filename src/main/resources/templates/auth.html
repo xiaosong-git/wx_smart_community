@@ -16,7 +16,7 @@
 </head>
 <body ontouchstart>
 <div class="weui-cells weui-cells_form">
-    <div class="weui-cells__title">认证身份信息与小区信息后才能使用二维码哦！</div>
+    <div align="center"><font size="3"><strong>认证身份信息与小区信息后才能使用二维码哦！</strong></font></div>
     <div class="weui-cell">
         <div class="weui-uploader" style="margin-right: auto; margin-left:auto;">
             <div class="weui-uploader__bd" >
@@ -40,7 +40,7 @@
 <div class="weui-cells weui-cells_form">
     <div class="weui-cell">
         <div >
-            <label  style="margin-left: 15px">姓名</label>
+            <label  style="margin-left: 15px">真实姓名</label>
         </div>
         <div >
             <input class="weui-input" id="realName" placeholder="请输入您的真实姓名"  type="text" value="">
@@ -55,12 +55,21 @@
         <div class="weui-cell__bd">
             <input class="weui-input" id="idNo" placeholder="请输入您的身份证号" type="text" value="" onblur="checkIdNo()">
         </div>
-
     </div>
-    <br>
-    <button class="weui-btn blue-btn" onclick="upload()">认证</button>
-</div>
 
+</div>
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div >
+            <label  style="margin-left: 15px">手机号码</label>
+        </div>
+        <div >
+            <input class="weui-input" id="phone" placeholder="请输入您的手机号"  type="number" onblur="checkPhone()">
+        </div>
+    </div>
+</div>
+<br>
+<button class="weui-btn blue-btn" onclick="upload()">认证</button>
 </body>
 
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
@@ -109,7 +118,6 @@
             $("#choose").val('');
             $("#photoDiv").show();
         });
-
     }
     function jssdkimg(obj){
         wx.chooseImage({
@@ -189,7 +197,7 @@
                     url : "user/verify",
                     //数据，json字符串
                     data : {openId:getCookie("openId"),
-                        // token:getCookie(("token")),
+                        phone:$("#phone").val(),
                         idHandleImgUrl: $("#uploaderFiles").val(),
                         idNO:$("#idNo").val(),
                         realName:$("#realName").val(),
@@ -213,7 +221,7 @@
                             // window.history.back();
                             // alert(getCookie("userId"));
                             // alert("认证成功！");
-                            quit();
+                            window.location.href = qrcodeUrl;
                             // quit();
                         }
                     },
@@ -281,7 +289,8 @@
             },
             //请求成功
             success: function (result) {
-               if(result.code=="200"){
+                console.log(result);
+               if(result.code==200){
                    if (result.data.isAuth=="T"){
                        setCookie("isAuth","T",365);
                        $.toptip("您已经实名！","success");
@@ -290,20 +299,10 @@
                    document.getElementById("realName").value=result.data.name
                    document.getElementById("idNo").value=result.data.idNo
                }
+
             }
         })
 
-    }
-    function checkIdNo() {
-        var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        var idNo = $("#idNo").val();
-        if(!regIdNo.test(idNo)){
-            $.toptip('身份证输入错误，请检查');
-            return false;
-        }else{
-            $.toptip('身份证合法',"success");
-            return true;
-        }
     }
 </script>
 

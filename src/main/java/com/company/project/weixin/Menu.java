@@ -100,7 +100,7 @@ public class Menu {
         WxMenu menu = new WxMenu();
         List<WxMenu.WxMenuButton> btnList = new ArrayList<>();
         WxMenu.WxMenuButton btn1=new WxMenu.WxMenuButton();
-        btn1.setName("物业管理");
+        btn1.setName("园区管理");
         //个性化按钮
         WxMenu.WxMenuButton btn1_1 = new WxMenu.WxMenuButton();
         btn1_1.setName("通行验证");
@@ -228,9 +228,9 @@ public class Menu {
         creatMenu();
         initManageMenu();
         initMatchruleMenu();
-//        pushToTags();
-//        check();
         checkMenu();
+        pushToTags();
+//        check();
 //        int tags = getTags();
 //        System.out.println(tags);
 //        int tags = createTags();

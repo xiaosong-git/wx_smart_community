@@ -75,10 +75,11 @@
                         document.getElementById('householder').innerText = list[i].name
                         $("#householder").attr("userId", list[i].id)
                         $("#householder").attr("idNo", list[i].idNo)
-
+                        $("#householder").attr("phone", list[i].phone)
                         //是户主身份显示新增成员按钮
                         if (getCookie("userId") == list[i].id) {
                             document.getElementById('btn').style.display = 'block';
+                            window.localStorage.setItem("househandleId",list[i].id)
                         }
                     } else {
                         $("#familyPerson").append("<div class=\"weui-cells weui-cells_form\">\n" +
@@ -102,7 +103,8 @@
         var userName = escape(document.getElementById('householder').innerText);
         var userId = $("#householder").attr("userId")
         var idNo = $("#householder").attr("idNo")
-        var params = "?index=householder&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo;
+        var phone = $("#householder").attr("phone")
+        var params = "?index=householder&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo+"&phone="+phone;
         console.log(userName + "===" + userId + "====" + idNo);
         window.location.href = addPersonUrl + params;
     }
@@ -113,7 +115,8 @@
         var userId = jsonData.id;
         var idNo = jsonData.idNo;
         var isAuth = jsonData.isAuth
-        var params = "?index=person&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo + "&isAuth=" + isAuth;
+        var phone = jsonData.phone
+        var params = "?index=person&userName=" + userName + "&userId=" + userId + "&idNo=" + idNo + "&isAuth=" + isAuth+"&phone="+phone;
         console.log(userName + "===" + userId + "====" + idNo);
         window.location.href = addPersonUrl + params;
     }

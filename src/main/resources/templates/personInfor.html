@@ -32,7 +32,7 @@
     <div class="weui-media-box__bd">
         <div><font  style="margin-left: 30px">姓名</font><font id="name" style="margin-left: 15px"> </font></div>
         <div><font style="margin-left: 30px">住址</font><font id="building" style="margin-left: 15px"> </font></div>
-        <div><font>户主电话</font><font id="phone" style="margin-left: 15px"> </font></div>
+        <div><font>住户电话</font><font id="phone" style="margin-left: 15px"> </font></div>
     </div>
 </a>
         <div >
@@ -67,6 +67,7 @@
 <script src="js/myUtil.js"></script>
 </body>
 <script>
+
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: '[[${config.appid}]]', // 必填，公众号的唯一标识
@@ -87,6 +88,7 @@
         console.log(res);
     });
     $(function(){
+        findareaId();
         // jssdkScan();
         $("input,select,textarea").blur(function(){
             setTimeout(() => {
@@ -95,7 +97,7 @@
         }, 100);
             //解决表单控件不能回弹 只有微信ios有这个问题
         })
-        // setTimeout(function(){jssdkScan();},800);
+        findareaId();
 
     });
     function quit(){
@@ -168,16 +170,16 @@
             data: { opreId: getCookie("userId"),
                 // idStr:result,
                 idStr:idStr,
-                type:inOut
+                type:inOut,
+                areaId:getCookie("areaId"),
             },
             success: function (result) {
-                console.log(result);
                 $(obj).removeClass("weui-btn_loading");
                 var list = result.data
                 if(result.code == 200){
                     $.toptip("放行成功！","success");
                 }else{
-                    $.toptip("放行失败，系统错误！");
+                    $.toptip(result.message);
                 }
             }
         })
@@ -188,6 +190,26 @@
         n.src = url;
         n.play();
     }
+    //查找管理员的小区
+    function findareaId(){
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/user/findUserArea",
+            data: { openId: getCookie("openId")
+            },
+            success: function (result) {
+                console.log(result);
+                var data = result.data;
+
+                if(result.code == 200){
+                    setCookie("areaId",data.ext1);
+                }else{
+                    quit();
+                }
+            }
+        })
+    };
 </script>
 
 

@@ -53,7 +53,7 @@
 <script src="js/myUtil.js"></script>
 <script>
     $(function () {
-        if(!isLogin()){
+        if(!isLogin("areaInfor")){
             FastClick.attach(document.body);
             if(getCookie("family") !="T" && getCookie("hourse") !="T"){
                 window.location.href=familyIndexUrl

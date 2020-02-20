@@ -31,7 +31,18 @@
             setCookie('hourse', '[[${hourse}]]', 365);
             setCookie('areaId', '[[${areaId}]]', 365);
             $.toptip("验证成功", 'success');
-           history.back(-2);
+            if ("qrcode"=='[[${state}]]'){
+                window.location.href=qrcodeUrl;
+            }else if("adminInfor"=='[[${state}]]'){
+                window.location.href=adminInforUrl;
+            }else if("areaInfor"=='[[${state}]]'){
+                window.location.href=areaInforUrl;
+            }else if("familyIndex"=='[[${state}]]'){
+                window.location.href=familyIndexUrl;
+            }else if("download"=='[[${state}]]'){
+                window.location.href=downloadUrl;
+            }
+
         })
 
     </script>
