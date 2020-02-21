@@ -122,7 +122,7 @@
 
   <!-- 查看小区下用户得所有家庭对应得楼栋 -->
   <select id="findByAreaId" resultMap="myResultMap" parameterType="Long">
-  select hu.*,house.*,hu.name building_name,house.id hid from h_area ha
+  select DISTINCT  house.num,hu.name building_name,house.id hid from h_area ha
   LEFT JOIN h_building hu on ha.id = hu.area_id
   LEFT JOIN h_hourse house on hu.id = house.building_id
   LEFT JOIN h_family hf on house.id = hf.house_id

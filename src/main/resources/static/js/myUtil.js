@@ -7,7 +7,7 @@ if (IS_DEVELOP) {//生产环境
     url = "http://" + uri + "/";
 } else {
     appId = "wx2a1951f46acc4371";
-    uri = "2h29ip.natappfree.cc/";
+    uri = "xw287f.natappfree.cc/";
     url = "http://" + uri + "/";
 }
 

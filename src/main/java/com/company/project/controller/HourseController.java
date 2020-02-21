@@ -92,18 +92,14 @@ public class HourseController {
         boolean flag = false;
         String isAuth = "F";
         if(list!=null) {
-        	for(Hourse h:list) {
-            	if(h.getFamily()!=null) {
-            		if(!h.getFamily().getIsJoin().equals("")&&h.getFamily().getIsJoin()!=null) {
-            			if(h.getFamily().getHouseId()==h.getId()&&h.getFamily().getIsJoin().equals("T")) {
-            				 if (h.getBuildingId().equals(houseaddr) && h.getNum().equals(paltaddr)) {
-            					 return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
-            				 }
-                    	}
-            		}
-            	}
-            }
             for(Hourse h:list) {
+                if(h.getFamily()!=null&&!"".equals(h.getFamily().getIsJoin()) &&h.getFamily().getIsJoin()!=null) {
+                    if(h.getId().equals(h.getFamily().getHouseId()) &&"T".equals(h.getFamily().getIsJoin())) {
+                        if (h.getBuildingId().equals(houseaddr) && h.getNum().equals(paltaddr)) {
+                            return ResultGenerator.genFailResult("该户主已经认证过这栋房子");
+                        }
+                    }
+                }
                 //楼栋的id以及楼栋
                 if (h.getBuildingId().equals(houseaddr) && h.getNum().equals(paltaddr)) {
                     Hourse hourse = new Hourse();

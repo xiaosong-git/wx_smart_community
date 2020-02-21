@@ -88,6 +88,7 @@ public class AreaController {
     @PostMapping("/findByAreaId")
     public Result findByAreaId(@RequestParam() Long userId, @RequestParam() Long areaId) {
         List<Area> list = areaService.findByAreaId(userId, areaId);
+
         return ResultGenerator.genSuccessResult(list);
     }
 
