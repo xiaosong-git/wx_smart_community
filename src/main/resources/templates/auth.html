@@ -133,7 +133,7 @@
                     success: function (res) {
 
                         var serverId = res.serverId; // 返回图片的服务器端ID
-                        $.toptip("检测人脸中！","success");
+                        // $.toptip("检测人脸中！","success");
                         $.ajax({
                             //请求方式
                             type : "POST",
@@ -153,7 +153,7 @@
                                 if (result.code==400){
                                     $.toptip(result.message);
                                 }else {
-                                    $.toptip("人脸识别成功","success");
+                                    // $.toptip("人脸识别成功","success");
                                     //图片服务器中的图片地址
                                     // $("#uploaderFiles").val
 
@@ -221,8 +221,12 @@
                             // window.history.back();
                             // alert(getCookie("userId"));
                             // alert("认证成功！");
-                            window.location.href = qrcodeUrl;
-                            // quit();
+                            if (data.isManage!=0||data.isManage!=10) {
+                                window.location.href = qrcodeUrl;
+                            }else{
+
+                                quit();
+                            }
                         }
                     },
                     error:function (e) {

@@ -60,7 +60,21 @@ public class ThymeleafController {
 
             return "login";
         }
-
+//    @RequestMapping(value = "/authMenu",method= RequestMethod.GET)
+//    public String login(@RequestParam(name="code",required=false) String code,
+//                        @RequestParam(name="state",defaultValue = "0" ) String state,Model model) throws WxErrorException {
+//        model.addAttribute("state", state);
+//        WxOAuth2AccessTokenResult wxOAuth2AccessTokenResult = iService.oauth2ToGetAccessToken(code);
+//        //获取微信登入的openid
+//        WxUserList.WxUser.WxUserGet wxUser=new WxUserList.WxUser.WxUserGet();
+//        wxUser.setOpenid(wxOAuth2AccessTokenResult.getOpenid());
+//        wxUser.setLang("zh_CN");
+//        WxUserList.WxUser wxUser1 = iService.oauth2ToGetUserInfo(wxOAuth2AccessTokenResult.getAccess_token(), wxUser);
+//        userService.getUser(model,wxUser1.getOpenid());
+//        model.addAttribute("openId",wxUser1.getOpenid());
+//
+//        return "login";
+//    }
 
     @RequestMapping(value = "/bindphone",method= RequestMethod.GET)
     public String bindphone() {
