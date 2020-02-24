@@ -208,5 +208,27 @@ public class ThymeleafController {
 
         return "auth";
     }
+    @RequestMapping(value = "/auth2", method = RequestMethod.GET)
+    public String auth2(Model model) {
+        List<String> jsApiList = new ArrayList<>();
+        //需要用到哪些JS SDK API 就设置哪些
+        jsApiList.add("chooseImage");//拍照或从手机相册中选图接口
+        jsApiList.add("onMenuShareQZone");//获取“分享到QQ空间”按钮点击状态及自定义分享内容接口
+        jsApiList.add("previewImage");//预览图片接口
+        jsApiList.add("uploadImage");//上传图片接口
+        jsApiList.add("downloadImage");//下载图片接口
+        logger.info("已进入auth界面");
+        try {
+            //把config返回到前端进行js调用即可。
+            WxJsapiConfig config = iService.createJsapiConfig(MenuKey.URL + "auth2", jsApiList);
+            config.setAppid(WxConfig.getInstance().getAppId());
+            System.out.println(config.getNoncestr());
+            model.addAttribute("config", config);
+            logger.info("进入设置权限");
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
 
+        return "auth2";
+    }
 }

@@ -102,7 +102,7 @@
     });
 
     $(function(){
-        if(!isLogin("auth")){
+        if(!isLogin("auth2")){
         getAuthInfo();
         //解决表单控件不能回弹 只有微信ios有这个问题
         $("input,select,textarea").blur(function(){
@@ -212,20 +212,17 @@
                             $.hideLoading();
                         }else {
                             $.hideLoading();
-                            $.toptip("认证成功！",'success');
-
                             var data = result.data;
                             setCookie("userId",data.userId);
                             setCookie("isAuth",data.isAuth);
-                            window.location.href = qrcodeUrl;
-                            // alert(data.userId);
-                            // alert(getCookie("isAuth"));
-                            // window.history.back();
-                            // alert(getCookie("userId"));
-                            // alert("认证成功！");
+                                $.toast("认证成功，即将关闭");
+                                    //点击确认后的回调函数
+                                setTimeout(function(){ quit();},1500);
+                            }
 
 
-                        }
+
+
                     },
                     error:function (e) {
                         $.toptip("网络错误!");
@@ -268,7 +265,6 @@
                     alert("认证成功！");
                     // alert(getCookie("isAuth"));
                     // window.history.back();
-                    window.location.href = qrcodeUrl;
                     // quit();
                 }
             },
@@ -295,20 +291,14 @@
                if(result.code==200){
                    if (result.data.isAuth=="T"){
                        setCookie("isAuth","T",365);
-                       $.toptip("您已经实名！","success");
-                       window.location.href = qrcodeUrl;
+                       $.toast("您已实名，页面即将关闭");
+                       //点击确认后的回调函数
+                       setTimeout(function(){ quit();},1500);
                    }
                    document.getElementById("realName").value=result.data.name;
                    document.getElementById("idNo").value=result.data.idNo;
                    document.getElementById("phone").value=result.data.phone;
-                   // console.log(result.data.isManager);
-                   // console.log(result.data.isManager==0||result.data.isManager==10);
-                   // console.log(result.data.isManager!=0&&result.data.isManager!=10);
-                   // console.log(result.data.isManager=="0"||result.data.isManager=="10");
-                   // console.log(result.data.isManager!="0"&&result.data.isManager!="10");
-                   //  if (result.data.isManager==0||result.data.isManager==10){
-                   //    alert("test");
-                   //  }
+
                }
 
             }

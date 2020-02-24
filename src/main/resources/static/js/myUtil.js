@@ -7,7 +7,7 @@ if (IS_DEVELOP) {//生产环境
     url = "http://" + uri + "/";
 } else {
     appId = "wx2a1951f46acc4371";
-    uri = "xw287f.natappfree.cc/";
+    uri = "9f44zu.natappfree.cc/";
     url = "http://" + uri + "/";
 }
 
@@ -27,6 +27,7 @@ var areaInforUrl = url + suffix + "areaInfor";
 var secondRecordUrl = url + suffix + "secondrecord";
 
 var authUrl = url + suffix + "auth";
+var auth2Url = url + suffix + "auth2";
 var qrcodeUrl = url + suffix + "qrcode";
 var verifyFamily1Url = url + suffix + "verifyFamily1";
 var verifyFamily2Url = url + suffix + "verifyFamily2";
@@ -64,6 +65,7 @@ function getCookie(c_name) {
 
 function isLogin(state) {
     console.log(getCookie('openId'));
+    console.log(state);
     if (getCookie('openId') == "") {
         window.location.href = getLoginUrl(state);
         return true;
@@ -97,6 +99,14 @@ function isEmpty(v) {
 
 function checkPhone() {
     var tel = $('#phone').val();
+    if(isEmpty(tel)){
+        $.toptip('请输入手机号');
+        return false;
+    }
+    if(tel.length!=11){
+        $.toptip('手机号输入位数错误，请检查');
+        return false;
+    }
     if (!tel || !/1[3|4|5|7|8]\d{9}/.test(tel)) {
         $.toptip('手机号输入错误，请检查');
         return false;
@@ -118,6 +128,14 @@ function checkPhone() {
 function checkIdNo() {
     var id = $("#idNo").val();
     // 1 "验证通过!", 0 //校验不通过
+    if(isEmpty(id)){
+        $.toptip('请输入身份证');
+        return false;
+    }
+    if(id.length!=18&&id.length!=15){
+        $.toptip('身份证输入位数错误，请检查');
+        return false;
+    }
     var format = /^(([1][1-5])|([2][1-3])|([3][1-7])|([4][1-6])|([5][0-4])|([6][1-5])|([7][1])|([8][1-2]))\d{4}(([1][9]\d{2})|([2]\d{3}))(([0][1-9])|([1][0-2]))(([0][1-9])|([1-2][0-9])|([3][0-1]))\d{3}[0-9xX]$/;
     //号码规则校验
     if (!format.test(id)) {

@@ -116,7 +116,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
                 Map<String, Object> resultMap = new HashMap<String, Object>();
                 resultMap.put("isAuth", "T");
                 resultMap.put("userId", verifyUser.getId());
-                resultMap.put("isManege", verifyUser.getIsManager());
+                logger.info(verifyUser.getIsManager());
+                resultMap.put("isManage", verifyUser.getIsManager());
                 return ResultGenerator.genSuccessResult(resultMap);
             }
             return ResultGenerator.genFailResult("实名认证失败", "fail");

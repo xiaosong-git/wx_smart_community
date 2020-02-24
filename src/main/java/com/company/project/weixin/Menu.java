@@ -88,7 +88,11 @@ public class Menu {
         btn3_2.setName("我的家庭");
         btn3_2.setUrl(URL+MenuKey.FAMILY);
         btn3_2.setType(WxConsts.MENU_BUTTON_VIEW);
-        subList3.addAll(Arrays.asList(btn3_1,btn3_2));
+        WxMenu.WxMenuButton btn_3_3 = new WxMenu.WxMenuButton();
+        btn_3_3.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn_3_3.setName("实人认证");
+        btn_3_3.setUrl(URL+"auth2");
+        subList3.addAll(Arrays.asList(btn3_1,btn3_2,btn_3_3));
         btn3.setSub_button(subList3);
         btnList.add(btn2);
         btnList.add(btn3);
@@ -229,7 +233,7 @@ public class Menu {
         initManageMenu();
         initMatchruleMenu();
         checkMenu();
-        pushToTags();
+//        pushToTags();
 //        check();
 //        int tags = getTags();
 //        System.out.println(tags);
