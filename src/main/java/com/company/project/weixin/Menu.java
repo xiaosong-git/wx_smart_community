@@ -211,7 +211,7 @@ public class Menu {
         wxUserListResult.getData();
 
     }
-    //将用户加入标签
+    //查看用户菜单
     public static void checkMenu() throws WxErrorException {
         IService iService = new WxService();
         try {
