@@ -48,5 +48,10 @@ public class AreaServiceImpl extends AbstractService<Area> implements AreaServic
 		return list;
 	}
 
+	@Override
+	public List<Area> findAllArea() {
+		return hAreaMapper.findAllArea();
+	}
+
 
 }

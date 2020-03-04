@@ -409,6 +409,8 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return ResultGenerator.genSuccessResult(user);
     }
 
+
+
     @Override
     public Result findStaff(String openId) {
         User user = hUserMapper.getUserOpenId(openId);

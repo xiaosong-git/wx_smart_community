@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.VisitorRecordMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.VisitorRecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="visit_date" jdbcType="VARCHAR" property="visitDate" />
+    <result column="visit_time" jdbcType="VARCHAR" property="visitTime" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="visitor_id" jdbcType="BIGINT" property="visitorId" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="cstatus" jdbcType="VARCHAR" property="cstatus" />
+    <result column="start_date" jdbcType="VARCHAR" property="startDate" />
+    <result column="end_date" jdbcType="VARCHAR" property="endDate" />
+    <result column="answer_content" jdbcType="VARCHAR" property="answerContent" />
+    <result column="area_id" jdbcType="VARCHAR" property="areaId" />
+    <result column="recordType" jdbcType="INTEGER" property="recordtype" />
+    <result column="reply_date" jdbcType="VARCHAR" property="replyDate" />
+    <result column="reply_time" jdbcType="VARCHAR" property="replyTime" />
+  </resultMap>
+</mapper>

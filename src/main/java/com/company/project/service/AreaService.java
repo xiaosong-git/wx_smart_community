@@ -18,5 +18,5 @@ public interface AreaService extends Service<Area> {
 	List<Area> findAreaById(Long userId);
 	List<Area> findByAreaId(Long userId, Long areaId);
 	List<Area> reports(Long areaId, String userName);
-
+	List<Area> findAllArea();
 }

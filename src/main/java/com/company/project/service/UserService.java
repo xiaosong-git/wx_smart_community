@@ -36,4 +36,5 @@ public interface UserService extends Service<User> {
     Result findByOpenId(String openId);
 
     Result findUserArea(String openId);
+
 }

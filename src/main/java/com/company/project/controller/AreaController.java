@@ -81,6 +81,14 @@ public class AreaController {
         List<Area> list = areaService.findAreaById(userId);
         return ResultGenerator.genSuccessResult(list);
     }
+    /*
+     * 查看表中所有小区
+     * */
+    @GetMapping("/getAllArea")
+    public Result getAllArea() {
+        List<Area> list = areaService.findAllArea();
+        return ResultGenerator.genSuccessResult(list);
+    }
 
     /*
      * 查看用户在某一个小区下的所有楼层信息

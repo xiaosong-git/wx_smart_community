@@ -39,7 +39,7 @@ public class CodeGenerator {
     private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());//@date
 
     public static void main(String[] args) {
-        genCode("h_staff");
+        genCode("h_visitor_record");
 //        genCode("输入表名");
         //genCodeByCustomModelName("输入表名","输入自定义Model名称");
     }
@@ -52,7 +52,7 @@ public class CodeGenerator {
     public static void genCode(String... tableNames) {
         for (String tableName : tableNames) {
             //修改表名
-            genCodeByCustomModelName(tableName, "Staff");
+            genCodeByCustomModelName(tableName, "VisitorRecord");
         }
     }
 

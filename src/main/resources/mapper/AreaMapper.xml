@@ -120,6 +120,8 @@
  where hf.user_id=#{userId} and hf.`status`='0'
   </select>
 
+
+
   <!-- 查看小区下用户得所有家庭对应得楼栋 -->
   <select id="findByAreaId" resultMap="myResultMap" parameterType="Long">
   select DISTINCT  house.num,hu.name building_name,house.id hid from h_area ha

@@ -161,6 +161,28 @@ public class ThymeleafController {
         return "addAdmin";
     }
 
+    @RequestMapping(value = "/visit",method= RequestMethod.GET)
+    public String visit() {
+        return "visit";
+    }
+
+    @RequestMapping(value = "/visitRecord",method= RequestMethod.GET)
+    public String visitRecord() {
+        return "visitRecord";
+    }
+    @RequestMapping(value = "/replyVisit",method= RequestMethod.GET)
+    public String replyVisit() {
+        return "replyVisit";
+    }
+
+    @RequestMapping(value = "/codeInfor",method= RequestMethod.GET)
+    public String codeInfor() {
+        return "codeInfor";
+    }
+    @RequestMapping(value = "/visitCode",method= RequestMethod.GET)
+    public String visitCode() {
+        return "visitCode";
+    }
     //扫一扫功能调用微信sdk
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
     public String personInfor(Model model) {
