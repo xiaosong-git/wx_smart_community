@@ -49,7 +49,7 @@
     <br>
     <br>
     <div class="weui-btn-area">
-        <a class="weui-btn weui-btn_default blue-btn" href="javascript:" id="btn" onclick="checkCode()">提交</a>
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript:" id="btn" onclick="visit()">提交</a>
     </div>
 
 
@@ -70,7 +70,6 @@
             type: "get",
             dataType: "json",
             contentType: "application/x-www-form-urlencoded",
-
             success: function(result) {
                 console.log(result)
                 $("#area option").remove();
@@ -82,6 +81,42 @@
                 $("#area").append(html); //渲染
             }
         });
+    }
+
+    function visit(){
+        var phone = $("#phone").val();
+        console.log(phone)
+        if(areaId == -1){
+            $.toptip("请输入所要访问的小区")
+            return;
+        }else if(isEmpty(phone)){
+            $.toptip("请输入受访人手机号码")
+            return;
+        }else if(!checkPhone()){
+            return;
+        }else{
+            $.ajax({
+                url: "visitor/record/visitRequest",
+                type: "post",
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded",
+                data: {
+                    userId:getCookie("userId"),
+                    areaId:areaId,
+                    phone:phone
+                },
+                success: function(result) {
+                    if(result.code == 200){
+                        $.toast("发起访问成功", 'success');
+                        alert("发起访问成功，对方同意后将在《朋克联盟》公众号提示，请注意查收！");
+                        location.reload();
+                    }else{
+                        $.toptip(result.message);
+                    }
+                }
+            });
+        }
+
     }
 
     $("#area").bind("change",function () {

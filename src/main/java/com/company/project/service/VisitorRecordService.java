@@ -6,6 +6,7 @@ import com.company.project.model.VisitorRecord;
 import com.company.project.core.Service;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -14,4 +15,8 @@ import java.util.List;
 public interface VisitorRecordService extends Service<VisitorRecord> {
 
     List<User> findByAreaidPhone(Long areaId, String phone);
+
+    List<Map<String,Object>> findApplying(Long userId);
+
+    int updateCstatus(Long recordId,String cstatus);
 }

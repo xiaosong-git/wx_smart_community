@@ -24,19 +24,27 @@
 
     <div class="weui-cell">
         <div class="weui-cell__hd">
-            <p>访客姓名： 张三</p>
+            <p>访客姓名： <font id="name"></font></p>
         </div>
 
     </div>
     <div class="weui-cell">
         <div class="weui-cell__hd">
-           <p>手机号码：18344981234</p>
+           <p>手机号码：<font id="phone"></font></p>
+        </div>
+    </div>
+    <div class="weui-cell" id="visitDateShow" style="display: none">
+        <div class="weui-cell__hd">
+            <p>访问时间：<font id="visitDate"></font></p>
         </div>
     </div>
     <br>
-    <div class="weui-btn-area">
-        <a class="weui-btn weui-btn_default blue-btn" href="javascript:" id="access" onclick="checkCode()" style="font-size: 16px">通过</a>
-        <a class="weui-btn weui-btn_warn" href="javascript:" id="define" onclick="checkCode()" style="font-size: 16px">拒绝</a>
+    <div class="weui-btn-area" id="applying" style="display: none">
+        <a class="weui-btn weui-btn_default blue-btn" href="javascript:" id="access" onclick="verify('applySuccess')" style="font-size: 16px">通过</a>
+        <a class="weui-btn weui-btn_warn" href="javascript:" id="define" onclick="verify('applyFail')" style="font-size: 16px">拒绝</a>
+    </div>
+    <div class="weui-btn-area" id="applied" style="display: none">
+        <a href="javascript:;" class="weui-btn weui-btn_disabled weui-btn_default">已审核</a>
     </div>
 
 
@@ -47,6 +55,53 @@
 <script src="js/myUtil.js"></script>
 <script>
 
+    var recordId;
+    $(function () {
+        recordId = getQueryString("recordId");
+        var name = unescape(getQueryString("name"));
+        var phone = getQueryString("phone");
+        document.getElementById("name").innerText=name;
+        document.getElementById("phone").innerText=phone;
+        var cstatus = getQueryString("cstatus");
+        if(cstatus == "applying"){
+            document.getElementById("applying").style.display='block';
+        }else{
+            var visitDate = getQueryString("visitDate");
+            document.getElementById("visitDateShow").style.display='block';
+            document.getElementById("applied").style.display='block';
+            document.getElementById("visitDate").innerText = visitDate;
+        }
+
+    })
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    function verify(str) {
+        $.ajax({
+            url: "visitor/record/replyRecord",
+            type: "get",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data:{
+                recordId:recordId,
+                cstatus:str
+            },
+            success: function(result) {
+                console.log(result)
+                $("#area option").remove();
+                var data = result.data;
+                var html = '<option value="">请选择</option>';
+                for (var e in data) {
+                    html += '<option value="' + data[e].id + '">' + data[e].areaName + '</option>'
+                }
+                $("#area").append(html); //渲染
+            }
+        });
+    }
 </script>
 </body>
 </html>

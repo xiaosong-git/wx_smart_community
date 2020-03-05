@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -29,5 +30,16 @@ public class VisitorRecordServiceImpl extends AbstractService<VisitorRecord> imp
         List<User> user = hVisitorRecordMapper.findByAreaIdPhone(areaId,phone);
 
         return user;
+    }
+
+    @Override
+    public List<Map<String,Object>> findApplying(Long userId) {
+
+        return hVisitorRecordMapper.findApplying(userId);
+    }
+
+    @Override
+    public int updateCstatus(Long recordId,String cstatus) {
+        return hVisitorRecordMapper.updateCstatus(recordId,cstatus);
     }
 }

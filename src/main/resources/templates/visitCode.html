@@ -35,21 +35,13 @@
 <script src="js/qrcode.js"></script>
 <script>
     $(function () {
-        createQRcode();
+        var recordId= getQueryString("recordId");
+        var index = "visit|"
+        createQRcode(index+recordId);
     })
 
-    // window.onpageshow = function (event) {
-    //     if (event.persisted) {
-    //         window.location.reload();
-    //     }
-    // };
-    function  change(){
-
-
-        setCookie("isAuth","F");
-    }
-    function createQRcode() {
-        var id = toUtf8("test");
+    function createQRcode(str) {
+        var id = toUtf8(str);
         var qrcode = jQuery("#qrcodeTable").qrcode({
 
             render: "canvas",                <!--二维码生成方式 -->
@@ -57,9 +49,15 @@
             width: "300",               //二维码的宽度
             height: "300",
         }).hide();
-        console.log(id);
         var canvas = qrcode.find('canvas').get(0);
         $('#imgOne').attr('src', canvas.toDataURL("image/png"));
+    }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
     }
 
     function toUtf8(str) {

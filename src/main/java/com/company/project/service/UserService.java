@@ -37,4 +37,5 @@ public interface UserService extends Service<User> {
 
     Result findUserArea(String openId);
 
+    List<Map<String,Object>> findVisitSuccess(Long userId);
 }

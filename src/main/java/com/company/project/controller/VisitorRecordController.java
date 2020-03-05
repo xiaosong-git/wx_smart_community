@@ -2,7 +2,6 @@ package com.company.project.controller;
 
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
-import com.company.project.model.Area;
 import com.company.project.model.User;
 import com.company.project.model.VisitorRecord;
 import com.company.project.service.UserService;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
 * Created by CodeGenerator on 2020/03/04.
@@ -62,6 +62,14 @@ public class VisitorRecordController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    /**
+     *  访问申请
+     *
+     * @param userId    发起者ID
+     * @param areaId    小区ID
+     * @param phone     对方手机号
+     * @return
+     */
     @PostMapping("/visitRequest")
         public Result visitRequest(Long userId,Long areaId,String phone) {
         User user = userService.findById(userId);
@@ -73,6 +81,9 @@ public class VisitorRecordController {
             return ResultGenerator.genFailResult("受访人信息错误，请核对后填写");
         }
         User visitor = visitors.get(0);
+        if(visitor.getId()==user.getId()){
+            return ResultGenerator.genFailResult("请不要对自己发起访问");
+        }
         String visitDate = DateUtil.getCurDate();
         String visitTime = DateUtil.getCurTime();
         VisitorRecord record = new VisitorRecord();
@@ -88,4 +99,38 @@ public class VisitorRecordController {
         visitorRecordService.save(record);
         return ResultGenerator.genSuccessResult("访问成功");
     }
+
+    /**
+     *  被访者的需要审核的记录
+     *
+     * @param visitorId 被访者ID
+     * @return
+     */
+    @PostMapping("/records")
+    public Result records(Long userId) {
+
+       List<Map<String,Object>>  list = visitorRecordService.findApplying(userId);
+        return ResultGenerator.genSuccessResult(list);
+    }
+
+    @PostMapping("/replyRecord")
+    public Result replyRecord(Long recordId,String cstatus) {
+        int result = visitorRecordService.updateCstatus(recordId,cstatus);
+        if(result == 1){
+            return ResultGenerator.genSuccessResult("审核成功");
+        }
+        return ResultGenerator.genFailResult("系统错误");
+    }
+
+    @PostMapping("/codeIndex")
+    public Result codeIndex(Long userId) {
+        List<Map<String,Object>>  list = userService.findVisitSuccess(userId);
+        return ResultGenerator.genSuccessResult(list);
+    }
+
+    @PostMapping("/test")
+    public Result test() {
+        return ResultGenerator.genSuccessResult();
+    }
+
 }

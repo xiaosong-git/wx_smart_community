@@ -7,7 +7,7 @@ if (IS_DEVELOP) {//生产环境
     url = "http://" + uri + "/";
 } else {
     appId = "wx73d294462904125c";
-    uri = "w537bs.natappfree.cc/";
+    uri = "8yjzns.natappfree.cc/";
     url = "http://" + uri + "/";
 }
 
@@ -41,6 +41,9 @@ var addAdminUrl = url + suffix + "addAdmin";
 var adminInforUrl = url + suffix + "adminInfor";
 var downloadUrl = url + suffix + "download";
 var reportUrl=url+suffix+"area/reports";
+
+var replyVisitUrl=url+suffix+"replyVisit";
+var visitCodeUrl=url+suffix+"visitCode";
 
 function setCookie(c_name, value, expiredays) {
     var exdate = new Date()

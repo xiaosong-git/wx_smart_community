@@ -24,6 +24,8 @@ public class TableList {
     public static final String USER = "h_user";
     //员工
     public static final String STAFF = "h_staff";
+    //访问记录
+    public static final String VISITRECORD = "h_visitor_record";
 
 
 

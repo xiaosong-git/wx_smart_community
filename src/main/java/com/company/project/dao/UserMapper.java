@@ -53,4 +53,6 @@ public interface UserMapper extends Mapper<User> {
     List<User> findStaff();
     @Select("select * from "+TableList.USER+" u left join "+TableList.STAFF+" s on u.id=s.user_id where u.phone=#{phone}  and u.name=#{name} and s.status<>'delete' limit 1")
     User findByStaff(String phone,String name);
+
+    List<Map<String,Object>> getUserInfo(Long userId);
 }

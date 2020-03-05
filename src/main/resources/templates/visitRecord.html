@@ -21,41 +21,109 @@
 
 <body ontouchstart>
 
-<div class="weui-cells weui-cells_form">
+<div class="content"
+     style="background-color: #FFFFFF; width: 100%;height:100%;position: absolute; margin-bottom:45px;padding:0px; overflow: hidden;">
+    <div class="list-main-mian weui-form-preview infinite weui-pull-to-refresh" id="listwrap"
+         style="height:100%; margin-top: 1px;overflow:auto;  z-index: 1">
+        <!--    内容展示区-->
+        <div id="bodydiv"></div>
+        <!--<div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" onclick="reply()">
+                    <div class="weui-media-box__bd">
+                        <h6 class="weui-media-box__title">访问申请</h6>
+                        <p class="weui-media-box__desc">2月27日  10:33</p>
+                        <br>
+                        <p class="weui-media-box__desc">访客姓名：   <font color="black">张三</font></p>
+                        <p class="weui-media-box__desc">手机号码：   <font color="black">18344981234</font></p>
+                    </div>
+                </a>
+            </div>
+            <div class="weui-panel__ft">
+                <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link" onclick="reply()">
+                    <div class="weui-cell__bd">查看更多</div>
+                    <span class="weui-cell__ft"></span>
+                </a>
+            </div>
+        </div>-->
 
-    <div class="weui-cell">
-        <div class="weui-cell__hd">
-            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
-                <div class="weui-media-box__bd">
-                    <h5 class="weui-media-box__title">访问申请</h5>
-                    <p class="weui-media-box__desc">2月27日  10:33</p>
-                    <p class="weui-media-box__desc"><font size="3">访客姓名：   张三</font></p>
-                    <p class="weui-media-box__desc"><font size="3">手机号码：   18065988645</font></p>
-                </div>
-            </a>
+        <div class="weui-loadmore" id="loading" style="padding-bottom:30px;height:20px;display: none">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+        <div class="weui-loadmore weui-loadmore_line" id="over" style="padding-bottom:30px;height:20px;display: none">
+            <span class="weui-loadmore__tips">没有更多数据了</span>
         </div>
     </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd">
-            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
-                <div class="weui-media-box__bd">
-                    <h5 class="weui-media-box__title">访问申请</h5>
-                    <p class="weui-media-box__desc">2月27日  10:33</p>
-                    <p class="weui-media-box__desc"><font size="3">访客姓名：   张三</font></p>
-                    <p class="weui-media-box__desc"><font size="3">手机号码：   18065988645</font></p>
-                </div>
-            </a>
-        </div>
-    </div>
-
-
 </div>
+
+
+
+
+
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
 
+    $(function () {
+
+        $.ajax({
+            url: "visitor/record/records",
+            type: "post",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+                userId:getCookie("userId"),
+            },
+            success: function(result) {
+                console.log(result)
+               if(result.code==200){
+                   $("#bodydiv").empty();
+                   var data = result.data
+                   for(var i in data){
+                       $("#bodydiv").append("<div class=\"weui-panel weui-panel_access\">\n" +
+                           "            <div class=\"weui-panel__bd\">\n" +
+                           "                <a href=\"javascript:void(0);\" class=\"weui-media-box weui-media-box_appmsg\" onclick=\"reply('"+encodeURI(JSON.stringify(data[i]))+"')\">\n" +
+                           "                    <div class=\"weui-media-box__bd\">\n" +
+                           "                        <h6 class=\"weui-media-box__title\">访问申请</h6>\n" +
+                           "                        <p class=\"weui-media-box__desc\">"+data[i].visit_date+"  "+data[i].visit_time+"</p>\n" +
+                           "                        <br>\n" +
+                           "                        <p class=\"weui-media-box__desc\">访客姓名：   <font color=\"black\">"+data[i].name+"</font></p>\n" +
+                           "                        <p class=\"weui-media-box__desc\">手机号码：   <font color=\"black\">"+data[i].phone+"</font></p>\n" +
+                           "                    </div>\n" +
+                           "                </a>\n" +
+                           "            </div>\n" +
+                           "            <div class=\"weui-panel__ft\">\n" +
+                           "                <a href=\"javascript:void(0);\" class=\"weui-cell weui-cell_access weui-cell_link\" onclick=\"reply('"+encodeURI(JSON.stringify(data[i]))+"')\">\n" +
+                           "                    <div class=\"weui-cell__bd\">查看更多</div>\n" +
+                           "                    <span class=\"weui-cell__ft\"></span>\n" +
+                           "                </a>\n" +
+                           "            </div>\n" +
+                           "        </div>")
+                   }
+
+               }
+
+            }
+        });
+    })
+
+    function reply(data) {
+
+       var dataList =  JSON.parse(decodeURI(data));
+        console.log(dataList)
+       var recordId = dataList.id;
+       var name = escape(dataList.name);
+       var phone = dataList.phone;
+       var cstatus = dataList.cstatus;
+       var visitDate =  dataList.visit_date;
+
+       var params = "?recordId="+recordId +"&name="+name+"&phone="+phone+"&cstatus="+cstatus+"&visitDate="+visitDate;
+       window.location.href = replyVisitUrl +params;
+
+    }
 </script>
 </body>
 </html>

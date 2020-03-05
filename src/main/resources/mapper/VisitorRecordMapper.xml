@@ -20,4 +20,13 @@
     <result column="reply_date" jdbcType="VARCHAR" property="replyDate" />
     <result column="reply_time" jdbcType="VARCHAR" property="replyTime" />
   </resultMap>
+
+  <select id="findApplying" parameterType="Long" resultType="map" >
+   select vr.*,u.name,u.phone
+   from h_visitor_record vr left join h_user u on vr.user_id=u.id
+   where vr.user_id = #{userId} or vr.visitor_id = #{userId}
+ORDER BY FIELD(cstatus,'Cancle','applySuccess','applyFail','applyConfirm') , vr.visit_date desc, vr.visit_time desc
+
+   </select>
+
 </mapper>
