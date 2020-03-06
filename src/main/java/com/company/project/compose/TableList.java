@@ -26,6 +26,8 @@ public class TableList {
     public static final String STAFF = "h_staff";
     //访问记录
     public static final String VISITRECORD = "h_visitor_record";
+    //进出记录
+    public static final String ACCESSRECORD = "h_access_record";
 
 
 

@@ -26,4 +26,10 @@ public interface VisitorRecordMapper extends Mapper<VisitorRecord> {
     int updateCstatus(Long recordId,String cstatus);
 
     List<Map<String,Object>> getUserInfo(Long visitorId);
+
+    @Select("select id from " + TableList.VISITRECORD +" where user_id = #{userId} and visitor_id = #{visitorId} " +
+            "and visit_date =#{visitDate} and visit_time =#{visitTime} limit 1")
+    Long findRecordId(Long userId,Long visitorId,String visitDate,String visitTime);
+
+    List<Map<String, Object>> findUserByRecordId(Long recordId);
 }

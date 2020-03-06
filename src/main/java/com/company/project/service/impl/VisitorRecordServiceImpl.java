@@ -42,4 +42,14 @@ public class VisitorRecordServiceImpl extends AbstractService<VisitorRecord> imp
     public int updateCstatus(Long recordId,String cstatus) {
         return hVisitorRecordMapper.updateCstatus(recordId,cstatus);
     }
+
+    @Override
+    public Long findRecordId(Long userId, Long visitorId, String visitDate, String visitTime) {
+        return hVisitorRecordMapper.findRecordId(userId,visitorId,visitDate,visitTime);
+    }
+
+    @Override
+    public List<Map<String, Object>> findUserByRecordId(Long recordId) {
+        return hVisitorRecordMapper.findUserByRecordId(recordId);
+    }
 }

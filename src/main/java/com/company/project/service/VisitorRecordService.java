@@ -19,4 +19,8 @@ public interface VisitorRecordService extends Service<VisitorRecord> {
     List<Map<String,Object>> findApplying(Long userId);
 
     int updateCstatus(Long recordId,String cstatus);
+
+    Long findRecordId(Long userId,Long visitorId,String visitDate,String visitTime);
+
+    List<Map<String,Object>> findUserByRecordId(Long recordId);
 }

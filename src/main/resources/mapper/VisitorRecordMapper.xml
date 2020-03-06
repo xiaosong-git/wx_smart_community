@@ -29,4 +29,11 @@ ORDER BY FIELD(cstatus,'Cancle','applySuccess','applyFail','applyConfirm') , vr.
 
    </select>
 
+  <select id="findUserByRecordId" parameterType="Long" resultType="map" >
+   select vr.*,u.name,u.phone
+   from h_visitor_record vr left join h_user u on vr.user_id=u.id
+   where vr.id=#{recordId}
+
+   </select>
+
 </mapper>

@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
     <style type="text/css">
         @import url("css/comon.css");
-        .blue-btn{
+
+        .blue-btn {
             background-color: #5cadff;
-            color:#fff;
+            color: #fff;
             /*width: 6px;*/
             /*height: 20px;*/
         }
@@ -22,31 +23,46 @@
 </head>
 
 <body ontouchstart>
-<div  style="margin-top: 15px;margin-left: 15px;margin-right:15px;display: none" id="badydiv">
+<div style="margin-top: 15px;margin-left: 15px;margin-right:15px;display: none" id="badydiv">
 
-<div><button class="blue-btn"></button><font> 通行人员信息</font></div>
-<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
-    <div class="weui-media-box__hd">
-        <img class="weui-media-box__thumb" id="img" src="images/user.png">
+
+    <div>
+        <div>
+            <button class="blue-btn"></button>
+            <font> 通行人员类型</font></div>
+        <div style="margin-top: 3%;margin-left: 6%"><font size="3">住户/员工</font></div>
     </div>
-    <div class="weui-media-box__bd">
-        <div><font  style="margin-left: 30px">姓名</font><font id="name" style="margin-left: 15px"> </font></div>
-        <div><font style="margin-left: 30px">住址</font><font id="building" style="margin-left: 15px"> </font></div>
-        <div><font>住户电话</font><font id="phone" style="margin-left: 15px"> </font></div>
+    <div style="margin-top: 15px;margin-left: 15px">
+        <div>
+            <button class="blue-btn"></button>
+            <font> 通行人员信息</font></div>
+        <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+            <div class="weui-media-box__hd">
+                <img class="weui-media-box__thumb" id="img" src="images/user.png">
+            </div>
+            <div class="weui-media-box__bd">
+                <div><font style="margin-left: 30px">姓名</font><font id="name" style="margin-left: 15px"> </font></div>
+                <div><font style="margin-left: 30px">住址</font><font id="building" style="margin-left: 15px"> </font>
+                </div>
+                <div><font>住户电话</font><font id="phone" style="margin-left: 15px"> </font></div>
+            </div>
+        </a>
     </div>
-</a>
-        <div >
-            <button class="blue-btn"></button><font> 通行许可</font>
-        </div>
-    <div  style="margin-top: 15px;margin-left: 15px">
+    <div>
+        <button class="blue-btn"></button>
+        <font> 通行许可</font>
+    </div>
+    <div style="margin-top: 15px;margin-left: 15px">
         <div style="margin-top: 15px;margin-left: 15px">
             <strong><font id="type" size="5" color=""></font></strong>
 
         </div>
     </div>
 
-    <div style="margin-top: 15px;" >
-        <div><button class="blue-btn"></button><font> 通行记录</font></div>
+    <div style="margin-top: 15px;">
+        <div>
+            <button class="blue-btn"></button>
+            <font> 通行记录</font></div>
         <div style="margin-top: 15px;margin-left: 15px">
             <div id="record"></div>
         </div>
@@ -58,29 +74,42 @@
     </div>
 </div>
 <!--访客二维码扫描后显示-->
-<div  style="margin-top: 15px;margin-left: 15px;margin-right:15px;display: block" id="visitInfo">
+<div style="margin-top: 15px;margin-left: 15px;margin-right:15px;display: none" id="visitInfo">
 
     <div>
-        <div><button class="blue-btn"></button><font> 通行人员类型</font></div>
+        <div>
+            <button class="blue-btn"></button>
+            <font> 通行人员类型</font></div>
         <div style="margin-top: 3%;margin-left: 6%"><font size="3">访客</font></div>
     </div>
-    <div style="margin-top: 15px;" >
-        <div><button class="blue-btn"></button><font> 通行人员信息</font></div>
+    <div style="margin-top: 15px;">
+        <div>
+            <button class="blue-btn"></button>
+            <font> 通行人员信息</font></div>
         <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
             <div class="weui-media-box__hd">
                 <img class="weui-media-box__thumb" id="picture" src="images/user.png">
             </div>
             <div class="weui-media-box__bd">
-                <div><font  style="margin-left: 58px">姓名</font><font id="visitName" style="margin-left: 15px"> </font></div>
-                <div><font style="margin-left: 30px">手机号码</font><font id="visitPhone" style="margin-left: 15px"> </font></div>
+                <div><font style="margin-left: 58px">姓名</font><font id="visitName" style="margin-left: 15px"> </font>
+                </div>
+                <div><font style="margin-left: 30px">手机号码</font><font id="visitPhone" style="margin-left: 15px"> </font>
+                </div>
             </div>
         </a>
     </div>
-    <div style="margin-top: 15px;" >
-        <div><button class="blue-btn"></button><font> 通行记录</font></div>
+    <div style="margin-top: 15px;">
+        <div>
+            <button class="blue-btn"></button>
+            <font> 通行记录</font></div>
         <div style="margin-top: 15px;margin-left: 15px">
             <div id="visitRecord"></div>
         </div>
+    </div>
+    <div class="weui-cells weui-cells_form">
+        <button class="weui-btn blue-btn" onclick="jssdkScan()">重新扫码</button>
+        <button class="weui-btn blue-btn" onclick="visitInOUT('in')" id="enter2">准入</button>
+        <button class="weui-btn blue-btn" onclick="visitInOUT('out')" id="leave2">通行</button>
     </div>
 </div>
 <div style="margin-top: 30%;margin-left: 15px;margin-right:15px;" id="scandiv">
@@ -97,7 +126,7 @@
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: '[[${config.appid}]]', // 必填，公众号的唯一标识
-        timestamp:'[[${config.timestamp}]]' , // 必填，生成签名的时间戳
+        timestamp: '[[${config.timestamp}]]', // 必填，生成签名的时间戳
         nonceStr: '[[${config.noncestr}]]', // 必填，生成签名的随机串
         signature: '[[${config.signature}]]',// 必填，签名
         jsApiList: ['[[${config.jsApiList[0]}]]'] // 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
@@ -110,26 +139,29 @@
             }
         });
     });
-    wx.error(function(res){
+    wx.error(function (res) {
         console.log(res);
     });
-    $(function(){
+    $(function () {
         findareaId();
         // jssdkScan();
-        $("input,select,textarea").blur(function(){
+        $("input,select,textarea").blur(function () {
             setTimeout(() => {
                 const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
-            window.scrollTo(0, Math.max(scrollHeight - 1, 0));
-        }, 100);
+                window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+            }, 100);
             //解决表单控件不能回弹 只有微信ios有这个问题
         })
         findareaId();
 
     });
-    function quit(){
+
+    function quit() {
         wx.closeWindow();
     }
+
     var idStr;
+
     function jssdkScan() {
         $(".record").remove();
         wx.scanQRCode({
@@ -137,10 +169,10 @@
             scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
             success: function (res) {
                 var result = res.resultStr;
-
-                if(result.split('|').length == 2){
-
-                }else{
+                idStr = result;
+                if (result.split('|').length == 2) {
+                    scanVisit(result);
+                } else {
                     scanUser(result);
                 }
 
@@ -154,43 +186,36 @@
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
-            url: "/community/record/scanning",
-            data: { opreWxId: getCookie("openId"),
-                idStr:result,
-                type:"in"
+            url: "access/record/allRecord",
+            data: {
+                result: result
             },
             success: function (result) {
                 console.log(result);
                 var list = result.data
-                document.getElementById('badydiv').style.display='block'
-                document.getElementById('scandiv').style.display='none'
-                if(result.code == 200){
-                    $('#img').attr('src', list.user.imgUrl);
-                    $('#name').html(list.user.name);
-                    $('#building').html(list.user.hourseNum);
-                    $('#phone').html(list.user.phone);
-                    document.getElementById('type').style.color ="#006400"
-                    $('#type').html("可通行");
-                    speckText("可通行")
-                    var records = list.records;
-                    for(var i in records){
-                        var turnover ="";
-                        if(records[i].type==="in"){
-                            turnover ="进入"
-                        }else{
-                            turnover ="离开"
-                        }
-                        $("#record").append("<div class='record'>"+records[i].passTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
-                    }
-                    document.getElementById('enter').style.display='block';
-                    document.getElementById('leave').style.display='block';
-                }else{
-                    $.toptip("该用户不属于此小区！");
-                    $('#type').html("不可通行");
-                    speckText("不可通行")
-                    document.getElementById('type').style.color ="#8b0000";
+                document.getElementById('badydiv').style.display = 'none'
+                document.getElementById('visitInfo').style.display = 'block'
+                document.getElementById('scandiv').style.display = 'none'
+                if (result.code == 200) {
+                    //$('#img').attr('src', list.user.imgUrl);
+                    $('#visitName').html(list[0].name);
+                    $('#visitPhone').html(list[0].phone);
+                    speckText("可通行");
 
-                    $.toptip(result.data.message);
+                    for (var i in list) {
+                        var turnover = "";
+                        if (list[i].turn_over == "in") {
+                            turnover = "进入"
+                        } else {
+                            turnover = "离开"
+                        }
+                        $("#visitRecord").append("<div class='record'>" + list[i].pass_date + " &nbsp;&nbsp;&nbsp;" + list[i].pass_time + " &nbsp;&nbsp;&nbsp;" + turnover + "</br></div>")
+                    }
+                    /* document.getElementById('enter').style.display='block';
+                     document.getElementById('leave').style.display='block';*/
+                } else {
+                    speckText(result.message)
+                    $.toptip(result.message);
                 }
             }
         })
@@ -201,41 +226,42 @@
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/record/scanning",
-            data: { opreWxId: getCookie("openId"),
-                idStr:result,
+            data: {
+                opreWxId: getCookie("openId"),
+                idStr: result,
                 // idStr:idStr,
-                type:"in"
+                type: "in"
             },
             success: function (result) {
                 console.log(result);
                 var list = result.data
-                document.getElementById('badydiv').style.display='block'
-                document.getElementById('scandiv').style.display='none'
-                if(result.code == 200){
+                document.getElementById('badydiv').style.display = 'block'
+                document.getElementById('scandiv').style.display = 'none'
+                if (result.code == 200) {
                     $('#img').attr('src', list.user.imgUrl);
                     $('#name').html(list.user.name);
                     $('#building').html(list.user.hourseNum);
                     $('#phone').html(list.user.phone);
-                    document.getElementById('type').style.color ="#006400"
+                    document.getElementById('type').style.color = "#006400"
                     $('#type').html("可通行");
                     speckText("可通行")
                     var records = list.records;
-                    for(var i in records){
-                        var turnover ="";
-                        if(records[i].type==="in"){
-                            turnover ="进入"
-                        }else{
-                            turnover ="离开"
+                    for (var i in records) {
+                        var turnover = "";
+                        if (records[i].type === "in") {
+                            turnover = "进入"
+                        } else {
+                            turnover = "离开"
                         }
-                        $("#record").append("<div class='record'>"+records[i].passTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
+                        $("#record").append("<div class='record'>" + records[i].passTime + " &nbsp;&nbsp;&nbsp;" + list.user.name + " &nbsp;&nbsp;&nbsp;" + turnover + "</br></div>")
                     }
-                    document.getElementById('enter').style.display='block';
-                    document.getElementById('leave').style.display='block';
-                }else{
+                    document.getElementById('enter').style.display = 'block';
+                    document.getElementById('leave').style.display = 'block';
+                } else {
                     $.toptip("该用户不属于此小区！");
                     $('#type').html("不可通行");
                     speckText("不可通行")
-                    document.getElementById('type').style.color ="#8b0000";
+                    document.getElementById('type').style.color = "#8b0000";
 
                     $.toptip(result.data.message);
                 }
@@ -243,50 +269,79 @@
         })
     }
 
-    function inOut(obj,inOut){
+    function inOut(obj, inOut) {
         $(obj).addClass("weui-btn_loading");
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/record/inOut",
-            data: { opreId: getCookie("userId"),
+            data: {
+                opreId: getCookie("userId"),
                 // idStr:result,
-                idStr:idStr,
-                type:inOut,
-                areaId:getCookie("areaId"),
+                idStr: idStr,
+                type: inOut,
+                areaId: getCookie("areaId"),
             },
             success: function (result) {
                 $(obj).removeClass("weui-btn_loading");
                 var list = result.data
-                if(result.code == 200){
-                    $.toptip("放行成功！","success");
-                }else{
+                if (result.code == 200) {
+                    $.toptip("放行成功！", "success");
+                } else {
                     $.toptip(result.message);
                 }
             }
         })
     };
-    function speckText(str){
+
+    function speckText(str) {
         var url = "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&text=" + encodeURI(str);        // baidu
         var n = new Audio(url);
         n.src = url;
         n.play();
     }
+
+    function visitInOUT(turnover) {
+        alert("result:" + idStr)
+        alert("managerId:" + getCookie("userId"))
+        alert("turnover:" + turnover)
+        alert("areaId:" + getCookie("areaId"))
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "access/record/accessArea",
+            data: {
+                managerId: getCookie("userId"),
+                result: idStr,
+                turnover: turnover,
+                areaId: getCookie("areaId"),
+            },
+            success: function (result) {
+                if (result.code == 200) {
+                    $.toptip("放行成功！", "success");
+                } else {
+                    $.toptip(result.message);
+                }
+            }
+        })
+    }
+
     //查找管理员的小区
-    function findareaId(){
+    function findareaId() {
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
             url: "/community/user/findUserArea",
-            data: { openId: getCookie("openId")
+            data: {
+                openId: getCookie("openId")
             },
             success: function (result) {
                 console.log(result);
                 var data = result.data;
 
-                if(result.code == 200){
-                    setCookie("areaId",data.ext1);
-                }else{
+                if (result.code == 200) {
+                    setCookie("areaId", data.ext1);
+                } else {
                     quit();
                 }
             }

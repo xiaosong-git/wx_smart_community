@@ -57,8 +57,11 @@ public class Menu {
     public static void setBtn(List<WxMenu.WxMenuButton> btnList){
         //按钮二
         WxMenu.WxMenuButton btn2 = new WxMenu.WxMenuButton();
-        btn2.setName("通行码");
+        /*btn2.setName("通行码");
         btn2.setUrl(URL+MenuKey.QRCODE);
+        btn2.setType(WxConsts.MENU_BUTTON_VIEW);*/
+        btn2.setName("访问");
+        btn2.setUrl(URL+MenuKey.VISIT);
         btn2.setType(WxConsts.MENU_BUTTON_VIEW);
         //按钮三
         WxMenu.WxMenuButton btn3=new WxMenu.WxMenuButton();
@@ -92,7 +95,18 @@ public class Menu {
         btn_3_3.setType(WxConsts.MENU_BUTTON_VIEW);
         btn_3_3.setName("实人认证");
         btn_3_3.setUrl(URL+"auth2");
-        subList3.addAll(Arrays.asList(btn3_1,btn3_2,btn_3_3));
+
+        WxMenu.WxMenuButton btn_3_4 = new WxMenu.WxMenuButton();
+        btn_3_4.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn_3_4.setName("通行码");
+        btn_3_4.setUrl(URL+MenuKey.QRCODE);
+
+        WxMenu.WxMenuButton btn_3_5 = new WxMenu.WxMenuButton();
+        btn_3_5.setType(WxConsts.MENU_BUTTON_VIEW);
+        btn_3_5.setName("访问码");
+        btn_3_5.setUrl(URL+MenuKey.VISITCODE);
+
+        subList3.addAll(Arrays.asList(btn_3_4,btn_3_5,btn3_1,btn3_2,btn_3_3));
         btn3.setSub_button(subList3);
         btnList.add(btn2);
         btnList.add(btn3);

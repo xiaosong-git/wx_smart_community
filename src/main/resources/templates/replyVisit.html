@@ -58,22 +58,45 @@
     var recordId;
     $(function () {
         recordId = getQueryString("recordId");
-        var name = unescape(getQueryString("name"));
-        var phone = getQueryString("phone");
-        document.getElementById("name").innerText=name;
-        document.getElementById("phone").innerText=phone;
-        var cstatus = getQueryString("cstatus");
-        if(cstatus == "applying"){
-            document.getElementById("applying").style.display='block';
-        }else{
-            var visitDate = getQueryString("visitDate");
-            document.getElementById("visitDateShow").style.display='block';
-            document.getElementById("applied").style.display='block';
-            document.getElementById("visitDate").innerText = visitDate;
-        }
+
+
+
+
+
+
+
 
     })
 
+    function getUserInfo() {
+        $.ajax({
+            url: "visitor/record/getUserByRecordId",
+            type: "get",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            data:{
+                recordId:recordId,
+            },
+            success: function(result) {
+                if(result.code==200){
+                    document.getElementById("name").innerText=result.data.name;
+                    document.getElementById("phone").innerText=result.data.phone;
+                    var cstatus = result.data.cstatus;
+                    if(cstatus == "applying"){
+                        document.getElementById("applying").style.display='block';
+                    }else{
+                        document.getElementById("visitDateShow").style.display='block';
+                        document.getElementById("applied").style.display='block';
+                        document.getElementById("visitDate").innerText = result.data.visit_date;
+                    }
+                }else{
+                    $.toptip(result.message)
+                }
+
+
+            }
+        });
+    }
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);

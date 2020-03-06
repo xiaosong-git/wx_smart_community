@@ -8,13 +8,27 @@ import com.company.project.service.UserService;
 import com.company.project.service.VisitorRecordService;
 import com.company.project.util.Base64;
 import com.company.project.util.DateUtil;
+import com.company.project.util.HttpUtil;
+import com.company.project.weixin.model.WxTemplateData;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.web.bind.annotation.*;
+import com.soecode.wxtools.api.IService;
+import com.soecode.wxtools.api.WxService;
+import com.soecode.wxtools.bean.TemplateSender;
+import com.soecode.wxtools.bean.result.TemplateSenderResult;
+import com.soecode.wxtools.exception.WxErrorException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.company.project.weixin.MenuKey.REPLYVISIT;
+import static com.company.project.weixin.MenuKey.URL;
 
 /**
 * Created by CodeGenerator on 2020/03/04.
@@ -24,6 +38,8 @@ import java.util.Map;
 public class VisitorRecordController {
     @Resource
     private VisitorRecordService visitorRecordService;
+
+    private IService iService = new WxService();
 
     @Resource
     private UserService userService;
@@ -69,7 +85,7 @@ public class VisitorRecordController {
      * @return
      */
     @PostMapping("/visitRequest")
-        public Result visitRequest(Long userId,Long areaId,String phone) {
+        public Result visitRequest(Long userId,Long areaId,String phone) throws WxErrorException {
         User user = userService.findById(userId);
         if(null == user){
             return ResultGenerator.genFailResult("系统错误");
@@ -92,9 +108,24 @@ public class VisitorRecordController {
         record.setCstatus("applying");
         record.setEndDate(visitDate);
         record.setStartDate(visitDate);
-        record.setAreaId(String.valueOf(areaId));
+        record.setAreaId(areaId);
         record.setRecordtype(1);
         visitorRecordService.save(record);
+        Long recordId = visitorRecordService.findRecordId(user.getId(),visitor.getId(),visitDate,visitTime);
+
+        //消息推送模板
+        TemplateSender sender = new TemplateSender();
+        sender.setTemplate_id("57PjJdcFKjWXIuxRY09KOun9MGpiVVeBCIZCcYMOUpE");
+        sender.setTouser(visitor.getWxOpenId());
+        Map<String, String> dataMap = new HashMap<>();
+        dataMap.put("userName",user.getName());
+        dataMap.put("phone",user.getPhone());
+
+        String params = "?recordId="+recordId;
+        sender.setUrl(URL+REPLYVISIT+params);
+        sender.setData(dataMap);
+        TemplateSenderResult result = iService.templateSend(sender);
+        System.out.println(result);
         return ResultGenerator.genSuccessResult("访问成功");
     }
 
@@ -136,10 +167,21 @@ public class VisitorRecordController {
         }
         return ResultGenerator.genFailResult("系统异常","");
     }
+    @PostMapping("/getUserByRecordId")
+    public Result getUserByRecordId(Long recordId) {
+        List<Map<String,Object>> list = visitorRecordService.findUserByRecordId(recordId);
+        if(list.size()>0){
+            return ResultGenerator.genSuccessResult(list);
+        }else{
+            return ResultGenerator.genFailResult("无数据");
+        }
+
+    }
 
     @PostMapping("/test")
-    public Result test() {
-        return ResultGenerator.genSuccessResult();
+    public Result test(Long recordId) throws Exception {
+        List<Map<String,Object>> list = visitorRecordService.findUserByRecordId(recordId);
+        return ResultGenerator.genSuccessResult(list);
     }
 
 }

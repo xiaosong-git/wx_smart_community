@@ -62,7 +62,15 @@
 
     var areaId = -1;
     $(function () {
-        getAllArea();
+        if(!isLogin("visit")){
+            FastClick.attach(document.body);
+            alert(getCookie("openId"))
+            if(getCookie("isAuth") !="T"){
+                window.location.href=authIndexUrl;
+            }else{
+                getAllArea();
+            }
+        }
     })
     function getAllArea() {
         $.ajax({

@@ -64,7 +64,7 @@ public class VisitorRecord {
      * 被访者小区编码
      */
     @Column(name = "area_id")
-    private String areaId;
+    private Long areaId;
 
     /**
      * 1--访问，2--邀约
@@ -265,7 +265,7 @@ public class VisitorRecord {
      *
      * @return area_id - 被访者小区编码
      */
-    public String getAreaId() {
+    public Long getAreaId() {
         return areaId;
     }
 
@@ -274,7 +274,7 @@ public class VisitorRecord {
      *
      * @param areaId 被访者小区编码
      */
-    public void setAreaId(String areaId) {
+    public void setAreaId(Long areaId) {
         this.areaId = areaId;
     }
 

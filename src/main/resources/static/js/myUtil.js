@@ -7,7 +7,7 @@ if (IS_DEVELOP) {//生产环境
     url = "http://" + uri + "/";
 } else {
     appId = "wx73d294462904125c";
-    uri = "bu37x5.natappfree.cc/";
+    uri = "t5jzfz.natappfree.cc/";
     url = "http://" + uri + "/";
 }
 
@@ -42,8 +42,11 @@ var adminInforUrl = url + suffix + "adminInfor";
 var downloadUrl = url + suffix + "download";
 var reportUrl=url+suffix+"area/reports";
 
+var visitUrl=url+suffix+"visit";
 var replyVisitUrl=url+suffix+"replyVisit";
 var visitCodeUrl=url+suffix+"visitCode";
+var authIndexUrl=url+suffix+"authIndex";
+var codeInforUrl=url+suffix+"codeInfor";
 
 function setCookie(c_name, value, expiredays) {
     var exdate = new Date()
