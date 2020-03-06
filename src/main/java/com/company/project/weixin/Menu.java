@@ -198,7 +198,7 @@ public class Menu {
     public static void pushToTags() throws WxErrorException {
         IService iService = new WxService();
         List<String> openIds=new LinkedList<>();
-        openIds.add("oFw0JwGlkNWM9DByJR8C76hSgYuc");
+        openIds.add("oP0I70UR9Bw-FlqggzQjjDWWukNE");
         WxError wxError = iService.batchMovingUserToNewTag(openIds, 100);
 
     }
@@ -233,7 +233,7 @@ public class Menu {
         initManageMenu();
         initMatchruleMenu();
         checkMenu();
-//        pushToTags();
+        pushToTags();
 //        check();
 //        int tags = getTags();
 //        System.out.println(tags);

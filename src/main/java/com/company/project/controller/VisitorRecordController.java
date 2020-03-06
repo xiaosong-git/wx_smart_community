@@ -6,13 +6,11 @@ import com.company.project.model.User;
 import com.company.project.model.VisitorRecord;
 import com.company.project.service.UserService;
 import com.company.project.service.VisitorRecordService;
+import com.company.project.util.Base64;
 import com.company.project.util.DateUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -103,7 +101,7 @@ public class VisitorRecordController {
     /**
      *  被访者的需要审核的记录
      *
-     * @param visitorId 被访者ID
+     * @param userId
      * @return
      */
     @PostMapping("/records")
@@ -126,6 +124,17 @@ public class VisitorRecordController {
     public Result codeIndex(Long userId) {
         List<Map<String,Object>>  list = userService.findVisitSuccess(userId);
         return ResultGenerator.genSuccessResult(list);
+    }
+
+    @PostMapping("/createVisitCode")
+    public Result createVisitCode(String recordId){
+        try {
+            String encode = Base64.encode(recordId.getBytes("UTF-8"));
+            return ResultGenerator.genSuccessResult(encode);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("系统异常","");
     }
 
     @PostMapping("/test")

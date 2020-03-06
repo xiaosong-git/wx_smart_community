@@ -36,21 +36,34 @@
 <script>
     $(function () {
         var recordId= getQueryString("recordId");
-        var index = "visit|"
-        createQRcode(index+recordId);
+
+        createQRcode(recordId);
     })
 
     function createQRcode(str) {
-        var id = toUtf8(str);
-        var qrcode = jQuery("#qrcodeTable").qrcode({
 
-            render: "canvas",                <!--二维码生成方式 -->
-            text: id,            <!-- 二维码内容  -->
-            width: "300",               //二维码的宽度
-            height: "300",
-        }).hide();
-        var canvas = qrcode.find('canvas').get(0);
-        $('#imgOne').attr('src', canvas.toDataURL("image/png"));
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "visitor/record/createVisitCode",
+            data: { recordId: str },
+            success: function (result) {
+                if (result.code == 200) {
+                    var id = toUtf8(result.data) + "|1";
+                    var qrcode = jQuery("#qrcodeTable").qrcode({
+                        render: "canvas",                <!--二维码生成方式 -->
+                        text: id,            <!-- 二维码内容  -->
+                        width: "300",               //二维码的宽度
+                        height: "300",
+                    }).hide();
+                    console.log(id);
+                    var canvas = qrcode.find('canvas').get(0);
+                    $('#imgOne').attr('src', canvas.toDataURL("image/png"));
+                } else {
+                    $.toptip(result.message);
+                }
+            }
+        })
     }
 
     function getQueryString(name) {

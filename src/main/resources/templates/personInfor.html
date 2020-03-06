@@ -57,6 +57,32 @@
         <button class="weui-btn blue-btn" onclick="inOut(this,'out')" id="leave" style="display: none">通行</button>
     </div>
 </div>
+<!--访客二维码扫描后显示-->
+<div  style="margin-top: 15px;margin-left: 15px;margin-right:15px;display: block" id="visitInfo">
+
+    <div>
+        <div><button class="blue-btn"></button><font> 通行人员类型</font></div>
+        <div style="margin-top: 3%;margin-left: 6%"><font size="3">访客</font></div>
+    </div>
+    <div style="margin-top: 15px;" >
+        <div><button class="blue-btn"></button><font> 通行人员信息</font></div>
+        <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+            <div class="weui-media-box__hd">
+                <img class="weui-media-box__thumb" id="picture" src="images/user.png">
+            </div>
+            <div class="weui-media-box__bd">
+                <div><font  style="margin-left: 58px">姓名</font><font id="visitName" style="margin-left: 15px"> </font></div>
+                <div><font style="margin-left: 30px">手机号码</font><font id="visitPhone" style="margin-left: 15px"> </font></div>
+            </div>
+        </a>
+    </div>
+    <div style="margin-top: 15px;" >
+        <div><button class="blue-btn"></button><font> 通行记录</font></div>
+        <div style="margin-top: 15px;margin-left: 15px">
+            <div id="visitRecord"></div>
+        </div>
+    </div>
+</div>
 <div style="margin-top: 30%;margin-left: 15px;margin-right:15px;" id="scandiv">
     <button class="weui-btn blue-btn" onclick="jssdkScan()">扫一扫</button>
 </div>
@@ -111,56 +137,112 @@
             scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
             success: function (res) {
                 var result = res.resultStr;
-                idStr=result;
-                $.ajax({
-                    type: 'POST',
-                    contentType: "application/x-www-form-urlencoded",
-                    url: "/community/record/scanning",
-                    data: { opreWxId: getCookie("openId"),
-                        idStr:result,
-                        // idStr:idStr,
-                        type:"in"
-                    },
-                    success: function (result) {
 
-                        console.log(result);
-                        var list = result.data
-                        document.getElementById('badydiv').style.display='block'
-                        document.getElementById('scandiv').style.display='none'
-                        if(result.code == 200){
-                            $('#img').attr('src', list.user.imgUrl);
-                            $('#name').html(list.user.name);
-                            $('#building').html(list.user.hourseNum);
-                            $('#phone').html(list.user.phone);
-                            document.getElementById('type').style.color ="#006400"
-                            $('#type').html("可通行");
-                            speckText("可通行")
-                            var records = list.records;
-                            for(var i in records){
-                                var turnover ="";
-                                if(records[i].type==="in"){
-                                    turnover ="进入"
-                                }else{
-                                    turnover ="离开"
-                                }
-                                $("#record").append("<div class='record'>"+records[i].passTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
-                            }
-                            document.getElementById('enter').style.display='block';
-                            document.getElementById('leave').style.display='block';
-                        }else{
-                            $.toptip("该用户不属于此小区！");
-                            $('#type').html("不可通行");
-                            speckText("不可通行")
-                            document.getElementById('type').style.color ="#8b0000";
+                if(result.split('|').length == 2){
 
-                            $.toptip(result.data.message);
-                        }
-                    }
-                })
+                }else{
+                    scanUser(result);
+                }
+
+                /**/
                 // 当needResult 为 1 时，扫码返回的结果
             }
         });
     }
+
+    function scanVisit(result) {
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/record/scanning",
+            data: { opreWxId: getCookie("openId"),
+                idStr:result,
+                type:"in"
+            },
+            success: function (result) {
+                console.log(result);
+                var list = result.data
+                document.getElementById('badydiv').style.display='block'
+                document.getElementById('scandiv').style.display='none'
+                if(result.code == 200){
+                    $('#img').attr('src', list.user.imgUrl);
+                    $('#name').html(list.user.name);
+                    $('#building').html(list.user.hourseNum);
+                    $('#phone').html(list.user.phone);
+                    document.getElementById('type').style.color ="#006400"
+                    $('#type').html("可通行");
+                    speckText("可通行")
+                    var records = list.records;
+                    for(var i in records){
+                        var turnover ="";
+                        if(records[i].type==="in"){
+                            turnover ="进入"
+                        }else{
+                            turnover ="离开"
+                        }
+                        $("#record").append("<div class='record'>"+records[i].passTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
+                    }
+                    document.getElementById('enter').style.display='block';
+                    document.getElementById('leave').style.display='block';
+                }else{
+                    $.toptip("该用户不属于此小区！");
+                    $('#type').html("不可通行");
+                    speckText("不可通行")
+                    document.getElementById('type').style.color ="#8b0000";
+
+                    $.toptip(result.data.message);
+                }
+            }
+        })
+    }
+
+    function scanUser(result) {
+        $.ajax({
+            type: 'POST',
+            contentType: "application/x-www-form-urlencoded",
+            url: "/community/record/scanning",
+            data: { opreWxId: getCookie("openId"),
+                idStr:result,
+                // idStr:idStr,
+                type:"in"
+            },
+            success: function (result) {
+                console.log(result);
+                var list = result.data
+                document.getElementById('badydiv').style.display='block'
+                document.getElementById('scandiv').style.display='none'
+                if(result.code == 200){
+                    $('#img').attr('src', list.user.imgUrl);
+                    $('#name').html(list.user.name);
+                    $('#building').html(list.user.hourseNum);
+                    $('#phone').html(list.user.phone);
+                    document.getElementById('type').style.color ="#006400"
+                    $('#type').html("可通行");
+                    speckText("可通行")
+                    var records = list.records;
+                    for(var i in records){
+                        var turnover ="";
+                        if(records[i].type==="in"){
+                            turnover ="进入"
+                        }else{
+                            turnover ="离开"
+                        }
+                        $("#record").append("<div class='record'>"+records[i].passTime+" &nbsp;&nbsp;&nbsp;"+list.user.name+" &nbsp;&nbsp;&nbsp;"+turnover+"</br></div>")
+                    }
+                    document.getElementById('enter').style.display='block';
+                    document.getElementById('leave').style.display='block';
+                }else{
+                    $.toptip("该用户不属于此小区！");
+                    $('#type').html("不可通行");
+                    speckText("不可通行")
+                    document.getElementById('type').style.color ="#8b0000";
+
+                    $.toptip(result.data.message);
+                }
+            }
+        })
+    }
+
     function inOut(obj,inOut){
         $(obj).addClass("weui-btn_loading");
         $.ajax({
