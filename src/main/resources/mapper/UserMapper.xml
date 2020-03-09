@@ -109,7 +109,7 @@ where f.user_id=#{userId}
     </select>
     <select id="findFamilyUser" parameterType="Long" resultMap="myResultMap" >
     select *,u.id uid ,if(u.id=h.user_id or u.id= h.rent_id ,'T','F') hext1 from h_user u   left join h_family f on u.id=f.user_id
-left join h_hourse h on h.id=f.house_id
+left join h_hourse h on h.id=f.house_idgetUserByRecordId
 where h.id=#{hourseId}
     </select>
   <select id="getUserByRecordId" parameterType="Long" resultType="map" >
