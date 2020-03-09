@@ -192,17 +192,17 @@
             },
             success: function (result) {
                 console.log(result);
-                var list = result.data
+                var data = result.data
                 document.getElementById('badydiv').style.display = 'none'
                 document.getElementById('visitInfo').style.display = 'block'
                 document.getElementById('scandiv').style.display = 'none'
                 if (result.code == 200) {
-                    //$('#img').attr('src', list.user.imgUrl);
-                    $('#visitName').html(list[0].name);
-                    $('#visitPhone').html(list[0].phone);
+                    $('#img').attr('src', data.imgUrl);
+                    $('#visitName').html(data.name);
+                    $('#visitPhone').html(data.phone);
                     speckText("可通行");
-
-                    for (var i in list) {
+                    var list = data.data;
+                    for (var i in data) {
                         var turnover = "";
                         if (list[i].turn_over == "in") {
                             turnover = "进入"

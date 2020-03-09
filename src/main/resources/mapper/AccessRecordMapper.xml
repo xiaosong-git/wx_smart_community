@@ -19,7 +19,7 @@
   </resultMap>
 
   <select id="findUserAccessArea" parameterType="Long" resultType="map" >
-    select ar.*,u.name,u.phone
+    select ar.*,u.name,u.phone,u.img_url
     from h_access_record ar
     left join h_user u on u.id = ar.user_id
     where ar.user_id = #{userId} and ar.area_id =#{areaId}

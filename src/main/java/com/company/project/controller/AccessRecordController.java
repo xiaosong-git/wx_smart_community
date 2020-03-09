@@ -5,6 +5,7 @@ import com.company.project.core.ResultGenerator;
 import com.company.project.model.AccessRecord;
 import com.company.project.model.VisitorRecord;
 import com.company.project.service.AccessRecordService;
+import com.company.project.service.ParamsService;
 import com.company.project.service.VisitorRecordService;
 import com.company.project.util.Base64;
 import com.company.project.util.DateUtil;
@@ -13,6 +14,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +27,8 @@ import java.util.Map;
 public class AccessRecordController {
     @Resource
     private AccessRecordService accessRecordService;
-
+    @Resource
+    private ParamsService paramsService;
     @Resource
     private VisitorRecordService visitorRecordService;
     @PostMapping("/add")
@@ -70,7 +74,29 @@ public class AccessRecordController {
             Long userId = visitorRecord.getUserId();
             Long areaId = visitorRecord.getAreaId();
             List<Map<String,Object>> list = accessRecordService.findUserAccessArea(userId,areaId);
+            if(list.size()>0){
+                String img = String.valueOf(list.get(0).get("img_url"));
+                String name = String.valueOf(list.get(0).get("name"));
+                String phone = String.valueOf(list.get(0).get("phone"));
+                for(int i=0;i<list.size();i++){
+                    list.get(i).remove("img_url");
+                    list.get(i).remove("name");
+                    list.get(i).remove("phone");
+                }
+                Map<String,Object> map = new HashMap<>();
+                map.put("data",list);
+                if (img!=null){
+                    System.out.println(img);
+                    String imageServerUrl = paramsService.findValueByName("imageServerUrl");
+                    System.out.println(imageServerUrl);
+                    map.put("imgUrl",imageServerUrl +img);
+                }
+                map.put("name",name);
+                map.put("phone",phone);
+                return ResultGenerator.genSuccessResult(map);
+            }
             return ResultGenerator.genSuccessResult(list);
+
         }
 
     }
