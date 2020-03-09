@@ -26,8 +26,8 @@ public class MenuKey {
     //审核
     public static final String REPLYVISIT = "replyVisit";
     //本地测试
-   public static final String URL = "http://t5jzfz.natappfree.cc/community/";
+    //  public static final String URL = "http://5fhjvr.natappfree.cc/community/";
 //    智慧小区
-//    public static final String URL = "http://f.pyblkj.cn/community/";
+    public static final String URL = "http://f.pyblkj.cn/community/";
 
 }

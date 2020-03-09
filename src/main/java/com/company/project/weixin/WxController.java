@@ -28,6 +28,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.company.project.weixin.MenuKey.URL;
+
 /**
  * @program: spring-boot-api-project-seed
  * @description: 微信
@@ -99,7 +101,7 @@ public class WxController {
         logger.info("访客微信openId为：" + wxOpenId);
         Map<String, WxTemplateData> dataMap = new HashMap<>();
         dataMap.put("test",new WxTemplateData("你好", "#173177"));
-        sender.setUrl("http://t5jzfz.natappfree.cc//community/replyVisit?recordId=1731&name=%u53D1&phone=123&cstatus=applying&visitDate=2020-03-06");
+        sender.setUrl(URL+"replyVisit?recordId=1731&name=%u53D1&phone=123&cstatus=applying&visitDate=2020-03-06");
         sender.setData(dataMap);
         TemplateSenderResult result = iService.templateSend(sender);
         System.out.println(result);
