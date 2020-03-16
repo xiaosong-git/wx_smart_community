@@ -411,7 +411,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public List<Map<String, Object>> findVisitSuccess(Long userId) {
-        System.out.println(userId);
+
         return hUserMapper.getUserInfo(userId);
     }
 

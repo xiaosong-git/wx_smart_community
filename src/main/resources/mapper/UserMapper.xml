@@ -123,10 +123,11 @@ where h.id=#{hourseId}
 
   <!--根据Id查找所有访问成功数据-->
   <select id="getUserInfo" parameterType="Long" resultType="map" >
-   select r.id,a.area_name from h_visitor_record r
+   select r.id,a.area_name,u.name from h_visitor_record r
     left join h_user u on r.visitor_id=u.id
     left join h_area a on a.id = r.area_id
-    where r.user_id = #{userId} and r.cstatus = 'applySuccess'
+    where r.user_id = #{userId} and r.cstatus = 'applySuccess' and r.visit_date = date_format(NOW(),'%Y-%m-%d');
+
     </select>
 
     <select id="findList" parameterType="String" resultMap="BaseResultMap" >

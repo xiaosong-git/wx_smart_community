@@ -52,7 +52,7 @@
     var recordId;
 
     $(function () {
-        recordId = getQueryString("recordId");
+        recordId = unescape(getQueryString("recordId"));
     })
     $("#tem1").picker({
         title: "温度度数",

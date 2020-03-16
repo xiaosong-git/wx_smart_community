@@ -56,6 +56,7 @@
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script src="js/myUtil.js"></script>
 <script>
 
@@ -89,7 +90,7 @@
                         document.getElementById("visitDate").innerText = result.data.visit_date;
                     }else {
                         document.getElementById("visitDateShow").style.display='block';
-                        document.getElementById("applied2").style.display='block';
+                        document.getElementById("applied").style.display='block';
                         document.getElementById("visitDate").innerText = result.data.visit_date;
                     }
                 }else{
@@ -116,13 +117,19 @@
             },
             success: function(result) {
                 if(result.code == 200){
-                    window.location.href = visitUrl;
+                    $.toast("审核成功，页面即将关闭");
+                    //点击确认后的回调函数
+                    setTimeout(function(){ quit();},1500);
                 }else{
                     $.toptip(result.message)
                 }
 
             }
         });
+    }
+
+    function quit(){
+        wx.closeWindow();
     }
 </script>
 </body>

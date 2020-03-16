@@ -57,7 +57,7 @@
                 if (result.code == 200) {
                     var data = result.data;
                     if (data == "") {
-                        $.toast("暂无数据");
+                        $.toast("暂无访问数据");
                         //点击确认后的回调函数
                         setTimeout(function () {
                             quit();
@@ -69,7 +69,7 @@
                                 "        <div class=\"weui-cell weui-btn weui-btn_plain-default\">\n" +
                                 "            <div class=\"weui-cell__hd\"><font color=\"blue\"></font></div>\n" +
                                 "            <div class=\"weui-cell__bd\" align=\"center\">\n" +
-                                "                <p>" + data[i].area_name + "</p>\n" +
+                                "                <p>" + data[i].area_name +" - "+data[i].name+ "</p>\n" +
                                 "            </div>\n" +
                                 "            <div class=\"weui-cell__ft\"></div>\n" +
                                 "        </div>\n" +
@@ -85,6 +85,11 @@
 
     function getcode(recordId) {
         window.location.href = visitCodeUrl + "?recordId=" + recordId;
+    }
+
+    //退出
+    function quit() {
+        wx.closeWindow();
     }
 </script>
 </body>
