@@ -95,6 +95,7 @@ public class UserController {
             e.printStackTrace();
         }
 
+
         return ResultGenerator.genFailResult("系统异常", "");
     }
 
@@ -163,5 +164,4 @@ public class UserController {
         }
         return ResultGenerator.genFailResult("系统异常", "");
     }
-
 }

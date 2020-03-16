@@ -115,12 +115,13 @@ public class VisitorRecordController {
 
         //消息推送模板
         TemplateSender sender = new TemplateSender();
-        sender.setTemplate_id("57PjJdcFKjWXIuxRY09KOun9MGpiVVeBCIZCcYMOUpE");
+        sender.setTemplate_id("5v1zMngYpjnoTInAtEuc05o13JUTXmAOMb_34vnU7eM");
         sender.setTouser(visitor.getWxOpenId());
-        Map<String, String> dataMap = new HashMap<>();
-        dataMap.put("userName",user.getName());
-        dataMap.put("phone",user.getPhone());
-
+        Map<String, WxTemplateData> dataMap = new HashMap<>();
+        dataMap.put("first",new WxTemplateData("访问申请", "#173177"));
+        dataMap.put("keyword1",new WxTemplateData(user.getName(), "#173177"));
+        dataMap.put("keyword2",new WxTemplateData(user.getPhone(), "#173177"));
+        dataMap.put("keyword3",new WxTemplateData(visitDate, "#173177"));
         String params = "?recordId="+recordId;
         sender.setUrl(URL+REPLYVISIT+params);
         sender.setData(dataMap);

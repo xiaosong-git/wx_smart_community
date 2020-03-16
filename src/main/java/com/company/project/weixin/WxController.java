@@ -96,12 +96,16 @@ public class WxController {
         //朋客联盟
         // sender.setTemplate_id("xtGAH74BuXa6qQD6t8GXjwMwYlLun_OSLxf-DhllTA0");
         //朋悦比邻
-        sender.setTemplate_id("V_O7Gr9PoQyPdjwZuRrqR8ej7U3zhLKEaFHTSSN9_iA");
+        sender.setTemplate_id("RKBL9LJSvvOqP8HH8uMzuMH41m_kOcVD0AVtlmsDV1A");
         sender.setTouser(wxOpenId);
         logger.info("访客微信openId为：" + wxOpenId);
         Map<String, WxTemplateData> dataMap = new HashMap<>();
-        dataMap.put("test",new WxTemplateData("你好", "#173177"));
-        sender.setUrl(URL+"replyVisit?recordId=1731&name=%u53D1&phone=123&cstatus=applying&visitDate=2020-03-06");
+        dataMap.put("first",new WxTemplateData("访问申请", "#173177"));
+        dataMap.put("keyword1",new WxTemplateData("林", "#173177"));
+        dataMap.put("keyword2",new WxTemplateData("15899999999", "#173177"));
+        dataMap.put("keyword3",new WxTemplateData("2019-03-22 20:56", "#173177"));
+
+       // sender.setUrl(URL+"replyVisit?recordId=1731&name=%u53D1&phone=123&cstatus=applying&visitDate=2020-03-06");
         sender.setData(dataMap);
         TemplateSenderResult result = iService.templateSend(sender);
         System.out.println(result);

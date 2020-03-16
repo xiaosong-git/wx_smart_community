@@ -179,10 +179,18 @@ public class ThymeleafController {
     public String codeInfor() {
         return "codeInfor";
     }
+
     @RequestMapping(value = "/visitCode",method= RequestMethod.GET)
     public String visitCode() {
         return "visitCode";
     }
+
+
+    @RequestMapping(value = "/registtemp",method= RequestMethod.GET)
+    public String registtemp() {
+        return "registtemp";
+    }
+
     //扫一扫功能调用微信sdk
     @RequestMapping(value = "/personInfor",method= RequestMethod.GET)
     public String personInfor(Model model) {

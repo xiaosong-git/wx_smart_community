@@ -42,7 +42,7 @@
             <label class="weui-label">受访人手机号</label>
         </div>
         <div class="weui-cell__bd" style="margin-top: 5%">
-            <input class="weui-input" placeholder="请输入受访人手机号" type="number" id="phone" value="">
+            <input class="weui-input" placeholder="请输入受访人手机号" type="number" id="phone">
         </div>
 
     </div>
@@ -64,7 +64,6 @@
     $(function () {
         if(!isLogin("visit")){
             FastClick.attach(document.body);
-            alert(getCookie("openId"))
             if(getCookie("isAuth") !="T"){
                 window.location.href=authIndexUrl;
             }else{
@@ -124,9 +123,7 @@
                 }
             });
         }
-
     }
-
     $("#area").bind("change",function () {
         areaId = $("#area option:selected").val();
     })
