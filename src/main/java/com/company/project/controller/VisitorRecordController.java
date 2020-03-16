@@ -86,6 +86,9 @@ public class VisitorRecordController {
      */
     @PostMapping("/visitRequest")
         public Result visitRequest(Long userId,Long areaId,String phone) throws WxErrorException {
+        System.out.println("userId:"+userId);
+        System.out.println("areaId:"+areaId);
+        System.out.println("phone:"+phone);
         User user = userService.findById(userId);
         if(null == user){
             return ResultGenerator.genFailResult("系统错误");
@@ -115,7 +118,7 @@ public class VisitorRecordController {
 
         //消息推送模板
         TemplateSender sender = new TemplateSender();
-        sender.setTemplate_id("5v1zMngYpjnoTInAtEuc05o13JUTXmAOMb_34vnU7eM");
+        sender.setTemplate_id("RKBL9LJSvvOqP8HH8uMzuMH41m_kOcVD0AVtlmsDV1A");
         sender.setTouser(visitor.getWxOpenId());
         Map<String, WxTemplateData> dataMap = new HashMap<>();
         dataMap.put("first",new WxTemplateData("访问申请", "#173177"));
@@ -149,7 +152,7 @@ public class VisitorRecordController {
         if(result == 1){
             return ResultGenerator.genSuccessResult("审核成功");
         }
-        return ResultGenerator.genFailResult("系统错误");
+        return ResultGenerator.genFailResult("系统异常，请重试");
     }
 
     @PostMapping("/codeIndex")
@@ -172,7 +175,17 @@ public class VisitorRecordController {
     public Result getUserByRecordId(Long recordId) {
         List<Map<String,Object>> list = visitorRecordService.findUserByRecordId(recordId);
         if(list.size()>0){
-            return ResultGenerator.genSuccessResult(list);
+            String visitDate = String.valueOf(list.get(0).get("visit_date"));
+            String now = DateUtil.getCurDate();
+            System.out.println(visitDate.compareTo(now));
+            Map<String,Object> map = list.get(0);
+            if(visitDate.compareTo(now)<0){
+                map.put("expired","T");
+                return ResultGenerator.genSuccessResult(map);
+            }else{
+                map.put("expired","F");
+                return ResultGenerator.genSuccessResult(map);
+            }
         }else{
             return ResultGenerator.genFailResult("无数据");
         }

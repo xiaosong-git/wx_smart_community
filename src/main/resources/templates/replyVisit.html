@@ -44,8 +44,12 @@
         <a class="weui-btn weui-btn_warn" href="javascript:" id="define" onclick="verify('applyFail')" style="font-size: 16px">拒绝</a>
     </div>
     <div class="weui-btn-area" id="applied" style="display: none">
-        <a href="javascript:;" class="weui-btn weui-btn_disabled weui-btn_default">已审核</a>
+        <a href="javascript:" class="weui-btn weui-btn_disabled weui-btn_default">已审核</a>
     </div>
+    <div class="weui-btn-area" id="applied2" style="display: none">
+        <a href="javascript:" class="weui-btn weui-btn_disabled weui-btn_default">已过期</a>
+    </div>
+
 
 
 </div>
@@ -58,42 +62,39 @@
     var recordId;
     $(function () {
         recordId = getQueryString("recordId");
-
-
-
-
-
-
-
-
+        getUserInfo();
     })
 
     function getUserInfo() {
         $.ajax({
             url: "visitor/record/getUserByRecordId",
-            type: "get",
+            type: "post",
             dataType: "json",
             contentType: "application/x-www-form-urlencoded",
             data:{
                 recordId:recordId,
             },
             success: function(result) {
+                console.log(result)
                 if(result.code==200){
                     document.getElementById("name").innerText=result.data.name;
                     document.getElementById("phone").innerText=result.data.phone;
                     var cstatus = result.data.cstatus;
-                    if(cstatus == "applying"){
+                    var expired = result.data.expired;
+                    if(cstatus == "applying" && expired == "F"){
                         document.getElementById("applying").style.display='block';
-                    }else{
+                    }else if(cstatus == "applying" && expired == "T"){
                         document.getElementById("visitDateShow").style.display='block';
-                        document.getElementById("applied").style.display='block';
+                        document.getElementById("applied2").style.display='block';
+                        document.getElementById("visitDate").innerText = result.data.visit_date;
+                    }else {
+                        document.getElementById("visitDateShow").style.display='block';
+                        document.getElementById("applied2").style.display='block';
                         document.getElementById("visitDate").innerText = result.data.visit_date;
                     }
                 }else{
                     $.toptip(result.message)
                 }
-
-
             }
         });
     }
@@ -106,7 +107,7 @@
     function verify(str) {
         $.ajax({
             url: "visitor/record/replyRecord",
-            type: "get",
+            type: "post",
             dataType: "json",
             contentType: "application/x-www-form-urlencoded",
             data:{
@@ -114,14 +115,12 @@
                 cstatus:str
             },
             success: function(result) {
-                console.log(result)
-                $("#area option").remove();
-                var data = result.data;
-                var html = '<option value="">请选择</option>';
-                for (var e in data) {
-                    html += '<option value="' + data[e].id + '">' + data[e].areaName + '</option>'
+                if(result.code == 200){
+                    window.location.href = visitUrl;
+                }else{
+                    $.toptip(result.message)
                 }
-                $("#area").append(html); //渲染
+
             }
         });
     }
