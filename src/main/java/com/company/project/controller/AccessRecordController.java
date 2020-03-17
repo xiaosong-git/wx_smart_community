@@ -80,7 +80,6 @@ public class AccessRecordController {
             User user = userService.findById(userId);
             System.out.println(user.getName());
 
-
             List<Map<String,Object>> list = accessRecordService.findUserAccessArea(userId,areaId);
             Map<String,Object> map = new HashMap<>();
             String img = user.getImgUrl();
@@ -112,6 +111,7 @@ public class AccessRecordController {
 
     @PostMapping("/accessArea")
     public Result accessArea(String turnover,String result,Long managerId,Long areaId) throws Exception {
+        System.out.println("areaId:"+areaId);
         String recordId = new String(Base64.decode(result),"UTF-8");
         VisitorRecord visitorRecord = visitorRecordService.findById(Long.valueOf(recordId));
         Long userId = visitorRecord.getUserId();

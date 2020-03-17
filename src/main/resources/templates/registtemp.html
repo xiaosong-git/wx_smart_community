@@ -52,7 +52,7 @@
     var recordId;
 
     $(function () {
-        recordId = unescape(getQueryString("recordId"));
+        recordId = getQueryString("recordId");
     })
     $("#tem1").picker({
         title: "温度度数",
@@ -115,7 +115,7 @@
         }else{
             var temp = document.getElementById("tem").innerText;
             window.localStorage.setItem("temperature", temp);
-            window.location.href = personInforUrl + "?recordId="+recordId + "&temperature="+temp;
+            window.location.href = personInforUrl + "?recordId="+escape(recordId)+ "&temperature="+temp;
         }
     }
 

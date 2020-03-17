@@ -147,10 +147,12 @@
 
     var resultRecorId;
     var temperature;
+    var idStr;
     $(function () {
-        resultRecorId = getQueryString("recordId");
+        resultRecorId = unescape(getQueryString("recordId"));
         temperature = getQueryString("temperature");
-        if(isEmpty(temperature)){
+        alert(temperature)
+        if(!isEmpty(temperature)){
             if (resultRecorId.split('|').length == 2) {
                 scanVisit(resultRecorId);
             } else {
@@ -186,16 +188,16 @@
         wx.closeWindow();
     }
 
-    var idStr;
-
     function jssdkScan() {
         $(".record").remove();
         wx.scanQRCode({
             needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
             scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
             success: function (res) {
+
                 var result = res.resultStr;
                 idStr = result;
+
                 if (result.split('|').length == 2) {
                     scanVisit(result);
                 } else {
@@ -209,6 +211,7 @@
     }
 
     function scanVisit(result) {
+
         $.ajax({
             type: 'POST',
             contentType: "application/x-www-form-urlencoded",
@@ -217,32 +220,34 @@
                 result: result
             },
             success: function (result) {
-                console.log(result);
-                var data = result.data
-                document.getElementById('badydiv').style.display = 'none'
-                document.getElementById('visitInfo').style.display = 'block'
-                document.getElementById('scandiv').style.display = 'none'
                 if (result.code == 200) {
-                    $('#img').attr('src', data.imgUrl);
-                    $('#visitName').html(data.name);
-                    $('#visitPhone').html(data.phone);
-                    speckText("可通行");
-                    var list = data.data;
-                    for (var i in list) {
-                        var turnover = "";
-                        if (list[i].turn_over == "in") {
-                            turnover = "进入"
-                        } else {
-                            turnover = "离开"
+                        var data = result.data
+                        document.getElementById('badydiv').style.display = 'none'
+                        document.getElementById('visitInfo').style.display = 'block'
+                        document.getElementById('scandiv').style.display = 'none'
+                        $('#img').attr('src', data.imgUrl);
+                        $('#visitName').html(data.name);
+                        $('#visitPhone').html(data.phone);
+                        speckText("可通行");
+                        var list = data.data;
+
+                        for (var i in list) {
+                            var turnover = "";
+                            if (list[i].turn_over == "in") {
+                                turnover = "进入"
+                            } else {
+                                turnover = "离开"
+                            }
+                            $("#visitRecord").append("<div class='record'>" + list[i].pass_date + " &nbsp;&nbsp;&nbsp;" + list[i].pass_time + " &nbsp;&nbsp;&nbsp;" + turnover + "</br></div>")
                         }
-                        $("#visitRecord").append("<div class='record'>" + list[i].pass_date + " &nbsp;&nbsp;&nbsp;" + list[i].pass_time + " &nbsp;&nbsp;&nbsp;" + turnover + "</br></div>")
+                        /* document.getElementById('enter').style.display='block';
+                         document.getElementById('leave').style.display='block';*/
+                    } else {
+                        $.toast(result.message,"cancel");
+                        speckText(result.message)
+                        setTimeout(function(){  window.location.href = personInforUrl;},2000);
                     }
-                    /* document.getElementById('enter').style.display='block';
-                     document.getElementById('leave').style.display='block';*/
-                } else {
-                    speckText(result.message)
-                    $.toptip(result.message);
-                }
+
             }
         })
     }
@@ -297,28 +302,34 @@
 
     function inOut(obj, inOut) {
         $(obj).addClass("weui-btn_loading");
-        $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "/community/record/inOut",
-            data: {
-                opreId: getCookie("userId"),
-                // idStr:result,
-                idStr: idStr,
-                type: inOut,
-                areaId: getCookie("areaId"),
-            },
-            success: function (result) {
-                $(obj).removeClass("weui-btn_loading");
-                var list = result.data
-                if (result.code == 200) {
-                    $.toast("放行成功");
-                    setTimeout(function(){  window.location.href = personInforUrl;},1500);
-                } else {
-                    $.toptip(result.message);
+        if(isEmpty(temperature)){
+            $.toptip("请先登记体温再放行");
+            return;
+        }else{
+            $.ajax({
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded",
+                url: "/community/record/inOut",
+                data: {
+                    opreId: getCookie("userId"),
+                    // idStr:result,
+                    idStr: resultRecorId,
+                    type: inOut,
+                    areaId: getCookie("areaId"),
+                },
+                success: function (result) {
+                    $(obj).removeClass("weui-btn_loading");
+                    var list = result.data
+                    if (result.code == 200) {
+                        $.toast("放行成功");
+                        setTimeout(function(){  window.location.href = personInforUrl;},1500);
+                    } else {
+                        $.toptip(result.message);
+                    }
                 }
-            }
-        })
+            })
+        }
+
     };
 
     function speckText(str) {
@@ -329,26 +340,33 @@
     }
 
     function visitInOUT(turnover) {
-        
-        $.ajax({
-            type: 'POST',
-            contentType: "application/x-www-form-urlencoded",
-            url: "access/record/accessArea",
-            data: {
-                managerId: getCookie("userId"),
-                result: idStr,
-                turnover: turnover,
-                areaId: getCookie("areaId"),
-            },
-            success: function (result) {
-                if (result.code == 200) {
-                    $.toast("放行成功");
-                    setTimeout(function(){  window.location.href = personInforUrl;},1500);
-                } else {
-                    $.toptip(result.message);
+        idStr
+        if(isEmpty(temperature)){
+            $.toptip("请先登记体温再放行");
+            return;
+        }else {
+            $.ajax({
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded",
+                url: "access/record/accessArea",
+                data: {
+                    managerId: getCookie("userId"),
+                    result: resultRecorId,
+                    turnover: turnover,
+                    areaId: getCookie("areaId"),
+                },
+                success: function (result) {
+                    if (result.code == 200) {
+                        $.toast("放行成功");
+                        setTimeout(function () {
+                            window.location.href = personInforUrl;
+                        }, 1500);
+                    } else {
+                        $.toptip(result.message);
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     //查找管理员的小区
