@@ -151,7 +151,6 @@
     $(function () {
         resultRecorId = unescape(getQueryString("recordId"));
         temperature = getQueryString("temperature");
-        alert(temperature)
         if(!isEmpty(temperature)){
             if (resultRecorId.split('|').length == 2) {
                 scanVisit(resultRecorId);
@@ -316,6 +315,7 @@
                     idStr: resultRecorId,
                     type: inOut,
                     areaId: getCookie("areaId"),
+                    temperature:temperature
                 },
                 success: function (result) {
                     $(obj).removeClass("weui-btn_loading");
@@ -354,6 +354,7 @@
                     result: resultRecorId,
                     turnover: turnover,
                     areaId: getCookie("areaId"),
+                    temperature:temperature
                 },
                 success: function (result) {
                     if (result.code == 200) {

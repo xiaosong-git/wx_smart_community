@@ -110,7 +110,7 @@ public class AccessRecordController {
     }
 
     @PostMapping("/accessArea")
-    public Result accessArea(String turnover,String result,Long managerId,Long areaId) throws Exception {
+    public Result accessArea(String turnover,String result,Long managerId,Long areaId,String temperature) throws Exception {
         System.out.println("areaId:"+areaId);
         String recordId = new String(Base64.decode(result),"UTF-8");
         VisitorRecord visitorRecord = visitorRecordService.findById(Long.valueOf(recordId));
@@ -125,6 +125,7 @@ public class AccessRecordController {
         accessRecord.setPassTime(time);
         accessRecord.setPersontype("visitor");
         accessRecord.setTurnOver(turnover);
+        accessRecord.setTemperature(temperature);
         int success = accessRecordService.save(accessRecord);
         if(success ==1){
             return ResultGenerator.genSuccessResult("通行成功");

@@ -112,6 +112,7 @@ public class AreaController {
         System.out.println("areaId:" + areaId);
         String userName = userservice.findById(userId).getName();
         List<Area> list = areaService.reports(areaId, userName);
+        System.out.println(list.get(0));
         if (list != null) {
             try {
                 //1 创建工作簿对象
@@ -123,6 +124,7 @@ public class AreaController {
                 xssfSheet.setColumnWidth(2, 20 * 256);
                 xssfSheet.setColumnWidth(3, 20 * 256);
                 xssfSheet.setColumnWidth(4, 20 * 256);
+                xssfSheet.setColumnWidth(5, 20 * 256);
                 //3 创建行
                 XSSFRow row0 = xssfSheet.createRow(0);
                 row0.setHeightInPoints(28);
@@ -133,7 +135,7 @@ public class AreaController {
 
                 XSSFRow row1 = xssfSheet.createRow(1);
                 row1.setHeightInPoints(26);
-                row1.createCell(0).setCellValue("小区名称 " + list.get(0).getAreaName());
+                row1.createCell(0).setCellValue("小区名称：" + list.get(0).getAreaName());
                 CellRangeAddress region1 = new CellRangeAddress(1, 1, 0, 1);
                 xssfSheet.addMergedRegion(region1);
 
@@ -144,13 +146,17 @@ public class AreaController {
                 CellRangeAddress region2 = new CellRangeAddress(1, 1, 2, 3);
                 xssfSheet.addMergedRegion(region2);
 
-                row1.createCell(4).setCellValue("操作员 " + userName);
+                row1.createCell(4).setCellValue("操作员：" + userName);
+                CellRangeAddress region3 = new CellRangeAddress(1, 1, 4, 5);
+                xssfSheet.addMergedRegion(region3);
+
                 XSSFRow row2 = xssfSheet.createRow(2);
                 row2.createCell(0).setCellValue("人员姓名");
                 row2.createCell(1).setCellValue("身份证号");
                 row2.createCell(2).setCellValue("人员属性");
                 row2.createCell(3).setCellValue("通行时间");
-                row2.createCell(4).setCellValue("列别（进或出）");
+                row2.createCell(4).setCellValue("类别（进或出）");
+                row2.createCell(5).setCellValue("体温");
 
                 for (int i = 3; i < list.size() + 3; i++) {
                     int j = i - 3;
@@ -177,6 +183,7 @@ public class AreaController {
                     } else {
                         row.createCell(2).setCellValue("");
                     }
+
                     row.createCell(3).setCellValue(list.get(j).getRecord().getPassTime());
 
                     if (list.get(j).getRecord() != null) {
@@ -198,6 +205,7 @@ public class AreaController {
                     } else {
                         row.createCell(4).setCellValue("");
                     }
+                    row.createCell(5).setCellValue(list.get(j).getRecord().getTemperature());
                 }
                 //通过流输出进行文件下载
 //            ServletOutputStream out = resp.getOutputStream();

@@ -41,6 +41,12 @@ public class Record {
     @Column(name = "create_time")
     private String createTime;
 
+    /**
+     * 体温
+     */
+    @Column(name = "temperature")
+    private String temperature;
+
     private String type;
     private String ext1;
 
@@ -95,6 +101,14 @@ public class Record {
      */
     public void setPassTime(String passTime) {
         this.passTime = passTime;
+    }
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
     }
 
     /**

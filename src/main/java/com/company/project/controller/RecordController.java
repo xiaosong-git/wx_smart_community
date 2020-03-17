@@ -57,9 +57,9 @@ public class RecordController {
      */
     @RequestMapping("/inOut")
     @ResponseBody
-    public Result inOut(@RequestParam Long opreId, @RequestParam String idStr, @RequestParam String type,@RequestParam String areaId ){
+    public Result inOut(@RequestParam Long opreId, @RequestParam String idStr, @RequestParam String type,@RequestParam String areaId ,@RequestParam String temperature ){
         try {
-            return recordService.inOut(opreId,idStr,type,areaId);
+            return recordService.inOut(opreId,idStr,type,areaId,temperature);
         }catch (Exception e){
             e.printStackTrace();
         }

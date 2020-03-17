@@ -50,6 +50,12 @@ public class AccessRecord {
     @Column(name = "manager_id")
     private String managerId;
 
+    /**
+     * 体温
+     */
+    @Column(name = "temperature")
+    private String temperature;
+
     private String ext1;
 
     private String ext2;
@@ -196,6 +202,14 @@ public class AccessRecord {
         this.managerId = managerId;
     }
 
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
     /**
      * @return ext1
      */
@@ -237,4 +251,6 @@ public class AccessRecord {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
+
+
 }

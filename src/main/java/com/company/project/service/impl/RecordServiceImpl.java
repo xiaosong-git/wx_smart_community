@@ -137,7 +137,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
     }
 
     @Override
-    public Result inOut(Long opreId, String idStr, String type,String areaId) throws Exception {
+    public Result inOut(Long opreId, String idStr, String type,String areaId,String temperature) throws Exception {
         String recordId = new String(Base64.decode(idStr),"UTF-8");
         Record record = findById(Long.valueOf(recordId));
         if (record==null){
@@ -154,6 +154,7 @@ public class RecordServiceImpl extends AbstractService<Record> implements Record
         String systemTime = DateUtil.getSystemTime();
         record.setPassTime(systemTime);
         record.setUpdateTime(systemTime);
+        record.setTemperature(temperature);
         record.setIsPass("0");
         int update = update(record);
         if (update>0){

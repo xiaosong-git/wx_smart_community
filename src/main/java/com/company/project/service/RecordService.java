@@ -16,5 +16,5 @@ public interface RecordService extends Service<Record> {
 
     Result scanning(String opreWxId, String idStr, String type) throws Exception;
 
-    Result inOut(Long opreId, String idStr, String type,String areaId) throws Exception;
+    Result inOut(Long opreId, String idStr, String type,String areaId,String temperature) throws Exception;
 }
